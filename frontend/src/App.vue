@@ -1,9 +1,5 @@
 <template>
   <v-app id="inspire">
-     <v-parallax
-      dark
-      src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg"
-    >
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -14,7 +10,7 @@
         <v-list-item
           v-for="item in items"
           :key="item.text"
-          link
+          :to="item.link"
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -25,7 +21,13 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-subheader class="mt-4 grey--text text--darken-1">SUBSCRIPTIONS</v-subheader>
+        <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
+          <v-treeview :items="documents" style="font-size:0.78rem">
+            <template slot="label" slot-scope="props">
+              <span style="cursor:pointer" @click="$router.push(props.item.link)">{{props.item.name}}</span>
+            </template>
+          </v-treeview>
+        <v-subheader class="mt-4 grey--text text--darken-1">구독</v-subheader>
         <v-list>
           <v-list-item
             v-for="item in items2"
@@ -70,11 +72,12 @@
         class="mx-4"
         large
       >
-        mdi-youtube
+        mdi-blogger
       </v-icon>
-      <v-toolbar-title class="mr-12 align-center">
-        <span class="title">Youtube</span>
+      <v-toolbar-title class="mr-12 align-center" style="cursor: pointer" @click="$router.push('/')">
+        <span class="title">Ho-blog</span>
       </v-toolbar-title>
+    
       <v-spacer></v-spacer>
       <v-row
         align="center"
@@ -91,20 +94,18 @@
       </v-row>
     </v-app-bar>
 
-    <v-main>
-      <Main/>
-    </v-main>
-     </v-parallax>
+    <v-content height="100%">
+      <router-view></router-view>
+    </v-content>
   </v-app>
 </template>
 
 <script>
-import Main from './components/Main';
   export default {
     name: 'App',
 
     components: {
-      Main,
+
     },
     props: {
       source: String,
@@ -112,11 +113,8 @@ import Main from './components/Main';
     data: () => ({
       drawer: null,
       items: [
-        { icon: 'mdi-trending-up', text: 'Most Popular' },
-        { icon: 'mdi-youtube-subscription', text: 'Subscriptions' },
-        { icon: 'mdi-history', text: 'History' },
-        { icon: 'mdi-playlist-play', text: 'Playlists' },
-        { icon: 'mdi-clock', text: 'Watch Later' },
+        { icon: 'mdi-home', text: '홈', link: '/' },
+        { icon: 'mdi-dialpad', text: '전체', link: '/board' },
       ],
       items2: [
         { picture: 28, text: 'Joseph' },
@@ -125,6 +123,28 @@ import Main from './components/Main';
         { picture: 58, text: 'Nokia' },
         { picture: 78, text: 'MKBHD' },
       ],
+      documents: [
+        {
+          id: 1,
+          name: '문서1',
+          link: '/',
+          children: [
+            { id: 2, name: '문서1-1' },
+            { id: 3, name: '문서1-2' },
+            { id: 4, name: '문서1-3' },
+          ],
+        },
+        {
+          id: 5,
+          name: '문서2',
+          link: '/board',
+          children: [
+            { id: 6, name: '문서2-1' },
+            { id: 7, name: '문서2-2' },
+            { id: 8, name: '문서2-3' },
+          ],
+        },
+      ]
     }),
     created () {
       this.$vuetify.theme.dark = true
