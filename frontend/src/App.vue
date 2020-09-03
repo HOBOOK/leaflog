@@ -22,7 +22,7 @@
           </v-list-item-content>
         </v-list-item>
         <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
-          <v-treeview :items="documents" style="font-size:0.78rem">
+          <v-treeview dense :items="documents" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="$router.push(props.item.link)">{{props.item.name}}</span>
             </template>
@@ -115,6 +115,7 @@
       items: [
         { icon: 'mdi-home', text: '홈', link: '/' },
         { icon: 'mdi-dialpad', text: '전체', link: '/board' },
+        { icon: 'mdi-calendar', text: '달력', link: '/calendar'}
       ],
       items2: [
         { picture: 28, text: 'Joseph' },
