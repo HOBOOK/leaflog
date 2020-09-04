@@ -64,7 +64,6 @@
     <v-app-bar
       app
       clipped-left
-      color="red"
       dense
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -79,19 +78,6 @@
       </v-toolbar-title>
     
       <v-spacer></v-spacer>
-      <v-row
-        align="center"
-        style="max-width: 650px"
-      >
-        <v-text-field
-          :append-icon-cb="() => {}"
-          placeholder="Search..."
-          single-line
-          append-icon="mdi-magnify"
-          color="white"
-          hide-details
-        ></v-text-field>
-      </v-row>
     </v-app-bar>
 
     <v-content height="100%">
@@ -115,6 +101,7 @@
       items: [
         { icon: 'mdi-home', text: '홈', link: '/' },
         { icon: 'mdi-dialpad', text: '전체', link: '/board' },
+        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint'},
         { icon: 'mdi-calendar', text: '달력', link: '/calendar'}
       ],
       items2: [

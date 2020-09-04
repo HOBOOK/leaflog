@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Main from '../components/Main.vue';
 import Board from '../components/Board.vue';
 import Calendar from '../components/Calendar.vue';
+import Footprint from '../components/Footprint';
 
 Vue.use(VueRouter)
 
@@ -19,6 +20,10 @@ const router = new VueRouter({
         {
             path: '/calendar',
             component: Calendar
+        },
+        {
+            path: '/footprint',
+            component: Footprint
         }
     ]
 })
