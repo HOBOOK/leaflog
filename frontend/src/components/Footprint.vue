@@ -1,4 +1,5 @@
 <template>
+  <v-app id="inspire">
     <v-container style="display:flex;">
     <template v-for="x in 52">
         <v-col style="max-width:30px; display:inline-block; padding:0" no-gutters v-show="x === 1" :key="x">
@@ -18,8 +19,8 @@
             </template>
         </v-col>
         <v-col style="max-width:20px; display:inline-block; padding:0" no-gutters :key="x">
-          <template no-gutters v-for="n in 7">
-          <v-row no-gutters :key="n">
+          <template no-gutters v-for="y in 7">
+          <v-row no-gutters :key="y">
             <v-card
               class="pa-2"
               outlined
@@ -33,4 +34,6 @@
     </template>
       
     </v-container>
+  </v-app>
+    
 </template>

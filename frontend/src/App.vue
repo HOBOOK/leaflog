@@ -21,12 +21,14 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <div v-show="this.currentPath() === '/board'">
         <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
           <v-treeview dense :items="documents" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="$router.push(props.item.link)">{{props.item.name}}</span>
+              <span style="cursor:pointer" @click="goRoute(props.item.link)">{{props.item.name}}</span>
             </template>
           </v-treeview>
+          </div>
         <v-subheader class="mt-4 grey--text text--darken-1">구독</v-subheader>
         <v-list>
           <v-list-item
@@ -73,7 +75,7 @@
       >
         mdi-blogger
       </v-icon>
-      <v-toolbar-title class="mr-12 align-center" style="cursor: pointer" @click="$router.push('/')">
+      <v-toolbar-title class="mr-12 align-center" style="cursor: pointer" @click="goRoute('/')">
         <span class="title">Ho-blog</span>
       </v-toolbar-title>
     
@@ -100,7 +102,7 @@
       drawer: null,
       items: [
         { icon: 'mdi-home', text: '홈', link: '/' },
-        { icon: 'mdi-dialpad', text: '전체', link: '/board' },
+        { icon: 'mdi-dialpad', text: '블로그', link: '/board' },
         { icon: 'mdi-foot-print', text: '발자취', link: '/footprint'},
         { icon: 'mdi-calendar', text: '달력', link: '/calendar'}
       ],
@@ -132,10 +134,20 @@
             { id: 8, name: '문서2-3' },
           ],
         },
-      ]
+      ],
+      currentPath: function(){
+        return this.$router.currentRoute.path;
+      }
     }),
     created () {
       this.$vuetify.theme.dark = true
+    },
+    methods: {
+      goRoute(route){
+        console.log(this.$router.currentRoute.path);
+        this.$router.push(route);
+        
+      },
     },
   }
 </script>

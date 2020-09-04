@@ -1,4 +1,5 @@
 <template>
+  <v-app id="inspire">
     <div>
       <v-sheet
         tile
@@ -62,6 +63,8 @@
         ></v-calendar>
       </v-sheet>
     </div>
+  </v-app>
+    
 </template>
 <script>
 export default {
