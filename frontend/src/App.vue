@@ -21,11 +21,11 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div v-show="this.currentPath() === '/board'">
+        <div v-show="this.currentPath().indexOf('/board') !== -1">
         <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
           <v-treeview dense :items="documents" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="goRoute(props.item.link)">{{props.item.name}}</span>
+              <span style="cursor:pointer" @click="goRoute('/board/id/'+props.item.name)">{{props.item.name}}</span>
             </template>
           </v-treeview>
           </div>
@@ -83,7 +83,7 @@
     </v-app-bar>
 
     <v-content height="100%">
-      <router-view></router-view>
+      <router-view :key="$route.fullPath"></router-view>
     </v-content>
   </v-app>
 </template>
@@ -102,9 +102,9 @@
       drawer: null,
       items: [
         { icon: 'mdi-home', text: '홈', link: '/' },
-        { icon: 'mdi-dialpad', text: '블로그', link: '/board' },
-        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint'},
-        { icon: 'mdi-calendar', text: '달력', link: '/calendar'}
+        { icon: 'mdi-dialpad', text: '마이로그', link: '/board/id/' },
+        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/id/'},
+        { icon: 'mdi-calendar', text: '달력', link: '/calendar/id/'}
       ],
       items2: [
         { picture: 28, text: 'Joseph' },
@@ -117,7 +117,6 @@
         {
           id: 1,
           name: '문서1',
-          link: '/',
           children: [
             { id: 2, name: '문서1-1' },
             { id: 3, name: '문서1-2' },
@@ -127,7 +126,6 @@
         {
           id: 5,
           name: '문서2',
-          link: '/board',
           children: [
             { id: 6, name: '문서2-1' },
             { id: 7, name: '문서2-2' },
@@ -144,10 +142,9 @@
     },
     methods: {
       goRoute(route){
-        console.log(this.$router.currentRoute.path);
         this.$router.push(route);
-        
       },
     },
+    
   }
 </script>
