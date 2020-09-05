@@ -23,7 +23,7 @@
         </v-list-item>
         <div v-show="this.currentPath().indexOf('/board') !== -1">
         <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
-          <v-treeview dense :items="documents" style="font-size:0.78rem">
+          <v-treeview dense :items="documents" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="goRoute('/board/id/'+props.item.name)">{{props.item.name}}</span>
             </template>
@@ -104,7 +104,6 @@
         { icon: 'mdi-home', text: '홈', link: '/' },
         { icon: 'mdi-dialpad', text: '마이로그', link: '/board/id/' },
         { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/id/'},
-        { icon: 'mdi-calendar', text: '달력', link: '/calendar/id/'}
       ],
       items2: [
         { picture: 28, text: 'Joseph' },
@@ -139,11 +138,17 @@
     }),
     created () {
       this.$vuetify.theme.dark = true
+      document.title = 'hoblog'
     },
     methods: {
       goRoute(route){
         this.$router.push(route);
       },
+    },
+    watch: {
+      '$route' (to) {
+        document.title = to.meta.title || 'hoblog'
+      }
     },
     
   }

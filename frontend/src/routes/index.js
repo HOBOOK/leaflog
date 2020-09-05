@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router';
 import Main from '../components/Main.vue';
 import Board from '../components/Board.vue';
-import Calendar from '../components/Calendar.vue';
 import Footprint from '../components/Footprint.vue';
 import Document from '../components/Document.vue';
 
@@ -12,23 +11,35 @@ const router = new VueRouter({
     routes: [
         {
             path: '/',
-            component: Main
+            component: Main,
+            meta: {
+                auth: true,
+                title: 'hoblog'
+            }
         },
         {
             path: '/board/:id/',
-            component: Board
+            component: Board,
+            meta: {
+                auth: true,
+                title: 'hoblog | board'
+            }
         },
         {
             path: '/board/:id/:key',
-            component: Document
-        },
-        {
-            path: '/calendar/:id',
-            component: Calendar
+            component: Document,
+            meta: {
+                auth: true,
+                title: 'hoblog | :key'
+            }
         },
         {
             path: '/footprint/:id',
-            component: Footprint
+            component: Footprint,
+            meta: {
+                auth: true,
+                title: 'hoblog | 발자취'
+            }
         }
     ]
 })
