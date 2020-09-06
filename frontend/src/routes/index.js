@@ -14,7 +14,7 @@ const router = new VueRouter({
             component: Main,
             meta: {
                 auth: true,
-                title: 'hoblog'
+                title: 'leaflog'
             }
         },
         {
@@ -22,7 +22,7 @@ const router = new VueRouter({
             component: Board,
             meta: {
                 auth: true,
-                title: 'hoblog | board'
+                title: 'leaflog | board'
             }
         },
         {
@@ -30,7 +30,7 @@ const router = new VueRouter({
             component: Document,
             meta: {
                 auth: true,
-                title: 'hoblog | :key'
+                title: 'leaflog | :key'
             }
         },
         {
@@ -38,7 +38,7 @@ const router = new VueRouter({
             component: Footprint,
             meta: {
                 auth: true,
-                title: 'hoblog | 발자취'
+                title: 'leaflog | 발자취'
             }
         }
     ]

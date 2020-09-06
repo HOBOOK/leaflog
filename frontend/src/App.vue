@@ -76,7 +76,8 @@
         mdi-blogger
       </v-icon>
       <v-toolbar-title class="mr-12 align-center" style="cursor: pointer" @click="goRoute('/')">
-        <span class="title">Ho-blog</span>
+        <span class="title"><i class="leaf-icon leaf-icon-leaflog_white"></span>
+        <v-img></v-img>
       </v-toolbar-title>
     
       <v-spacer></v-spacer>
@@ -138,7 +139,7 @@
     }),
     created () {
       this.$vuetify.theme.dark = true
-      document.title = 'hoblog'
+      document.title = 'leaflog'
     },
     methods: {
       goRoute(route){
@@ -147,9 +148,14 @@
     },
     watch: {
       '$route' (to) {
-        document.title = to.meta.title || 'hoblog'
+        document.title = to.meta.title || 'leaflog'
       }
     },
     
   }
 </script>
+<style>
+  html{
+    background-color:black;
+  }
+</style>

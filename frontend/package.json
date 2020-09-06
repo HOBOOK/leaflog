@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build-icons": "node ./build/webfont-generator.js",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -26,7 +27,8 @@
     "sass-loader": "^8.0.2",
     "vue-cli-plugin-vuetify": "~2.0.7",
     "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.3.0"
+    "vuetify-loader": "^1.3.0",
+    "webfonts-generator": "^0.4.0"
   },
   "eslintConfig": {
     "root": true,
