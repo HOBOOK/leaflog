@@ -69,17 +69,9 @@
       dense
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon
-        class="mx-4"
-        large
-      >
-        mdi-blogger
-      </v-icon>
-      <v-toolbar-title class="mr-12 align-center" style="cursor: pointer" @click="goRoute('/')">
-        <span class="title"><i class="leaf-icon leaf-icon-leaflog_white"></span>
-        <v-img></v-img>
+      <v-toolbar-title class="align-center" style="cursor: pointer;" @click="goRoute('/')">
+        <v-img src="./assets/logo/leaflog.png" height=25 width=64 contain></v-img>
       </v-toolbar-title>
-    
       <v-spacer></v-spacer>
     </v-app-bar>
 

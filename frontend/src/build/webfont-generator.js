@@ -2,9 +2,9 @@ const webfontsGenerator = require('webfonts-generator');
 webfontsGenerator({
     // 폰트화 하고자하는 벡터 이미지들 경로 목록
     files: [
-      'src/assets/logo/leaflog_white.svg',
+      '../assets/logo/leaflog_white.svg',
 		],
-    dest: 'src/leaf-icons/', // 아이콘 폰트 리소스들(my-icons.css, my-icons.eot, my-icons.ttf, ...)이 자동생성될 폴더경로
+    dest: '../leaf-icons/', // 아이콘 폰트 리소스들(my-icons.css, my-icons.eot, my-icons.ttf, ...)이 자동생성될 폴더경로
     fontName: 'leaf-icons', // 이 이름으로 폰트 리소스들이 만들어질것이다.
     html: true, // true이면 html 미리보기(my-icons.html)를 생성해줍ㅂ니다.
     templateOptions: {
