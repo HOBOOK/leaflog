@@ -67,6 +67,8 @@
       app
       clipped-left
       dense
+      flat
+      color="#E6EE9C"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-center" style="cursor: pointer;" @click="goRoute('/')">
@@ -75,7 +77,7 @@
       <v-spacer></v-spacer>
     </v-app-bar>
 
-    <v-content height="100%">
+    <v-content>
       <router-view :key="$route.fullPath"></router-view>
     </v-content>
   </v-app>
@@ -130,7 +132,7 @@
       }
     }),
     created () {
-      this.$vuetify.theme.dark = true
+      this.$vuetify.theme.dark = false
       document.title = 'leaflog'
     },
     methods: {

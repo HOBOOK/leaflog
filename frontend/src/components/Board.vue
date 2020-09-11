@@ -1,21 +1,18 @@
 <template>
-<v-app id="inspire">
-  <div>
-    <v-data-table
-      :headers="headers"
-      :items="desserts"
-      :page.sync="page"
-      :items-per-page="itemsPerPage"
-      hide-default-footer
-      class="elevation-1"
-      @page-count="pageCount = $event"
-    ></v-data-table>
-    <div class="text-center pt-2">
-      <v-pagination v-model="page" :length="pageCount"></v-pagination>
-    </div>
+<div>
+  <v-data-table
+    :headers="headers"
+    :items="desserts"
+    :page.sync="page"
+    :items-per-page="itemsPerPage"
+    hide-default-footer
+    class="elevation-1"
+    @page-count="pageCount = $event"
+  ></v-data-table>
+  <div class="text-center pt-2">
+    <v-pagination v-model="page" :length="pageCount" circle color="#E6EE9C"></v-pagination>
   </div>
-</v-app>
-    
+</div>
 </template>
 
 <script>
