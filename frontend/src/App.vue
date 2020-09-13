@@ -84,6 +84,8 @@
 </template>
 
 <script>
+import documents from './database/documents.json'
+
   export default {
     name: 'App',
 
@@ -107,26 +109,7 @@
         { picture: 58, text: 'Nokia' },
         { picture: 78, text: 'MKBHD' },
       ],
-      documents: [
-        {
-          id: 1,
-          name: '문서1',
-          children: [
-            { id: 2, name: '문서1-1' },
-            { id: 3, name: '문서1-2' },
-            { id: 4, name: '문서1-3' },
-          ],
-        },
-        {
-          id: 5,
-          name: '문서2',
-          children: [
-            { id: 6, name: '문서2-1' },
-            { id: 7, name: '문서2-2' },
-            { id: 8, name: '문서2-3' },
-          ],
-        },
-      ],
+      documents: documents,
       currentPath: function(){
         return this.$router.currentRoute.path;
       }
