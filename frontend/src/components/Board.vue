@@ -17,7 +17,6 @@
 
 <script>
 export default {
-    el: '#app',
     data () {
         return {
         page: 1,

@@ -9,7 +9,6 @@
 
 <script>
 export default {
-    el: '#app',
     data () {
       return {
         currentPath: this.getCurrentPath()
