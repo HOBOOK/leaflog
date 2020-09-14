@@ -72,7 +72,7 @@
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-center" style="cursor: pointer;" @click="goRoute('/')">
-        <v-img src="./assets/logo/leaflog.png" height=25 width=64 contain></v-img>
+        <v-img src="./assets/logo/leaflog.png" height=26 width=102 contain></v-img>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
