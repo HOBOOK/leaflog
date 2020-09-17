@@ -8,6 +8,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
 const mongoose = require('mongoose');
+const config = require('config');
+const dbHost = config.get('dbHost');
+const dbPort = config.get('dbPort');
+const dbName = config.get('dbName');
+const dbAuthenticate = config.get('dbAuthenticate');
+const dbUser = config.get('dbUser');
+const dbPass = config.get('dbPass');
 
 const app = express();
 
@@ -23,6 +30,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// Allow CORS
+app.use('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+  next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -44,7 +59,9 @@ app.use(function(err, req, res, next) {
 mongoose.Promise = global.Promise;
 
 // CONNECT TO MONGODB SERVER
-mongoose.connect(process.env.MONGO_URI, { useMongoClient: true })
+let connectionString = 'mongodb://'+ dbUser + ':' + dbPass +'@'+ dbHost +':' + dbPort + '/' + dbName;
+
+mongoose.connect(connectionString,{ useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => console.log('Successfully connected to mongodb'))
   .catch(e => console.error(e));
 
