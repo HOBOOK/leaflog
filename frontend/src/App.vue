@@ -22,7 +22,7 @@
           </v-list-item-content>
         </v-list-item>
         <div v-show="this.currentPath().indexOf('/board') !== -1">
-        <v-subheader class="mt-4 grey--text text--darken-1">문서</v-subheader>
+        <v-subheader class="mt-4 grey--text text--darken-1">로그 트리</v-subheader>
           <v-treeview dense :items="documents" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="goRoute('/board/id/'+props.item.name)">{{props.item.name}}</span>
@@ -66,9 +66,8 @@
     <v-app-bar
       app
       clipped-left
-      dense
       flat
-      color="#E6EE9C"
+      color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.12);"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-center" style="cursor: pointer;" @click="goRoute('/')">
@@ -133,6 +132,6 @@ import documents from './database/documents.json'
 </script>
 <style>
   html{
-    background-color:black;
+    background-color:#FFFFFF;
   }
 </style>
