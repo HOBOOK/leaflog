@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row>
       <v-col cols="12">
         <slot />
@@ -56,6 +56,8 @@
   import {
     mapState,
   } from 'vuex'
+
+  import axios from "axios"
 
   export default {
     name: 'Feed',

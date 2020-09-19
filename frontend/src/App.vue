@@ -70,9 +70,11 @@
       color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.12);"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-icon>mdi-leaf</v-icon>
-      <v-toolbar-title class="align-center" style="cursor: pointer;" @click="goRoute('/')">
-        <v-img src="./assets/logo/leaflog.png" height=26 width=102 contain></v-img>
+      <v-toolbar-title class="align-left" style="cursor: pointer;" @click="goRoute('/')">
+        <v-row>
+          <v-img src="./assets/logo/leaflog_symbol.png" height=26 width=26 contain></v-img>
+          <v-img src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
+        </v-row>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
