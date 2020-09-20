@@ -76,7 +76,9 @@
           <v-img src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
         </v-row>
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer />
+      <v-icon @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <v-btn class="ma-2" outlined rounded color="indigo">로그인</v-btn>
     </v-app-bar>
 
     <v-main>

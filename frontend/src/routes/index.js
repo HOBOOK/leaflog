@@ -4,6 +4,7 @@ import Main from '../components/Main.vue';
 import Board from '../components/Board.vue';
 import Footprint from '../components/Footprint.vue';
 import Document from '../components/Document.vue';
+import Search from '../components/Search.vue';
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,14 @@ const router = new VueRouter({
             meta: {
                 auth: true,
                 title: 'leaflog | 발자취'
+            }
+        },
+        {
+            path: '/search/:keyword',
+            component: Search,
+            meta: {
+                auth: true,
+                title: 'leaflog | 검색'
             }
         }
     ]
