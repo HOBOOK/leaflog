@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 let Schema = mongoose.Schema;
 
-let postSchema = new Schema(
+let articleSchema = new Schema(
   {
     title: String,
     content: String,
@@ -10,4 +10,4 @@ let postSchema = new Schema(
   { versionKey: "_somethingElse" }
 );
 
-module.exports = mongoose.model("post", postSchema);
+module.exports = mongoose.model("article", articleSchema);

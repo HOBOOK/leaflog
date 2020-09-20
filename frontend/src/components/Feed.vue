@@ -6,9 +6,10 @@
       </v-col>
 
       <feed-card
-        v-for="(article, i) in paginatedArticles"
+        v-for="(article, i) in articles"
         :key="article.title"
-        :size="layout[i]"
+        :size=layout[i%layout.length]
+        :index=i
         :value="article"
       />
     </v-row>
@@ -16,11 +17,6 @@
 </template>
 
 <script>
-  // Utilities
-  import {
-    mapState,
-  } from 'vuex'
-
   import axios from "axios"
 
   export default {
@@ -34,39 +30,62 @@
       layout: [2, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3],
       page: 1,
       bottom: false,
+      articles: []
     }),
 
     computed: {
-      ...mapState(['articles']),
       pages () {
         return Math.ceil(this.articles.length / 11)
       },
       url() { 
-        return "https://jsonplaceholder.typicode.com/posts?_page=" + this.page
-      },
-      paginatedArticles () {
-        const start = (this.page - 1) * 11
-        const stop = this.page * 15
-
-        return this.articles.slice(start, stop)
+        return "http://localhost:3000/api/articles?page=" + this.page
       },
     },
 
     created() {
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
       this.fetchData()
     },
 
     watch: {
-      page () {
-        window.scrollTo(0, 0)
-      },
+      bottom(bottom) {
+        if (bottom) {
+          this.fetchData()
+        }
+      }
     },
 
-    methods: { 
-      async fetchData() { 
-        const response = await axios.get(this.url); 
-        this.titles = response.data; 
+    methods: {
+      bottomVisible() {
+        const scrollY = window.scrollY
+        const visible = document.documentElement.clientHeight
+        const pageHeight = document.documentElement.scrollHeight
+        const bottomOfPage = visible + scrollY >= pageHeight
+        return bottomOfPage || pageHeight < visible
       },
+      async fetchData() {
+        await axios.get(this.url)
+          .then(response => {
+            let datas = response.data.data.articles
+            for(let i = 0; i < datas.length; i++) {
+              let article = {
+                title : datas[i].title,
+                author : datas[i].author,
+                caetogry : datas[i].category,
+                hero: datas[i].hero,
+                prominent: datas[i].prominent
+              }
+              this.articles.push(article)
+            }
+            this.page++
+            console.log('fetch sucess page -> ' + (this.page-1))
+          })
+          .catch(err => {
+            console.log('fetch error -> ' + err)
+          })
+      }
     }
   }
 </script>

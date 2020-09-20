@@ -7,6 +7,8 @@ const logger = require('morgan');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 
+const cors = require('cors');
+
 const mongoose = require('mongoose');
 const config = require('config');
 const dbHost = config.get('dbHost');
@@ -32,12 +34,11 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 // Allow CORS
-app.use('/*', function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-  next();
-});
+app.use(cors({
+  origin: true,
+  withCredentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
