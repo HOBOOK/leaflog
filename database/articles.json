@@ -1,0 +1,111 @@
+[{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3a"
+  },
+  "title": "Moroccan Days",
+  "author": "John L",
+  "category": "Travel",
+  "hero": "moroccandays.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3b"
+  },
+  "title": "Swedish Fishing",
+  "author": "Rachel L",
+  "category": "Leisure",
+  "hero": "autumnclouds.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3c"
+  },
+  "title": "The Adventure Begins",
+  "hero": "snowcup.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3d"
+  },
+  "title": "Paris in Spring",
+  "author": "John L",
+  "category": "Travel",
+  "hero": "christmas.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3e"
+  },
+  "title": "Youthful Independence",
+  "author": "Rachel L",
+  "category": "Political",
+  "hero": "july4.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f3f"
+  },
+  "title": "Trial By Fire",
+  "author": "Anthony R",
+  "category": "Cooking",
+  "hero": "firepots.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f40"
+  },
+  "title": "Water Ventures",
+  "author": "Rachel L",
+  "category": "Leisure",
+  "hero": "jellyfish.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f41"
+  },
+  "title": "Mt. Zekial",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "mountaincabin.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f42"
+  },
+  "title": "Cozumel Caves",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "lightcave.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f43"
+  },
+  "title": "Amazing Ireland",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "greengrass.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f44"
+  },
+  "title": "Cabin Fever",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "snowcabin.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f45"
+  },
+  "title": "To the ancient ruins",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "ruins.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f46"
+  },
+  "title": "New fashion trends",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "umbrella.jpg"
+},{
+  "_id": {
+    "$oid": "5f670840da7bcb094e098f47"
+  },
+  "title": "Go on a vacation",
+  "author": "Rachel L",
+  "category": "Travel",
+  "hero": "adventurecave.jpg"
+}]
