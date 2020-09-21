@@ -124,7 +124,8 @@ import documents from './database/documents.json'
     },
     methods: {
       goRoute(route){
-        this.$router.push(route);
+        if (this.$route.path !== route)
+          this.$router.push(route);
       },
     },
     watch: {
