@@ -4,6 +4,7 @@ var router = express.Router();
 
 /* Models */
 var articles = require("../model/article")
+var leafs = require("../model/leaf")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -45,7 +46,7 @@ router.get("/api/articles", cors(), function(req, res, next) {
   let page = Math.max(1, req.query.page);
   var limit = 10;
 
-  articles.count({}, (err,count) => {
+  articles.countDocuments({}, (err,count) => {
     if(err) return res.json({success:false, message:err});
     var skip = (page-1) * limit;
     var maxPage = Math.ceil(count/limit);
@@ -72,7 +73,7 @@ router.get("/api/articles", cors(), function(req, res, next) {
 });
 
 // Read by id
-router.get("/api/articles:article_id", function(req, res, next) {
+router.get("/api/articles:article_id", cors(), function(req, res, next) {
   const articleId = req.params.article_id;
 
   articles
@@ -84,6 +85,30 @@ router.get("/api/articles:article_id", function(req, res, next) {
         message: "article Detail success",
         data: {
           article: article
+        }
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err
+      });
+    });
+});
+
+/* leaf Controller */
+// Read by user Id
+router.get("/api/leafs/:id", cors(), function(req, res, next) {
+  const userId = req.params.id;
+  console.log(userId)
+  leafs
+    .findOne({ id: userId })
+    .then(leafs => {
+      if (!leafs) return res.status(404).json({ message: "leafs not found" });
+      console.log("Read Detail 완료");
+      res.status(200).json({
+        message: "leafs Detail success",
+        data: {
+          leafs: leafs
         }
       });
     })

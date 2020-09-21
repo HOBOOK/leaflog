@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router';
 import Main from '../components/Main.vue';
-import Board from '../components/Board.vue';
+import Tree from '../components/Tree.vue';
 import Footprint from '../components/Footprint.vue';
-import Document from '../components/Document.vue';
+import Leaf from '../components/Leaf.vue';
 import Search from '../components/Search.vue';
 
 Vue.use(VueRouter)
@@ -15,23 +15,23 @@ const router = new VueRouter({
             component: Main,
             meta: {
                 auth: true,
-                title: 'leaflog'
+                title: '숲'
             }
         },
         {
-            path: '/board/:id/',
-            component: Board,
+            path: '/Tree/:id/',
+            component: Tree,
             meta: {
                 auth: true,
-                title: 'leaflog | board'
+                title: '나의 나무'
             }
         },
         {
-            path: '/board/:id/:key',
-            component: Document,
+            path: '/Tree/:id/:key',
+            component: Leaf,
             meta: {
                 auth: true,
-                title: 'leaflog | :key'
+                title: ''
             }
         },
         {
@@ -39,7 +39,7 @@ const router = new VueRouter({
             component: Footprint,
             meta: {
                 auth: true,
-                title: 'leaflog | 발자취'
+                title: '발자취'
             }
         },
         {
@@ -47,7 +47,7 @@ const router = new VueRouter({
             component: Search,
             meta: {
                 auth: true,
-                title: 'leaflog | 검색'
+                title: '검색'
             }
         }
     ]

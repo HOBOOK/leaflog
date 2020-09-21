@@ -21,11 +21,11 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div v-show="this.currentPath().indexOf('/board') !== -1">
-        <v-subheader class="mt-4 grey--text text--darken-1">로그 트리</v-subheader>
-          <v-treeview dense :items="documents" style="font-size:0.78rem" :open-on-click="true">
+        <div v-show="this.currentPath().indexOf('/tree') !== -1">
+        <v-subheader class="mt-4 grey--text text--darken-1">나의 나뭇잎</v-subheader>
+          <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="goRoute('/board/id/'+props.item.name)">{{props.item.name}}</span>
+              <span style="cursor:pointer" @click="goRoute('/tree/' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
           </div>
@@ -77,6 +77,19 @@
         </v-row>
       </v-toolbar-title>
       <v-spacer />
+      <div v-show="this.currentPath().indexOf('/tree') !== -1">
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn class="ma-2" 
+            outlined 
+            rounded 
+            v-bind="attrs"
+            v-on="on"><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
+          </template>
+        <span>로그 작성</span>
+        </v-tooltip>
+        
+      </div>
       <v-icon @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
       <v-btn class="ma-2" outlined rounded color="indigo">로그인</v-btn>
     </v-app-bar>
@@ -88,7 +101,7 @@
 </template>
 
 <script>
-import documents from './database/documents.json'
+  import axios from "axios"
 
   export default {
     name: 'App',
@@ -101,11 +114,8 @@ import documents from './database/documents.json'
     },
     data: () => ({
       drawer: null,
-      items: [
-        { icon: 'mdi-home', text: '홈', link: '/' },
-        { icon: 'mdi-dialpad', text: '마이로그', link: '/board/id/' },
-        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/id/'},
-      ],
+      userId: '',
+      items: [],
       items2: [
         { picture: 28, text: 'Joseph' },
         { picture: 38, text: 'Apple' },
@@ -113,24 +123,46 @@ import documents from './database/documents.json'
         { picture: 58, text: 'Nokia' },
         { picture: 78, text: 'MKBHD' },
       ],
-      documents: documents,
+      leafs: [],
       currentPath: function(){
         return this.$router.currentRoute.path;
       }
     }),
+    mounted () {
+
+    },
     created () {
       this.$vuetify.theme.dark = false
       document.title = 'leaflog'
+      this.userId = 'pkh879'
+      this.items = [
+        { icon: 'mdi-terrain', text: '숲', link: '/' },
+        { icon: 'mdi-tree', text: '나의 나무', link: '/tree/' + this.userId + '/' },
+        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/' + this.userId + '/'},
+      ],
+      this.findLeafsById(this.userId)
     },
     methods: {
       goRoute(route){
         if (this.$route.path !== route)
           this.$router.push(route);
       },
+      async findLeafsById(id) {
+        await axios.get("http://localhost:3000/api/leafs/" + id)
+          .then(response => {
+            
+            let datas = response.data.data.leafs
+            this.leafs = datas.leafs
+            console.log('fetch sucess leafs -> ')
+          })
+          .catch(err => {
+            console.log('fetch error leafs -> ' + err)
+          })
+      }
     },
     watch: {
       '$route' (to) {
-        document.title = to.meta.title || 'leaflog'
+        document.title = 'leaflog | ' + to.meta.title
       }
     },
     

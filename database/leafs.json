@@ -1,0 +1,36 @@
+[
+  {
+    "id": "pkh879",
+    "leafs": [
+      {
+        "id": 1,
+        "name": "문서1",
+        "children": [
+          { "id": 2, "name": "문서1-1", "children": [] },
+          { "id": 3, "name": "문서1-2", "children": [] }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "문서2",
+        "children": [
+          { "id": 6, 
+            "name": "문서2-1", 
+            "children": [{ 
+              "id": 7,
+              "name": "문서2-1-1",
+              "children": [] 
+            },
+            { 
+              "id": 8,
+              "name": "문서2-1-2",
+              "children": [] 
+            }]
+          },
+          { "id": 9, "name": "문서2-2", "children": [] },
+          { "id": 10, "name": "문서2-3", "children": [] }
+        ]
+      }
+    ]
+  }
+]
