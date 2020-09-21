@@ -6,7 +6,7 @@
       clipped
     >
         
-      <v-list dense>
+      <v-list dense nav>
         <v-list-item
           v-for="item in items"
           :key="item.text"
@@ -138,5 +138,8 @@ import documents from './database/documents.json'
 <style>
   html{
     background-color:#FFFFFF;
+  }
+  .v-navigation-drawer__border {
+    display: none;
   }
 </style>
