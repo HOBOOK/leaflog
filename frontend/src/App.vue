@@ -46,23 +46,14 @@
             <v-list-item-title v-text="item.text"></v-list-item-title>
           </v-list-item>
         </v-list>
-        <v-list-item
-          class="mt-4"
-          link
-        >
-          <v-list-item-action>
-            <v-icon color="grey darken-1">mdi-plus-circle-outline</v-icon>
-          </v-list-item-action>
-          <v-list-item-title class="grey--text text--darken-1">Browse Channels</v-list-item-title>
-        </v-list-item>
+        <v-divider class="mt-2 mb-2"></v-divider>
         <v-list-item link>
           <v-list-item-action>
             <v-icon color="grey darken-1">mdi-cog</v-icon>
           </v-list-item-action>
-          <v-list-item-title class="grey--text text--darken-1">Manage Subscriptions</v-list-item-title>
+          <v-list-item-title class="grey--text text--darken-1">설정</v-list-item-title>
         </v-list-item>
       </v-list>
-      <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
     </v-navigation-drawer>
     <v-app-bar
       app
@@ -86,14 +77,16 @@
             outlined 
             rounded 
             v-bind="attrs"
+            color="#827717"
             v-on="on"><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
           </template>
         <span>로그 작성</span>
         </v-tooltip>
         
       </div>
-      <v-icon @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
-      <v-btn class="ma-2" outlined rounded color="indigo">로그인</v-btn>
+      <v-icon class="ma-2" @click="goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
+      <v-icon class="ma-2" @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <v-btn class="ma-2" outlined rounded color="#827717">로그인</v-btn>
     </v-app-bar>
 
     <v-main>
@@ -138,7 +131,7 @@
       this.userId = 'pkh879'
       this.items = [
         { icon: 'mdi-terrain', text: '숲', link: '/' },
-        { icon: 'mdi-tree', text: '나의 나무', link: '/tree/' + this.userId + '/' },
+        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/' + this.userId + '/' },
         { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/' + this.userId + '/'},
       ],
       this.findLeafsById(this.userId)
