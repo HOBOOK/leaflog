@@ -21,21 +21,23 @@
           </v-list-item-content>
         </v-list-item>
         <div v-show="this.currentPath().indexOf('/tree') !== -1">
-        <v-subheader class="mt-4 grey--text text--darken-1">나의 나뭇잎</v-subheader>
+        <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
+        <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
           <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="goRoute('/tree/' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
           </div>
-        <v-subheader class="mt-4 grey--text text--darken-1">구독</v-subheader>
+        <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
+        <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
         <v-list>
           <v-list-item
             v-for="item in items2"
             :key="item.text"
             link
           >
-            <v-list-item-avatar>
+            <v-list-item-avatar size=28>
               <img
                 :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
                 alt=""
@@ -60,6 +62,7 @@
           <v-list-item-title class="grey--text text--darken-1">Manage Subscriptions</v-list-item-title>
         </v-list-item>
       </v-list>
+      <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
     </v-navigation-drawer>
     <v-app-bar
       app
