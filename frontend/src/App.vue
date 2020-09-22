@@ -68,6 +68,7 @@
       clipped-left
       flat
       color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.12);"
+      hide-on-scroll
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="goRoute('/')">
