@@ -1,11 +1,10 @@
 <template>
-  <v-app id="inspire">
+  <v-app id="app">
     <v-navigation-drawer
       v-model="drawer"
       app
       clipped
     >
-        
       <v-list dense nav>
         <v-list-item
           v-for="item in items"
@@ -62,7 +61,6 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-
     <v-app-bar
       app
       clipped-left
@@ -98,17 +96,16 @@
     <v-main>
       <router-view :key="$route.fullPath"></router-view>
     </v-main>
+      
   </v-app>
 </template>
 
 <script>
   import axios from "axios"
-
   export default {
     name: 'App',
 
     components: {
-
     },
     props: {
       source: String,
@@ -175,5 +172,5 @@
   }
   .v-navigation-drawer__border {
     display: none;
-  }
+  } 
 </style>
