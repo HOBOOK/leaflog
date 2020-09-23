@@ -8,11 +8,11 @@
             <span class="white--text headline">아이</span>
           </v-avatar>
           <v-col>
-            <v-text class="ma-1 font-weight-bold" style="font-size:1.5rem">아이디</v-text>
+            <span class="ma-1 font-weight-bold" style="font-size:1.5rem">아이디</span>
             <br />
-            <v-text class="ma-1" style="font-size:0.8rem">구독자 3명</v-text>
+            <span class="ma-1" style="font-size:0.8rem">구독자 3명</span>
             <br />
-            <v-text singleline class="ma-1" style="font-size:1.1rem">당신의 나무를 설명해주세요</v-text>
+            <span singleline class="ma-1" style="font-size:1.1rem">당신의 나무를 설명해주세요</span>
           </v-col>
           </v-row>
           <v-row class="align-end mr-8">
@@ -75,7 +75,6 @@
                   <transition name="slide-y-reverse-transition" appear>
                     <h1 class="mt-8 display-1 font-weight-thin mb-4">당신의 나무를 소개해보세요</h1>
                   </transition>
-                  <h4 class="subheading">{{this.currentPath}}</h4>
                 </v-col>
               </v-container>
             </v-tab-item>

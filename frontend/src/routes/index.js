@@ -4,6 +4,7 @@ import Main from '../components/Main.vue';
 import Tree from '../components/Tree.vue';
 import Footprint from '../components/Footprint.vue';
 import Leaf from '../components/Leaf.vue';
+import LeafEditor from '../components/LeafEditor.vue';
 import Search from '../components/Search.vue';
 
 Vue.use(VueRouter)
@@ -19,7 +20,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/Tree/:id/',
+            path: '/tree/:id/',
             component: Tree,
             meta: {
                 auth: true,
@@ -27,7 +28,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/Tree/:id/:key',
+            path: '/tree/:id/:key',
             component: Leaf,
             meta: {
                 auth: true,
@@ -40,6 +41,14 @@ const router = new VueRouter({
             meta: {
                 auth: true,
                 title: '발자취'
+            }
+        },
+        {
+            path: '/edit',
+            component: LeafEditor,
+            meta: {
+                auth: true,
+                title: '새로운 글'
             }
         },
         {
