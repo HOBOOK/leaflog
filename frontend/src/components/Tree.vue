@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout column class="mt-16 ma-4">
+    <v-layout column class="mt-16">
       <v-col class="align-center">
         <v-row class="ml-8">
           <v-row>
@@ -42,11 +42,12 @@
           <v-tabs
             background-color="white"
             centered
+            grow
             color="#827717"
           >
-            <v-tab class="pr-16 pl-16" style="font-size:1.3rem">
+            <v-tab style="font-size:1.3rem; max-width:10rem">
               <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 contain></v-img></v-tab>
-            <v-tab class="pr-16 pl-16" style="font-size:1.3rem">소개</v-tab>
+            <v-tab style="font-size:1.3rem; max-width:10rem">소개</v-tab>
       
             <v-tab-item class="mt-8">
               <v-container fluid>
@@ -61,12 +62,13 @@
                       :src="`https://picsum.photos/500/300?image=${i * 5 + 10}`"
                       :lazy-src="`https://picsum.photos/10/6?image=${i * 5 + 10}`"
                       aspect-ratio="1"
+                      contain
                     ></v-img>
                   </v-col>
                 </v-row>
               </v-container>
             </v-tab-item>
-            <v-tab-item>
+            <v-tab-item class="mt-8">
               <v-container fluid>
                 <v-col class="text-center" cols="12">
                   <v-img src="../assets/vector/tree.png" aspect-ratio="1.7" max-height=300 contain></v-img>

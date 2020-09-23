@@ -25,7 +25,7 @@
         <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
           <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="goRoute('/tree/' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
+              <span style="cursor:pointer" @click="goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
           </div>
@@ -84,8 +84,14 @@
         </v-tooltip>
         
       </div>
-      <v-icon class="ma-2" @click="goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
-      <v-icon class="ma-2" @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <v-icon class="ma-1" @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <v-badge
+            color="#827717"
+            dot
+            overlap
+          >
+        <v-icon class="ma-1" @click="goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
+      </v-badge>
       <v-btn class="ma-2" outlined rounded color="#827717">로그인</v-btn>
     </v-app-bar>
 
@@ -131,8 +137,8 @@
       this.userId = 'pkh879'
       this.items = [
         { icon: 'mdi-terrain', text: '숲', link: '/' },
-        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/' + this.userId + '/' },
-        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/' + this.userId + '/'},
+        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.userId + '/' },
+        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.userId + '/'},
       ],
       this.findLeafsById(this.userId)
     },
