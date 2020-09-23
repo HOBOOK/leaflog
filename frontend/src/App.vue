@@ -65,8 +65,8 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="goRoute('/')">
         <v-row>
-          <v-img src="./assets/logo/leaflog_symbol.png" height=26 width=26 contain></v-img>
-          <v-img src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
+          <v-img src="./assets/logo/leaflog_symbol.png" height=26 width=26></v-img>
+          <v-img class="d-none d-sm-flex" src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
         </v-row>
       </v-toolbar-title>
       <v-spacer />

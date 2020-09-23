@@ -1,78 +1,94 @@
 <template>
+  <v-container>
+    <v-layout column>
     <v-form
       ref="form"
       v-model="valid"
       lazy-validation
+      class="ma-2"
     >
-      <v-text-field
-        v-model="name"
-        :counter="10"
-        :rules="nameRules"
-        label="Name"
-        required
-      ></v-text-field>
-  
-      <v-text-field
-        v-model="email"
-        :rules="emailRules"
-        label="E-mail"
-        required
-      ></v-text-field>
-  
+
       <v-select
         v-model="select"
+        solo
+        single-line
+        outlined
+        clearable
+        flat
+        small-chips
         :items="items"
-        :rules="[v => !!v || 'Item is required']"
-        label="Item"
+        label="가지"
         required
+        dense
+        hide-selected
+        color="#BDBDBD"
+        class="ml-2 mr-2"
+        style="max-width:250px;"
       ></v-select>
+
+      <v-text-field
+        v-model="name"
+        solo
+        single-line
+        clearable
+        flat
+        label="제목을 입력하세요"
+        required
+        class="text-lg-h5"
+      ></v-text-field>
+
+      <v-divider class="ml-2 mr-2"></v-divider>
+      
+      <v-textarea
+        v-model="email"
+        solo
+        no-resize
+        flat
+        required
+        class="mt-6"
+      ></v-textarea>
   
       <v-checkbox
         v-model="checkbox"
-        :rules="[v => !!v || 'You must agree to continue!']"
-        label="Do you agree?"
+        solo
+        single-line
+        clearable
+        flat
+        color="#BDBDBD"
+        label="비공개"
         required
       ></v-checkbox>
-  
-      <v-btn
-        :disabled="!valid"
-        color="success"
-        class="mr-4"
-        @click="validate"
+      <div class="align-end d-flex flex-row-reverse">
+        <v-btn
+        rounded
+        flat
+        outlined
+        color="#827717"
+        @click="resetValidation"
       >
-        Validate
+        생성
       </v-btn>
-  
       <v-btn
-        color="error"
+        rounded
+        flat
+        outlined
+        color="#BDBDBD"
         class="mr-4"
         @click="reset"
       >
-        Reset Form
+        임시저장
       </v-btn>
-  
-      <v-btn
-        color="warning"
-        @click="resetValidation"
-      >
-        Reset Validation
-      </v-btn>
+      </div>
     </v-form>
+    </v-layout>
+  </v-container>
 </template>
 <script>
 export default {
     data: () => ({
         valid: true,
         name: '',
-        nameRules: [
-        v => !!v || 'Name is required',
-        v => (v && v.length <= 10) || 'Name must be less than 10 characters',
-        ],
         email: '',
-        emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-        ],
         select: null,
         items: [
         'Item 1',
