@@ -349,4 +349,4 @@ dist
 .tern-port
 
 # Custom
-backend/config/*.json
+backend/config/
