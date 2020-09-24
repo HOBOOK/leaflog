@@ -1,5 +1,7 @@
 <template>
-  <v-container>
+  <v-container fluid style="max-height:100%; height:100%;"
+  
+  >
     <v-layout column>
     <v-form
       ref="form"
@@ -12,11 +14,11 @@
         v-model="select"
         solo
         single-line
-        outlined
         clearable
         flat
         small-chips
         :items="items"
+        background-color="#FAFAFA"
         label="가지"
         required
         dense
@@ -34,26 +36,44 @@
         flat
         label="제목을 입력하세요"
         required
-        class="text-lg-h5"
+        class="v-text-field-title"
       ></v-text-field>
 
       <v-divider class="ml-2 mr-2"></v-divider>
       
-      <v-textarea
-        v-model="email"
-        solo
-        no-resize
+      <v-card
         flat
-        required
-        class="mt-6"
-      ></v-textarea>
+      >
+        <v-card
+          flat
+          class="pt-4 pb-4 ml-2 mr-2"
+        >
+          <v-icon class="pa-2">mdi-format-header-1</v-icon>
+          <v-icon class="pa-2">mdi-format-header-2</v-icon>
+          <v-icon class="pa-2">mdi-format-header-3</v-icon>
+          <v-icon class="pa-2">mdi-format-header-5</v-icon>
+          <v-divider vertical class="pt-4 pl-2"></v-divider>
+          <v-icon class="pa-2">mdi-format-bold</v-icon>
+          <v-icon class="pa-2">mdi-format-italic</v-icon>
+        </v-card>
+        <v-textarea
+          v-model="email"
+          solo
+          flat
+          label="당신의 지식을 기록하세요"
+          no-resize
+          required
+          class="mt-6 d-flex v-textarea-content"
+          style="flex:1 1 0%;"
+        ></v-textarea>
+      </v-card>
+      
   
       <v-checkbox
         v-model="checkbox"
         solo
         single-line
         clearable
-        flat
         color="#BDBDBD"
         label="비공개"
         required
@@ -112,3 +132,19 @@ export default {
     }
 }
 </script>
+<style>
+  .v-text-field-title input{
+    font-weight:600;
+    font-size:1.5rem;
+  }
+  .v-text-field-title .v-label{
+    opacity: 0.5;
+    padding: 0.2rem;
+    height:2.3rem;
+    font-weight:600;
+    font-size:1.5rem;
+  }
+  .v-textarea-content .v-label{
+    opacity: 0.5;
+  }
+</style>
