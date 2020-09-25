@@ -7,7 +7,7 @@
         :height="value.prominent ? 450 : 350"
         color="grey lighten-1"
         dark
-        href="#!"
+        :href="'#/tree/@' + value.author + '/' + value.title"
       >
         <v-img
           :src="require(`@/assets/articles/${value.thumbnail}`)"

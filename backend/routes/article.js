@@ -8,28 +8,28 @@ var router = express.Router();
 var articles = require("../model/article")
 
 // Create
-router.post("/", function(req, res, next) {
+router.post("/", cors(), function(req, res, next) {
     const { title, content } = req.body; // 비구조화 할당
   
     console.log(req.body);
   
-    new articles(req.body)
-      .save()
-      .then(newPost => {
-        console.log("Create 완료");
-        res.status(200).json({
-          message: "Create success",
-          data: {
-            post: newPost
-          }
-        });
-      })
-      .catch(err => {
-        console.log(err)
-        res.status(500).json({
-          message: err
-        });
-      });
+    // new articles(req.body)
+    //   .save()
+    //   .then(newPost => {
+    //     console.log("Create 완료");
+    //     res.status(200).json({
+    //       message: "Create success",
+    //       data: {
+    //         post: newPost
+    //       }
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log(err)
+    //     res.status(500).json({
+    //       message: err
+    //     });
+    //   });
   });
   
   // Read All

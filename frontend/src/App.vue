@@ -79,7 +79,7 @@
             v-bind="attrs"
             color="#827717"
             v-on="on"
-            @click="goRoute('/edit')"
+            @click="goRoute('/edit?=' + $router.currentRoute.path)"
             ><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
           </template>
         <span>로그 작성</span>

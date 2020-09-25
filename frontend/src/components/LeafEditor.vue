@@ -21,14 +21,13 @@
         background-color="#FAFAFA"
         label="가지"
         dense
-        hide-selected
         color="#BDBDBD"
         class="ml-2 mr-2"
         style="max-width:250px;"
       ></v-select>
 
       <v-checkbox
-        v-model="checkbox"
+        v-model="article.private"
         solo
         single-line
         clearable
@@ -39,7 +38,7 @@
       ></v-checkbox>
       </v-row>
       <v-text-field
-        v-model="name"
+        v-model="article.title"
         solo
         single-line
         clearable
@@ -67,7 +66,7 @@
           <v-icon size=18 class="pa-2">mdi-format-italic</v-icon>
         </v-card>
         <v-textarea
-          v-model="email"
+          v-model="article.content"
           solo
           flat
           label="당신의 지식을 기록하세요"
@@ -80,17 +79,17 @@
       <div class="align-end d-flex flex-row-reverse">
         <v-btn
         rounded
-        flat
+        text
         outlined
         color="#827717"
-        @click="alert"
+        @click="createLeaf"
       >
         <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
         생성
       </v-btn>
       <v-btn
         rounded
-        flat
+        text
         outlined
         color="#BDBDBD"
         class="mr-4"
@@ -116,35 +115,65 @@
   </v-container>
 </template>
 <script>
+import axios from "axios"
 export default {
     data: () => ({
-        valid: true,
-        name: '',
-        email: '',
-        select: null,
-        items: [
-        'Item 1',
-        'Item 2',
-        'Item 3',
-        'Item 4',
-        ],
-        sheet: false,
-        checkbox: false,
+      article: {
+        title: '',
+        content: '',
+        author: '',
+        private: false,
+        prominent: false,
+        water: 0
+      },
+      valid: true,
+      select: null,  
+      items: [],
+      sheet: false,
     }),
-
+    computed: {
+      articleUrl() { 
+        return "http://localhost:3000/api/articles"
+      }
+    },
+    mounted() {
+      this.initialize()
+    },
     methods: {
-        alert () {
-          this.sheet = !this.sheet
-        },
-        validate () {
-        this.$refs.form.validate()
-        },
-        reset () {
-        this.$refs.form.reset()
-        },
-        resetValidation () {
-        this.$refs.form.resetValidation()
-        },
+      alert () {
+        this.sheet = !this.sheet
+      },
+      initialize () {
+        // get list of user's tree
+        let meta = this.$route.params.meta
+        if(typeof meta === 'undefined' || !meta) {
+          console.log('Error initialize')
+        }
+        this.select = meta.substring(meta.lastIndexOf('/') + 1)
+
+        this.items.push('뿌리')
+        this.items.push(this.select)
+        console.log(this.select)
+      },
+      validate () {
+      this.$refs.form.validate()
+      },
+      reset () {
+      this.$refs.form.reset()
+      },
+      resetValidation () {
+      this.$refs.form.resetValidation()
+      },
+      createLeaf () {
+        console.log('chk > ' + JSON.stringify(this.article))
+        axios.post(this.articleUrl, this.article)
+          .then(response => {
+            console.log('create success -> ' + response)
+          })
+          .catch(err => {
+            console.log('create err -> ' + err)
+          })
+      }
     }
 }
 </script>

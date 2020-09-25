@@ -39,7 +39,7 @@
       pages () {
         return Math.ceil(this.articles.length / 11)
       },
-      url() { 
+      articleUrl() { 
         return "http://localhost:3000/api/articles?page=" + this.page
       },
     },
@@ -69,7 +69,7 @@
       },
       async fetchData() {
         this.isFetching = true
-        await axios.get(this.url)
+        await axios.get(this.articleUrl)
           .then(response => {
             let datas = response.data.data.articles
             for(let i = 0; i < datas.length; i++) {
