@@ -4,9 +4,10 @@
       <v-col class="align-center">
         <v-row class="ml-8">
           <v-row>
-            <v-avatar color="orange" size="128">
-            <span class="white--text headline">아이</span>
-          </v-avatar>
+            <v-avatar size="128">
+              <!-- <span class="white--text headline">아이</span> -->
+              <v-img src="../assets/logo/leaflog_symbol.png"></v-img>
+            </v-avatar>
           <v-col>
             <span class="ma-1 font-weight-bold" style="font-size:1.5rem">아이디</span>
             <br />

@@ -12,6 +12,7 @@
         :index=i
         :value="article"
       />
+      <v-progress-circular class="justify-center" indeterminate color="#AFB42B" v-if="!isFetching"></v-progress-circular>
     </v-row>
   </v-container>
 </template>
@@ -30,6 +31,7 @@
       layout: [2, 2, 1, 2, 2, 3, 3, 3, 3, 3, 3],
       page: 1,
       bottom: false,
+      isFetching: false,
       articles: []
     }),
 
@@ -66,6 +68,7 @@
         return bottomOfPage || pageHeight < visible
       },
       async fetchData() {
+        this.isFetching = true
         await axios.get(this.url)
           .then(response => {
             let datas = response.data.data.articles
@@ -74,15 +77,18 @@
                 title : datas[i].title,
                 author : datas[i].author,
                 caetogry : datas[i].category,
-                hero: datas[i].hero,
+                thumbnail: datas[i].thumbnail,
                 prominent: datas[i].prominent
               }
               this.articles.push(article)
             }
+            this.isFetching = false
+            
             this.page++
             console.log('fetch sucess page -> ' + (this.page-1))
           })
           .catch(err => {
+            this.isFetching = false
             console.log('fetch error -> ' + err)
           })
       }

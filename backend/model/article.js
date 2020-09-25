@@ -5,6 +5,12 @@ let articleSchema = new Schema(
   {
     title: String,
     content: String,
+    private: Boolean,
+    author: String,
+    category: String,
+    thumbnail: String,
+    prominent: Boolean,
+    water: Number,
     date: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

@@ -3,109 +3,138 @@
     "$oid": "5f670840da7bcb094e098f3a"
   },
   "title": "Moroccan Days",
+  "content": "",
   "author": "John L",
   "category": "Travel",
-  "hero": "moroccandays.jpg"
+  "thumbnail": "moroccandays.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f3b"
   },
   "title": "Swedish Fishing",
+  "content": "",
   "author": "Rachel L",
   "category": "Leisure",
-  "hero": "autumnclouds.jpg"
+  "thumbnail": "autumnclouds.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f3c"
   },
   "title": "The Adventure Begins",
-  "hero": "snowcup.jpg"
+  "content": "",
+  "author": "pkh879",
+  "thumbnail": "snowcup.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f3d"
   },
   "title": "Paris in Spring",
+  "content": "",
   "author": "John L",
   "category": "Travel",
-  "hero": "christmas.jpg"
+  "thumbnail": "christmas.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f3e"
   },
   "title": "Youthful Independence",
+  "content": "",
   "author": "Rachel L",
   "category": "Political",
-  "hero": "july4.jpg"
+  "thumbnail": "july4.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f3f"
   },
   "title": "Trial By Fire",
+  "content": "",
   "author": "Anthony R",
   "category": "Cooking",
-  "hero": "firepots.jpg"
+  "thumbnail": "firepots.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f40"
   },
   "title": "Water Ventures",
+  "content": "",
   "author": "Rachel L",
   "category": "Leisure",
-  "hero": "jellyfish.jpg"
+  "thumbnail": "jellyfish.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f41"
   },
   "title": "Mt. Zekial",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "mountaincabin.jpg"
+  "thumbnail": "mountaincabin.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f42"
   },
   "title": "Cozumel Caves",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "lightcave.jpg"
+  "thumbnail": "lightcave.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f43"
   },
   "title": "Amazing Ireland",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "greengrass.jpg"
+  "thumbnail": "greengrass.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f44"
   },
   "title": "Cabin Fever",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "snowcabin.jpg"
+  "thumbnail": "snowcabin.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f45"
   },
   "title": "To the ancient ruins",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "ruins.jpg"
+  "thumbnail": "ruins.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f46"
   },
   "title": "New fashion trends",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "umbrella.jpg"
+  "thumbnail": "umbrella.jpg",
+  "water": 0
 },{
   "_id": {
     "$oid": "5f670840da7bcb094e098f47"
   },
   "title": "Go on a vacation",
+  "content": "",
   "author": "Rachel L",
   "category": "Travel",
-  "hero": "adventurecave.jpg"
+  "thumbnail": "adventurecave.jpg",
+  "water": 0
 }]

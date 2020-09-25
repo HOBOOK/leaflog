@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
+const articleRouter = require('./routes/article');
+const leafRouter = require('./routes/leaf');
 const usersRouter = require('./routes/users');
 
 const cors = require('cors');
@@ -31,6 +33,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/api/articles', articleRouter)
+app.use('/api/leafs', leafRouter)
 app.use('/users', usersRouter);
 
 // Allow CORS
