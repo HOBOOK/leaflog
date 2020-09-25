@@ -7,9 +7,6 @@ var router = express.Router();
 /* Models */
 var articles = require("../model/article")
 
-
-res.setHeader('Access-Control-Allow-Origin', '*');
-cors.set
 // Create
 router.post("/", cors(), function(req, res, next) {
     const { title, content, author, thunbmail, private, prominent, water } = req.body; // 비구조화 할당
