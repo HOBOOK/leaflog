@@ -7,29 +7,32 @@ var router = express.Router();
 /* Models */
 var articles = require("../model/article")
 
+
+res.setHeader('Access-Control-Allow-Origin', '*');
+cors.set
 // Create
 router.post("/", cors(), function(req, res, next) {
-    const { title, content } = req.body; // 비구조화 할당
+    const { title, content, author, thunbmail, private, prominent, water } = req.body; // 비구조화 할당
   
     console.log(req.body);
   
-    // new articles(req.body)
-    //   .save()
-    //   .then(newPost => {
-    //     console.log("Create 완료");
-    //     res.status(200).json({
-    //       message: "Create success",
-    //       data: {
-    //         post: newPost
-    //       }
-    //     });
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //     res.status(500).json({
-    //       message: err
-    //     });
-    //   });
+    new articles(req.body)
+      .save()
+      .then(newArticle => {
+        console.log("Create 완료 > " + newArticle);
+        res.status(200).json({
+          message: "Create success",
+          data: {
+            article: newArticle
+          }
+        });
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).json({
+          message: err
+        });
+      });
   });
   
   // Read All

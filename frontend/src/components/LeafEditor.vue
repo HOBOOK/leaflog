@@ -122,6 +122,7 @@ export default {
         title: '',
         content: '',
         author: '',
+        thumbnail: '',
         private: false,
         prominent: false,
         water: 0
@@ -132,6 +133,14 @@ export default {
       sheet: false,
     }),
     computed: {
+      axiosConfig() {
+        const headers = {
+          'headers': {
+            'Content-Type': 'application/json'
+          }
+        }
+        return headers
+      },
       articleUrl() { 
         return "http://localhost:3000/api/articles"
       }
@@ -164,8 +173,7 @@ export default {
       this.$refs.form.resetValidation()
       },
       createLeaf () {
-        console.log('chk > ' + JSON.stringify(this.article))
-        axios.post(this.articleUrl, this.article)
+        axios.post(this.articleUrl, this.article, this.axiosConfig)
           .then(response => {
             console.log('create success -> ' + response)
           })
