@@ -44,7 +44,7 @@ const router = new VueRouter({
             }
         },
         {
-            path: '/edit:meta',
+            path: '/edit',
             component: LeafEditor,
             meta: {
                 auth: true,

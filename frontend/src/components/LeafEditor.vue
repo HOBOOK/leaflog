@@ -145,15 +145,14 @@ export default {
       },
       initialize () {
         // get list of user's tree
-        let meta = this.$route.params.meta
-        if(typeof meta === 'undefined' || !meta) {
+        let query = this.$route.query[""]
+        if(typeof query === 'undefined' || !query) {
           console.log('Error initialize')
         }
-        this.select = meta.substring(meta.lastIndexOf('/') + 1)
-
+        let root = query.substring(query.lastIndexOf('/') + 1)
+        this.select = root.length === 0 ? '뿌리' : root
         this.items.push('뿌리')
         this.items.push(this.select)
-        console.log(this.select)
       },
       validate () {
       this.$refs.form.validate()
