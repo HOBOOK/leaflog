@@ -7,13 +7,19 @@ import './plugins/base'
 import router from "./routes/index.js"
 import store from './store'
 
+import Common from './services/common.js'
+import Time from './services/time.js'
+
 Vue.use(PerfectScrollbar)
 Vue.config.productionTip = false
 
+Vue.prototype.$Common = new Common()
+Vue.prototype.$Time = new Time()
+
 new Vue({
   vuetify,
-  render: h => h(App),
   PerfectScrollbar,
   router,
   store,
+  render: h => h(App),
 }).$mount('#app')

@@ -12,7 +12,9 @@
         :index=i
         :value="article"
       />
-      <v-progress-circular class="justify-center" indeterminate color="#AFB42B" v-if="!isFetching"></v-progress-circular>
+      <v-col class="text-center" col=12>
+      <v-progress-circular class="justify-center text-center" indeterminate color="#AFB42B" v-if="isFetching"></v-progress-circular>
+      </v-col>
     </v-row>
   </v-container>
 </template>

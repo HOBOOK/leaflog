@@ -64,14 +64,13 @@ router.post("/", cors(), function(req, res, next) {
   });
   
   // Read by id
-  router.get("/:article_id", cors(), function(req, res, next) {
-    const articleId = req.params.article_id;
-  
+  router.get("/:article", cors(), function(req, res, next) {
+    const articleInfo = JSON.parse(req.params.article);
     articles
-      .findOne({ _id: articleId })
-      .then(post => {
-        if (!post) return res.status(404).json({ message: "article not found" });
-        console.log("Read Detail 완료");
+      .findOne({ author: articleInfo.author, title: articleInfo.title })
+      .then(article => {
+        if (!article) return res.status(404).json({ message: "article not found" });
+        console.log("success get article -> " + article);
         res.status(200).json({
           message: "article Detail success",
           data: {
