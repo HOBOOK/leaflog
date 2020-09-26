@@ -53,7 +53,7 @@
       <v-card
         flat
       >
-        <v-card
+        <!-- <v-card
           flat
           class="pt-2 pb-2 ml-2 mr-2"
         >
@@ -73,7 +73,8 @@
           no-resize
           required
           class="d-flex v-textarea-content"
-        ></v-textarea>
+        ></v-textarea> -->
+        <vue-editor v-model="article.content"></vue-editor>
       </v-card>
 
       <div class="align-end d-flex flex-row-reverse">
@@ -91,7 +92,17 @@
         rounded
         text
         outlined
-        color="#BDBDBD"
+        color="#757575"
+        class="mr-4"
+        @click="reset"
+      >
+        미리보기
+      </v-btn>
+      <v-btn
+        rounded
+        text
+        outlined
+        color="#757575"
         class="mr-4"
         @click="reset"
       >
@@ -116,7 +127,11 @@
 </template>
 <script>
 import axios from "axios"
+import { VueEditor } from "vue2-editor";
 export default {
+    components: {
+      VueEditor
+    },
     data: () => ({
       article: {
         title: '',
@@ -206,7 +221,21 @@ export default {
     display: none;
   }
   
-  textarea{
-    height:calc(100vh - 330px)
+  /*
+    vue2-editor(quill)
+  */
+  .quillWrapper{
+    border:none !important;
   }
+  .ql-toolbar{
+    border:none !important;
+  }
+  .ql-container{
+    border:none !important;
+    height: calc(100vh - 300px) !important;
+  }
+  .ql-editor{
+    border:none !important;
+  }
+
 </style>

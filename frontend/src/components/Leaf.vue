@@ -1,11 +1,11 @@
 <template>
 <v-container fluid>
-  <v-col class="text-center" cols="12">
+  <v-col class="text-center mt-16" cols="12">
     <transition name="slide-y-reverse-transition" appear>
-      <h1 class="mb-4 text-h3">{{this.article.title}}</h1>
+      <h1 class="mt-8 mb-4 text-h3" style="font-weight:700">{{this.article.title}}</h1>
     </transition>
     <v-row>
-      <h4 class="subheading">@{{this.article.author}}</h4>
+      <h4 class="subheading mr-4">@{{this.article.author}}</h4>
       <span v-cloak>{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
     </v-row>
   </v-col>
