@@ -25,7 +25,7 @@
         <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
           <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
+              <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
           </div>
@@ -63,7 +63,7 @@
       hide-on-scroll
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title class="align-left" style="cursor: pointer;" @click="goRoute('/')">
+      <v-toolbar-title class="align-left" style="cursor: pointer;" @click="$Common.goRoute('/')">
         <v-row>
           <v-img src="./assets/logo/leaflog_symbol.png" height=26 width=26></v-img>
           <v-img class="d-none d-sm-flex" src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
@@ -79,20 +79,20 @@
             v-bind="attrs"
             color="#827717"
             v-on="on"
-            @click="goRoute('/edit?=' + $router.currentRoute.path)"
+            @click="$Common.goRoute('/edit?=' + $router.currentRoute.path)"
             ><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
           </template>
         <span>로그 작성</span>
         </v-tooltip>
         
       </div>
-      <v-icon class="ma-1" @click="goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
       <v-badge
             color="#827717"
             dot
             overlap
           >
-        <v-icon class="ma-1" @click="goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
+        <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
       </v-badge>
       <v-btn class="ma-2" outlined rounded color="#827717">로그인</v-btn>
     </v-app-bar>
@@ -145,10 +145,6 @@
       this.findLeafsById(this.userId)
     },
     methods: {
-      goRoute(route){
-        if (this.$route.path !== route)
-          this.$router.push(route);
-      },
       async findLeafsById(id) {
         await axios.get("http://localhost:3000/api/leafs/" + id)
           .then(response => {
