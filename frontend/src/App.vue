@@ -20,7 +20,7 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div v-show="this.currentPath().indexOf('/tree') !== -1">
+        <div v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1">
         <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
         <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
           <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
@@ -70,7 +70,7 @@
         </v-row>
       </v-toolbar-title>
       <v-spacer />
-      <div v-show="this.currentPath().indexOf('/tree') !== -1">
+      <div v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="ma-2" 
@@ -79,7 +79,7 @@
             v-bind="attrs"
             color="#827717"
             v-on="on"
-            @click="$Common.goRoute('/edit?=' + $router.currentRoute.path)"
+            @click="$Common.goRoute('/edit?=' + $Common.getCurrentRouteArticleInfo())"
             ><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
           </template>
         <span>로그 작성</span>
@@ -143,6 +143,9 @@
         { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.userId + '/'},
       ],
       this.findLeafsById(this.userId)
+    },
+    computed: {
+
     },
     methods: {
       async findLeafsById(id) {

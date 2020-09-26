@@ -133,6 +133,7 @@ export default {
       VueEditor
     },
     data: () => ({
+      currentPath: '',
       article: {
         title: '',
         content: '',
@@ -147,6 +148,19 @@ export default {
       items: [],
       sheet: false,
     }),
+    created() {
+      this.currentPath = this.$Common.getCurrentRoutePath()
+      let query = this.$route.query[""]
+      if(typeof query === 'undefined' || !query) {
+        console.log('Error get query')
+      }
+      query = JSON.parse(query)
+      this.article.author = query.author
+      let root = query.title
+      this.select = root.length === 0 ? '뿌리' : root
+      this.items.push('뿌리')
+      this.items.push(this.select)
+    },
     computed: {
       axiosConfig() {
         const headers = {
@@ -161,25 +175,21 @@ export default {
       }
     },
     mounted() {
-      this.initialize()
+
     },
     methods: {
       alert () {
         this.sheet = !this.sheet
       },
-      initialize () {
-        // get list of user's tree
-        let query = this.$route.query[""]
-        if(typeof query === 'undefined' || !query) {
-          console.log('Error initialize')
-        }
-        let root = query.substring(query.lastIndexOf('/') + 1)
-        this.select = root.length === 0 ? '뿌리' : root
-        this.items.push('뿌리')
-        this.items.push(this.select)
-      },
       validate () {
-      this.$refs.form.validate()
+        if (this.article.author.length === 0) {
+          console.log('validate error -> author is invalid')
+          return false
+        } else if (this.article.title.length === 0) {
+          console .log('validate error -> title is invalid')
+          return false
+        }
+        return true
       },
       reset () {
       this.$refs.form.reset()
@@ -188,13 +198,21 @@ export default {
       this.$refs.form.resetValidation()
       },
       createLeaf () {
+        if (!this.validate()) {
+          this.alert()
+          return
+        }
         axios.post(this.articleUrl, this.article, this.axiosConfig)
           .then(response => {
             console.log('create success -> ' + response)
+            this.successCreateLeaf()
           })
           .catch(err => {
             console.log('create err -> ' + err)
           })
+      },
+      successCreateLeaf() {
+        this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
       }
     }
 }

@@ -22,15 +22,16 @@ import axios from "axios"
 export default {
     data () {
       return {
-        currentPath: this.getCurrentPath(),
+        currentPath: '',
         author: '',
         title: '',
         article: {}
       }
     },
     created() {
-      this.title = this.currentPath.substring(this.currentPath.lastIndexOf('/')+1)
-      this.author = this.currentPath.substring(this.currentPath.indexOf('@')+1, this.currentPath.lastIndexOf('/'))
+      this.currentPath = this.$Common.getCurrentRoutePath()
+      this.title = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).title
+      this.author = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).author
       this.getArticle()
     },
     computed: {
@@ -43,9 +44,6 @@ export default {
       },
     },
     methods: {
-      getCurrentPath() {
-        return this.$router.currentRoute.path;
-      },
       getArticle() {
         axios.get(this.articleUrl)
           .then(response => {
