@@ -147,6 +147,7 @@ export default {
       select: null,  
       items: [],
       sheet: false,
+      targetRoot: {}
     }),
     created() {
       this.currentPath = this.$Common.getCurrentRoutePath()
@@ -197,19 +198,64 @@ export default {
       resetValidation () {
       this.$refs.form.resetValidation()
       },
+      findLeafInRoot (leafs, select) {
+        if (select === '뿌리') {
+          console.log('뿌리')
+          return
+        }
+        this.targetRoot = {}
+        let temp = {}
+        leafs = leafs.leafs
+        for (let i = 0; i < leafs.length; i++) {
+          if (typeof targetRoot === 'undefined') {
+            temp = this.findLeafInRootRecursive(leafs[i], select)
+            if (typeof temp !== 'undefined') {
+              this.targetRoot = temp
+              break
+            }
+          } else {
+            break
+          }
+        }
+        return typeof this.targetRoot !== 'undefined' ? true : false
+      },
+      findLeafInRootRecursive (leafs, select) {
+        if (leafs.name === select) {
+          console.log('Find! > ' + leafs.name + ' =? ' + select)
+          return leafs
+        } else {
+          for (let i = 0; i < leafs.children.length; i++) {
+            return this.findLeafInRootRecursive(leafs.children[i], select)
+          }
+        }
+        return undefined
+      },
       createLeaf () {
         if (!this.validate()) {
           this.alert()
           return
         }
-        axios.post(this.articleUrl, this.article, this.axiosConfig)
+        axios.get("http://localhost:3000/api/leafs/" + this.article.author)
           .then(response => {
-            console.log('create success -> ' + response)
-            this.successCreateLeaf()
+            console.log('fetch sucess leafs -> ')
+            if(this.findLeafInRoot(response.data.data.leafs, this.select)) {
+              console.log('success get root -> ' + this.targetRoot)
+              // axios.post(this.articleUrl, this.article, this.axiosConfig)
+              //   .then(response => {
+              //     console.log('create success -> ' + response)
+              //     this.successCreateLeaf()
+              //   })
+              //   .catch(err => {
+              //     console.log('create err -> ' + err)
+              //   })
+            } else {
+              console.log('error get root')
+            }
           })
           .catch(err => {
-            console.log('create err -> ' + err)
+            console.log('fetch error leafs -> ' + err)
           })
+
       },
       successCreateLeaf() {
         this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
