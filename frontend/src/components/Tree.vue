@@ -19,19 +19,19 @@
           <v-row class="align-end mr-8">
             <v-col class="d-flex flex-row-reverse">
               <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon class="ma-4" large color="blue darken-2" v-bind="attrs"
-            v-on="on" @click="console.log('dd')">mdi-water-outline</v-icon>
-              </template>
-              <span>물주기</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-              <template v-slot:activator="{ on, attrs }">
-                <v-icon class="ma-4" large color="blue-grey darken-2" v-bind="attrs"
-            v-on="on" @click="console.log('dd')">mdi-bell-outline</v-icon>
-              </template>
-              <span>구독하기</span>
-            </v-tooltip>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon class="ma-4" large color="blue darken-2" v-bind="attrs"
+              v-on="on" @click="console.log('dd')">mdi-water-outline</v-icon>
+                </template>
+                <span>물주기</span>
+              </v-tooltip>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon class="ma-4" large color="blue-grey darken-2" v-bind="attrs"
+              v-on="on" @click="console.log('dd')">mdi-bell-outline</v-icon>
+                </template>
+                <span>구독하기</span>
+              </v-tooltip>
             </v-col>
             </v-row>
         </v-row>
