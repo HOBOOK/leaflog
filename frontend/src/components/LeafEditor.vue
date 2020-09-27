@@ -139,6 +139,7 @@ export default {
         content: '',
         author: '',
         thumbnail: '',
+        category: '',
         private: false,
         prominent: false,
         water: 0
