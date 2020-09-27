@@ -4,7 +4,8 @@ let Schema = mongoose.Schema;
 let leafSchema = new Schema(
   {
     id: String,
-    leafs: Array,
+    root: Array,
+    keyIndexes: Array,
     date: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

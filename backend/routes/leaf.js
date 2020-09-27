@@ -29,4 +29,34 @@ router.get("/:id", cors(), function(req, res, next) {
       });
   });
 
+  // Update
+router.put("/", cors(), function(req, res, next) {
+  const { id, root, keyIndexes } = req.body; // 비구조화 할당
+
+  console.log(req.body);
+
+  leafs
+    .findOne({ id: req.body.id })
+    .then(leaf => {
+      if (!leaf) return res.status(404).json({message: "leaf not found"});
+      leaf.root = req.body.root
+      leaf.keyIndexes = req.body.keyIndexes
+      leaf.save().then(output => {
+        console.log("success update leafs > " + leaf);
+        res.status(200).json({
+          message: "Update leaf success",
+          data: {
+            leaf: output
+          }
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({
+        message: err
+      });
+    });
+});
+
   module.exports = router;

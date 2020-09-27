@@ -23,7 +23,7 @@
         <div v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1">
         <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
         <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
-          <v-treeview v-cloak dense :items="leafs" style="font-size:0.78rem" :open-on-click="true">
+          <v-treeview v-cloak dense :items="root" style="font-size:0.78rem" :open-on-click="true">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
@@ -59,7 +59,7 @@
       app
       clipped-left
       flat
-      color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.12);"
+      color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.0);"
       hide-on-scroll
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -125,7 +125,7 @@
         { picture: 58, text: 'Nokia' },
         { picture: 78, text: 'MKBHD' },
       ],
-      leafs: [],
+      root: [],
       currentPath: function(){
         return this.$router.currentRoute.path;
       }
@@ -153,7 +153,7 @@
           .then(response => {
             
             let datas = response.data.data.leafs
-            this.leafs = datas.leafs
+            this.root = datas.root
             console.log('fetch sucess leafs -> ')
           })
           .catch(err => {
