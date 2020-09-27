@@ -5,8 +5,12 @@
       app
       clipped
     >
-      <v-list dense nav>
+      <v-list 
+        dense 
+        flat
+        nav>
         <v-list-item
+          color="#827717"
           v-for="item in items"
           :key="item.text"
           :to="item.link"
@@ -21,7 +25,7 @@
           </v-list-item-content>
         </v-list-item>
         <div> <!-- v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1"> -->
-        <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
+        <v-subheader class="mt-6 grey--text text--darken-1">페이지 트리</v-subheader>
           <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
@@ -30,7 +34,9 @@
           </div>
         <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
         <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
-        <v-list>
+        <v-list
+          dense
+          >
           <v-list-item
             v-for="item in items2"
             :key="item.text"

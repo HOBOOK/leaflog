@@ -108,6 +108,16 @@
       >
         임시저장
       </v-btn>
+      <v-btn
+        rounded
+        text
+        flat
+        color="#EF5350"
+        class="mr-4"
+        @click="$router.go(-1)"
+      >
+        <v-icon class="ma-2">mdi-close-circle-outline</v-icon> 취소
+      </v-btn>
       </div>
     </v-form>
     </v-layout>

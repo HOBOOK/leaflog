@@ -1,8 +1,8 @@
 <template>
 <v-container class="pa-lg-16 pa-md-16 pa-xs-4 pa-sm-8" style="max-width:900px">
-  <v-col class="text-left mt-16" cols="12">
+  <v-col class="text-left" cols="12">
     <transition name="slide-y-reverse-transition" appear>
-      <h1 class="text-h3 mt-16 mb-8" style="font-weight:700">{{this.article.title}}</h1>
+      <h1 class="text-h3 mt-8 mb-8" style="font-weight:700; overflow:hidden; text-overflow: ellipsis;">{{this.article.title}}</h1>
     </transition>
     <v-col>
       <v-row class="align-center">
