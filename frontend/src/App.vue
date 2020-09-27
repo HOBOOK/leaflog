@@ -20,10 +20,9 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1">
-        <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
+        <div> <!-- v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1"> -->
         <v-subheader class="mt-6 grey--text text--darken-1">나의 나뭇잎</v-subheader>
-          <v-treeview v-cloak dense :items="root" style="font-size:0.78rem" :open-on-click="true">
+          <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
@@ -107,7 +106,7 @@
 <script>
   import axios from "axios"
   export default {
-    name: 'App',
+    name: 'app',
 
     components: {
     },
@@ -148,6 +147,10 @@
 
     },
     methods: {
+      getTest() {
+        console.log('test')
+        return "sss"
+      },
       async findLeafsById(id) {
         await axios.get("http://localhost:3000/api/leafs/" + id)
           .then(response => {

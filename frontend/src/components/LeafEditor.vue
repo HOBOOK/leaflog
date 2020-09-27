@@ -127,7 +127,7 @@
 </template>
 <script>
 import axios from "axios"
-import { VueEditor } from "vue2-editor";
+import { VueEditor } from "vue2-editor"
 export default {
     components: {
       VueEditor
@@ -152,6 +152,7 @@ export default {
     }),
     created() {
       this.currentPath = this.$Common.getCurrentRoutePath()
+      
       let query = this.$route.query[""]
       if(typeof query === 'undefined' || !query) {
         console.log('Error get query')
@@ -297,11 +298,18 @@ export default {
         axios.post(this.articleUrl, this.article, this.axiosConfig)
           .then(response => {
             console.log('success create article -> ' + response)
+            this.reloadNavigationRoot()
             this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
           })
           .catch(err => {
             console.log('error create article -> ' + err)
           })
+      },
+
+      // 네비게이션 트리 리로드
+      reloadNavigationRoot() {
+        let app = this.$root._self.$children[0]
+        app.findLeafsById(this.article.author)
       }
     }
 }
