@@ -113,28 +113,24 @@ router.post("/", cors(), function(req, res, next) {
         });
       });
   });
-  
-  // // Read by id
-  // router.get("/:article", cors(), function(req, res, next) {
-  //   const articleInfo = JSON.parse(req.params.article);
-  //   articles
-  //     .findOne({ author: articleInfo.author, title: articleInfo.title })
-  //     .then(article => {
-  //       if (!article) return res.status(404).json({ message: "article not found" });
-  //       console.log("success get article -> " + article);
-  //       res.status(200).json({
-  //         message: "article Detail success",
-  //         data: {
-  //           article: article
-  //         }
-  //       });
-  //     })
-  //     .catch(err => {
-  //       res.status(500).json({
-  //         message: err
-  //       });
-  //     });
-  // });
+
+  // Delete
+  router.delete("/:id/:article", cors(), function(req, res, next) {
+    articles
+      .deleteOne({ author: req.params.id, title: req.params.article })
+      .then(output => {
+        if (output.n === 0) return res.status(404).json({ message: "article not found" });
+        console.log("success delete article");
+        res.status(200).json({
+          message: "article delete success"
+        });
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: err
+        });
+      });
+  });
 
   module.exports = router;
   

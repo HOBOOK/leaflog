@@ -4,6 +4,7 @@
     tile
     v-bind="$attrs"
     v-on="$listeners"
+    class="rounded-lg"
   >
     <slot />
   </v-card>

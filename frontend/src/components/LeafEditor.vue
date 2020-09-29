@@ -53,27 +53,6 @@
       <v-card
         flat
       >
-        <!-- <v-card
-          flat
-          class="pt-2 pb-2 ml-2 mr-2"
-        >
-          <v-icon size=18 class="pa-2">mdi-format-header-1</v-icon>
-          <v-icon size=18 class="pa-2">mdi-format-header-2</v-icon>
-          <v-icon size=18 class="pa-2">mdi-format-header-3</v-icon>
-          <v-icon size=18 class="pa-2">mdi-format-header-5</v-icon>
-          <v-divider vertical class="pt-4 pl-2"></v-divider>
-          <v-icon size=18 class="pa-2">mdi-format-bold</v-icon>
-          <v-icon size=18 class="pa-2">mdi-format-italic</v-icon>
-        </v-card>
-        <v-textarea
-          v-model="article.content"
-          solo
-          flat
-          label="당신의 지식을 기록하세요"
-          no-resize
-          required
-          class="d-flex v-textarea-content"
-        ></v-textarea> -->
         <vue-editor v-model="article.content"></vue-editor>
       </v-card>
 

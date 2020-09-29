@@ -151,9 +151,12 @@
               let article = {
                 title : datas[i].title,
                 author : datas[i].author,
-                caetogry : datas[i].category,
+                category : datas[i].category,
                 thumbnail: datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail,
-                prominent: datas[i].prominent
+                prominent: datas[i].prominent,
+                private: datas[i].private,
+                water: datas[i].water,
+                date: datas[i].date
               }
               if (this.articles.indexOf(article) === -1) this.articles.push(article)
             }

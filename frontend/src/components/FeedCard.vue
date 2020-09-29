@@ -19,36 +19,47 @@
             class="fill-height text-right ma-0"
           >
             <v-col cols="12">
-              <v-chip
-                label
-                class="mx-0 mb-2 text-uppercase"
-                color="grey darken-3"
-                text-color="white"
-                small
-                @click.stop=""
-              >
-                {{ value.category }}
-              </v-chip>
-
-              <h3 class="title font-weight-bold mb-2">
+              <span class="text-h4 title font-weight-bold mb-2">
                 {{ value.title }}
-              </h3>
+              </span>
 
-              <div class="caption">
-                {{ value.author }}<br>Date
+              <div class="caption mt-8">
+                <v-avatar
+                  size="32"
+                  class="ma-2">
+                    <img
+                      :src="require(`@/assets/articles/${value.thumbnail}`)"
+                      alt="avatar"
+                    >
+                  </v-avatar>
+                  <span class="text-subtitle-1 font-weight-bold">{{ value.author }}</span>
+                  <br/>
+                <span class="text-body-2">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
               </div>
             </v-col>
 
             <v-col align-self="end">
-              <v-chip
-                class="text-uppercase ma-0"
-                color="primary"
-                label
-                small
-                @click.stop=""
-              >
-                Read More
-              </v-chip>
+              <v-row align-self="left">
+                <!-- <v-chip
+                  class="ma-2 text-uppercase"
+                  color="transparent"
+                  text-color="white"
+                  small
+                  @click.stop=""
+                >
+                  #{{ value.category }}
+                </v-chip> -->
+                <v-spacer />
+                <v-badge
+                  color="blue darken-2"
+                  overlap
+                  left
+                  :content="value.water.toString()"
+                  class="mr-2 text-caption"
+                >
+                  <v-icon class="ma-0" large color="blue darken-2">mdi-water-outline</v-icon>
+                </v-badge>
+              </v-row>
             </v-col>
           </v-row>
         </v-img>

@@ -10,8 +10,46 @@
         <span v-cloak>{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
         <v-spacer/>
         <span class="d-flex flex-row-reverse">
-          <span class="ma-1" style="cursor:pointer"><v-icon>mdi-delete-variant</v-icon> 삭제</span>
-          <span class="ma-1" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> 편집</span>
+            <span
+              class="ma-1" 
+              style="cursor:pointer"
+              @click.stop="dialog = true"
+            >
+              <v-icon>mdi-delete-variant
+              </v-icon> 삭제
+            </span>
+            <v-dialog
+              v-if="author === userId" justify="center"
+                v-model="dialog"
+                max-width="500"
+            >
+            <v-card>
+                <v-card-title class="headline">
+                정말로 이 글을 삭제하시겠습니까?
+                </v-card-title>
+                <v-card-text>로그 삭제시 복구할 수 없습니다</v-card-text>
+                <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                    text
+                    @click="dialog = false"
+                >
+                    취소
+                </v-btn>
+                <v-btn
+                    color="green darken-1"
+                    text
+                    @click="deleteArticle()"
+                >
+                    <v-icon>
+                      mdi-delete-variant
+                    </v-icon> 
+                    삭제
+                </v-btn>
+                </v-card-actions>
+            </v-card>
+            </v-dialog>
+          <span v-if="author === userId" class="ma-1" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> 편집</span>
           <span class="ma-1" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> 공유</span>
         </span>
       </v-row>
@@ -35,13 +73,16 @@ export default {
         currentPath: '',
         author: '',
         title: '',
-        article: {}
+        article: {},
+        userId: '',
+        dialog: false
       }
     },
     created() {
       this.currentPath = this.$Common.getCurrentRoutePath()
       this.title = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).title
       this.author = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).author
+      this.userId = 'pkh879'
       this.getArticle()
     },
     computed: {
@@ -58,6 +99,18 @@ export default {
           })
           .catch(err =>{
             console.log('error get article -> ' + err)
+          })
+      },
+      deleteArticle() {
+        this.dialog = false
+        axios.delete(this.articleUrl)
+          .then(response => {
+            console.log('success delete article -> ' + response)
+            this.$Common.goRoute('/tree/@' + this.article.author)
+
+          })
+          .catch(err =>{
+            console.log('error delete article -> ' + err)
           })
       }
     }
