@@ -36,7 +36,6 @@ router.post("/", cors(), function(req, res, next) {
   router.get("/", cors(), function(req, res, next) {
     let page = Math.max(1, req.query.page);
     var limit = 10;
-  
     articles.countDocuments({}, (err,count) => {
       if(err) return res.json({success:false, message:err});
       var skip = (page-1) * limit;
@@ -62,12 +61,42 @@ router.post("/", cors(), function(req, res, next) {
         });
     })
   });
-  
+
+  // Read All By Id
+  router.get("/:id", cors(), function(req, res, next) {
+    let id = req.params.id;
+    let page = Math.max(1, req.query.page);
+    var limit = 10;
+    articles.countDocuments({ author: id }, (err,count) => {
+      if(err) return res.json({success:false, message:err});
+      var skip = (page-1) * limit;
+      var maxPage = Math.ceil(count/limit);
+      if(page > maxPage) return res.json({success:false, message: "last"});
+      articles
+        .find({author: id})
+        .skip(skip)
+        .limit(limit)
+        .then(articles => {
+          console.log("articles Read All 완료 " + articles.length);
+          res.status(200).json({
+            message: articles.length < limit ? "last" : "Read All success",
+            data: {
+              articles
+            }
+          });
+        })
+        .catch(err => {
+          res.status(500).json({
+            message: err
+          });
+        });
+    })
+  });
+
   // Read by id
-  router.get("/:article", cors(), function(req, res, next) {
-    const articleInfo = JSON.parse(req.params.article);
+  router.get("/:id/:article", cors(), function(req, res, next) {
     articles
-      .findOne({ author: articleInfo.author, title: articleInfo.title })
+      .findOne({ author: req.params.id, title: req.params.article })
       .then(article => {
         if (!article) return res.status(404).json({ message: "article not found" });
         console.log("success get article -> " + article);
@@ -84,6 +113,28 @@ router.post("/", cors(), function(req, res, next) {
         });
       });
   });
+  
+  // // Read by id
+  // router.get("/:article", cors(), function(req, res, next) {
+  //   const articleInfo = JSON.parse(req.params.article);
+  //   articles
+  //     .findOne({ author: articleInfo.author, title: articleInfo.title })
+  //     .then(article => {
+  //       if (!article) return res.status(404).json({ message: "article not found" });
+  //       console.log("success get article -> " + article);
+  //       res.status(200).json({
+  //         message: "article Detail success",
+  //         data: {
+  //           article: article
+  //         }
+  //       });
+  //     })
+  //     .catch(err => {
+  //       res.status(500).json({
+  //         message: err
+  //       });
+  //     });
+  // });
 
   module.exports = router;
   

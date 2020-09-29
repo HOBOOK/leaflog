@@ -79,7 +79,7 @@
                 title : datas[i].title,
                 author : datas[i].author,
                 caetogry : datas[i].category,
-                thumbnail: datas[i].thumbnail,
+                thumbnail: datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail,
                 prominent: datas[i].prominent
               }
               this.articles.push(article)

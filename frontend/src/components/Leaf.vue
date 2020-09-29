@@ -46,11 +46,7 @@ export default {
     },
     computed: {
       articleUrl() { 
-        const query = {
-          author: this.author,
-          title: this.title
-        }
-        return "http://localhost:3000/api/articles/" + JSON.stringify(query)
+        return "http://localhost:3000/api/articles/" + this.author + "/" + this.title
       },
     },
     methods: {

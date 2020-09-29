@@ -53,18 +53,19 @@
             <v-tab-item class="mt-8">
               <v-container fluid>
                 <v-row>
-                  <v-col
-                    v-for="i in 6"
-                    :key="i"
-                    cols="12"
-                    md="4"
+                  <v-col cols="12">
+                    <slot />
+                  </v-col>
+                  <feed-card
+                    v-for="(article, i) in articles"
+                    :key="article.title"
+                    :index=i
+                    :size=3
+                    :value="article"
                   >
-                    <v-img
-                      :src="`https://picsum.photos/500/300?image=${i * 5 + 10}`"
-                      :lazy-src="`https://picsum.photos/10/6?image=${i * 5 + 10}`"
-                      aspect-ratio="1"
-                      contain
-                    ></v-img>
+                  </feed-card>
+                  <v-col class="text-center" col=12>
+                  <v-progress-circular class="justify-center text-center" indeterminate color="#AFB42B" v-if="isFetching"></v-progress-circular>
                   </v-col>
                 </v-row>
               </v-container>
@@ -86,3 +87,86 @@
     </v-layout>
   </v-container>
 </template>
+
+<script>
+  import axios from "axios"
+
+  export default {
+    name: 'Tree',
+
+    components: {
+      FeedCard: () => import('@/components/FeedCard'),
+    },
+
+
+    data: () => ({
+      userId: '',
+      page: 1,
+      bottom: false,
+      isFetching: false,
+      articles: []
+    }),
+
+    computed: {
+      pages () {
+        return Math.ceil(this.articles.length / 11)
+      },
+      articleUrl() { 
+        return "http://localhost:3000/api/articles/" + this.userId + "?page=" + this.page
+      },
+    },
+
+    created() {
+      this.userId = 'pkh879'
+      window.addEventListener('scroll', () => {
+        this.bottom = this.bottomVisible()
+      })
+      this.articles = []
+      this.fetchData()
+    },
+
+    watch: {
+      bottom(bottom) {
+        if (bottom) {
+          this.fetchData()
+        }
+      }
+    },
+
+    methods: {
+      bottomVisible() {
+        const scrollY = window.scrollY
+        const visible = document.documentElement.clientHeight
+        const pageHeight = document.documentElement.scrollHeight
+        const bottomOfPage = visible + scrollY >= pageHeight
+        return bottomOfPage || pageHeight < visible
+      },
+      async fetchData() {
+        if(this.isFetching) return
+        this.isFetching = true
+        await axios.get(this.articleUrl)
+          .then(response => {
+            let datas = response.data.data.articles
+            for(let i = 0; i < datas.length; i++) {
+              let article = {
+                title : datas[i].title,
+                author : datas[i].author,
+                caetogry : datas[i].category,
+                thumbnail: datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail,
+                prominent: datas[i].prominent
+              }
+              if (this.articles.indexOf(article) === -1) this.articles.push(article)
+            }
+            this.isFetching = false
+            
+            this.page++
+            console.log('fetch sucess page -> ' + (this.page-1))
+          })
+          .catch(err => {
+            this.isFetching = false
+            console.log('fetch error -> ' + err)
+          })
+      }
+    }
+  }
+</script>

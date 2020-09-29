@@ -2,8 +2,10 @@ import router from "../routes/index.js"
 
 export default class Common {
     goRoute(route){
-        if (router.app.$route.path !== route)
+        if (router.app.$route.path !== route) {
             router.app.$router.push(route);
+            window.scrollTo(0,0);
+        }
     }
     getCurrentRoutePath() {
         return router.app.$router.currentRoute.path;
