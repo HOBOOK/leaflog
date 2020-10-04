@@ -4,7 +4,7 @@
       :md="size === 2 ? 6 : size === 3 ? 4 : undefined"
     >
       <base-card
-        :height="value.prominent ? 450 : 350"
+        :height="value.prominent ? 300 : 270"
         color="grey lighten-1"
         dark
         @click="$Common.goRoute('/tree/@' + value.author + '/' + value.title)"
@@ -19,7 +19,7 @@
             class="fill-height text-right ma-0"
           >
             <v-col cols="12">
-              <span class="text-h4 title font-weight-bold mb-2">
+              <span class="text-h6 title font-weight-bold mb-2">
                 {{ value.title }}
               </span>
 
@@ -32,9 +32,9 @@
                       alt="avatar"
                     >
                   </v-avatar>
-                  <span class="text-subtitle-1 font-weight-bold">{{ value.author }}</span>
+                  <span class="text-subtitle-2 font-weight-bold">{{ value.author }}</span>
                   <br/>
-                <span class="text-body-2">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
+                <span class="text-body-3">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
               </div>
             </v-col>
 

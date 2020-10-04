@@ -96,6 +96,8 @@
             color="#827717"
             dot
             overlap
+            :content="alerts"
+            :value="alerts"
           >
         <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
       </v-badge>
@@ -121,6 +123,7 @@
     },
     data: () => ({
       drawer: null,
+      alerts: 0,
       userId: '',
       items: [],
       items2: [
