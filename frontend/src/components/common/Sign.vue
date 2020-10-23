@@ -1,0 +1,145 @@
+<template>
+<transition name="slide-y-reverse-transition" appear>
+  <v-dialog
+    v-model="dialog"
+    width="700"
+    persistent
+  >
+    <template v-slot:activator="{ on, attrs }">
+      <v-btn class="ma-2" 
+        outlined 
+        rounded 
+        color="primary"
+        v-bind="attrs"
+        v-on="on"
+      >
+        로그인
+      </v-btn>
+    </template>
+
+    <v-card class="pa-0">
+      <v-row>
+        <v-col>
+        </v-col>
+        <v-col
+          class="col-8"
+        >
+          <v-row>
+            <v-spacer />
+            <v-btn
+              text
+              small
+              fab
+              @click="dialog = false"
+              class="mr-6"
+            >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </v-row>
+          <v-card-title
+          >
+            <v-img class="mr-2" src="../../assets/logo/leaflog_symbol.png" max-width=26 height=26 contain></v-img>
+            로그인
+          </v-card-title>
+          
+          <v-card-text>
+            <v-form
+            ref="form"
+            v-model="valid"
+            lazy-validation
+            class="mr-16"
+            >
+              <v-text-field
+                v-model="email"
+                :rules="emailRules"
+                label="이메일"
+                required
+              ></v-text-field>
+          
+              <v-text-field
+                v-model="password"
+                :rules="passwordRules"
+                label="비밀번호"
+                required
+              ></v-text-field>
+
+              <v-btn
+                :disabled="!valid"
+                color="primary"
+                class="align-center"
+                flat
+                outlined
+                @click="validate"
+              >
+                들어가기
+              </v-btn>
+            </v-form>
+
+            <v-row class="mt-4 mb-0 justify-center">
+              <p class="text--disabled">또는</p>
+            </v-row>
+            <v-row 
+              align="center"
+              justify="center"
+            >
+              <v-btn
+                fab
+                text
+              >
+                <v-icon large color="#4285F4">
+                  mdi-google
+                </v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                text
+              >
+                <v-icon large color="#4285F4">
+                  mdi-facebook
+                </v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                text
+              >
+                <v-icon large color="#24292e">
+                  mdi-github
+                </v-icon>
+              </v-btn>
+            </v-row>
+          </v-card-text>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-dialog>
+</transition>
+</template>
+
+<script>
+export default {
+    data () {
+      return {
+        dialog: false,
+        currentPath: this.getCurrentPath(),
+        password: '',
+        passwordRules: [
+          v => !!v || '비밀번호를 입력해주세요',
+          v => (v && v.length <= 10) || 'Name must be less than 10 characters',
+        ],
+        email: '',
+        emailRules: [
+          v => !!v || '아메일을 입력해주세요',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        ],
+        valid: false
+      }
+    },
+    methods: {
+      getCurrentPath: function(){
+        return this.$router.currentRoute.path;
+      },
+    }
+}
+</script>
+<style scoped>
+</style>

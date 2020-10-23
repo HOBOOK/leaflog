@@ -10,7 +10,7 @@
         flat
         nav>
         <v-list-item
-          color="#827717"
+          color="primary"
           v-for="item in items"
           :key="item.text"
           :to="item.link"
@@ -82,7 +82,7 @@
             outlined 
             rounded 
             v-bind="attrs"
-            color="#827717"
+            color="primary"
             v-on="on"
             @click="$Common.goRoute('/edit?=' + $Common.getCurrentRouteArticleInfo())"
             ><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
@@ -93,7 +93,7 @@
       </div>
       <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
       <v-badge
-            color="#827717"
+            color="primary"
             dot
             overlap
             :content="alerts"
@@ -101,7 +101,7 @@
           >
         <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
       </v-badge>
-      <v-btn class="ma-2" outlined rounded color="#827717">로그인</v-btn>
+      <SignComponent></SignComponent>
     </v-app-bar>
 
     <v-main>
@@ -113,10 +113,12 @@
 
 <script>
   import axios from "axios"
+  import SignComponent from "./components/common/Sign"
   export default {
     name: 'app',
 
     components: {
+      SignComponent
     },
     props: {
       source: String,
@@ -188,4 +190,11 @@
   .v-navigation-drawer__border {
     display: none;
   } 
+  .v-overlay__scrim {
+    background-color: rgb(230,230,230) !important;
+    border-color: rgb(230,230,230) !important;
+  }
+  .v-dialog {
+    box-shadow: 0 2px 30px -1px rgba(85,85,85,.08), 0 4px 30px 0 rgba(85,85,85,.06), 0 1px 30px 0 rgba(85,85,85,.03) !important;
+  }
 </style>
