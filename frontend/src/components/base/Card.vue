@@ -4,8 +4,7 @@
     tile
     v-bind="$attrs"
     v-on="$listeners"
-    :elevation=4
-    class="rounded-lg"
+    class="rounded"
   >
     <slot />
   </v-card>

@@ -1,19 +1,18 @@
 <template>
     <v-col
       cols="12"
-      :md="size === 2 ? 6 : size === 3 ? 4 : undefined"
+      :md="4"
     >
       <base-card
-        :height="value.prominent ? 300 : 270"
-        color="grey lighten-1"
-        dark
+        :height="value.prominent ? 370 : 320"
         @click="$Common.goRoute('/tree/@' + value.author + '/' + value.title)"
       >
         <v-img
           :src="require(`@/assets/articles/${value.thumbnail}`)"
-          height="100%"
+          height="50%"
           gradient="rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)"
         >
+        </v-img>
           <v-row
             v-if="!value.prominent"
             class="fill-height text-right ma-0"
@@ -23,7 +22,7 @@
                 {{ value.title }}
               </span>
 
-              <div class="caption mt-8">
+              <div class="caption">
                 <v-avatar
                   size="32"
                   class="ma-2">
@@ -32,37 +31,15 @@
                       alt="avatar"
                     >
                   </v-avatar>
-                  <span class="text-subtitle-2 font-weight-bold">{{ value.author }}</span>
+                  <span class="text-subtitle-3 font-weight-bold">{{ value.author }}</span>
                   <br/>
-                <span class="text-body-3">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
+                <span class="text-body-4">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
+                  <v-icon class="ma-0" color="blue darken-2">mdi-water-outline</v-icon>
+                  <span class="text-body-6" v-text="value.water.toString()"></span>
               </div>
             </v-col>
-
-            <v-col align-self="end">
-              <v-row align-self="left">
-                <!-- <v-chip
-                  class="ma-2 text-uppercase"
-                  color="transparent"
-                  text-color="white"
-                  small
-                  @click.stop=""
-                >
-                  #{{ value.category }}
-                </v-chip> -->
-                <v-spacer />
-                <v-badge
-                  color="blue darken-2"
-                  overlap
-                  left
-                  :content="value.water.toString()"
-                  class="mr-2 text-caption"
-                >
-                  <v-icon class="ma-0" large color="blue darken-2">mdi-water-outline</v-icon>
-                </v-badge>
-              </v-row>
-            </v-col>
           </v-row>
-        </v-img>
+
       </base-card>
     </v-col>
 </template>
