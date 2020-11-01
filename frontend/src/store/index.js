@@ -17,6 +17,7 @@ export default new Vuex.Store({
         href: '#about',
       },
     ],
+    token: localStorage.getItem("leaflog_token")
   },
   getters: {
     categories: state => {

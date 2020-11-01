@@ -6,8 +6,18 @@ import Footprint from '../components/Footprint.vue';
 import Leaf from '../components/Leaf.vue';
 import LeafEditor from '../components/LeafEditor.vue';
 import Search from '../components/Search.vue';
+import store from '../store/index'
 
 Vue.use(VueRouter)
+
+const requireAuth = () => (to, from, next) => {
+    if (store.state.token !== null) {
+        return next();
+    }
+    else{
+        next('/sign');
+    }
+};
 
 const router = new VueRouter({
     mode: 'history',
@@ -42,7 +52,8 @@ const router = new VueRouter({
             meta: {
                 auth: true,
                 title: '발자취'
-            }
+            },
+            beforeEnter: requireAuth()
         },
         {
             path: '/edit',
@@ -50,7 +61,8 @@ const router = new VueRouter({
             meta: {
                 auth: true,
                 title: '새로운 글'
-            }
+            },
+            beforeEnter: requireAuth()
         },
         {
             path: '/search/:keyword',
