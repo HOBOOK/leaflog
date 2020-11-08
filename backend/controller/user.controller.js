@@ -7,7 +7,6 @@ const SECRET_KEY = config.get('secretKey');
 exports.createToken = async function (req, res, next) {
   try {
     const user = await User.find(req.body);
- 
     if (user.length) {
       const token = jwt.sign({
         id: user[0].id

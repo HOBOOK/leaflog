@@ -157,6 +157,23 @@ export default {
       },
       validate() {
         console.log('validate')
+        this.login()
+      },
+      login() {
+        let data = {
+          id: this.email,
+          password: this.password
+        }
+        this.$axios.post('http://localhost:3000/api/auth/login', data, null)
+          .then(response => {
+            console.log('login sucess -> ' + JSON.stringify(response))
+            this.$store.dispatch('login', response.data)
+            this.closeLoginDialog()
+          })
+          .catch(err => {
+            console.log('login error -> ' + JSON.stringify(err))
+            this.closeLoginDialog()
+          })
       }
     }
 }

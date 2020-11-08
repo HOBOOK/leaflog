@@ -4,6 +4,7 @@ import vuetify from '../../plugins/vuetify'
 import PerfectScrollbar from 'vue2-perfect-scrollbar'
 import 'vue2-perfect-scrollbar/dist/vue2-perfect-scrollbar.css'
 import '../../plugins/base'
+import '../../plugins/axios'
 import router from "../../routes/index.js"
 import store from '../../store'
 

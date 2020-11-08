@@ -17,9 +17,9 @@ export default new Vuex.Store({
         href: '#about',
       },
     ],
-    token: localStorage.getItem("leaflog_token"),
+    token: localStorage.getItem("token"),
     loginDialogShow: false,
-    isLogin: localStorage.getItem("leaflog_token") !== null
+    isLogin: localStorage.getItem("token") !== null
   },
   getters: {
     categories: state => {
@@ -48,8 +48,22 @@ export default new Vuex.Store({
   mutations: {
     setDrawer: (state, payload) => (state.drawer = payload),
     toggleDrawer: state => (state.drawer = !state.drawer),
+    setToken: function(state, token){
+      state.token = token;
+    },
   },
   actions: {
-
+    login: function(options, tokenData){
+      options.commit('setToken', tokenData)
+      localStorage.setItem("token",tokenData)
+    },
+    logout: function(options){
+      options.commit('setToken', null)
+      localStorage.removeItem("token")
+    },
+    updateToken: function(options, token){
+      options.commit('setToken', token)
+      localStorage.setItem("token", token)
+    }
   },
 })

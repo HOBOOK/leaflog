@@ -2,9 +2,13 @@
 var express = require('express');
 var cors = require('cors');
 var router = express.Router();
+const usersController = require('../controller/user.controller');
 
 /* Models */
 var users = require("../model/user")
+
+router.post('/login', usersController.createToken);
+router.post('/new', usersController.createNewUser);
 
 // Read by user Id
 router.get("/:id", cors(), function(req, res, next) {
