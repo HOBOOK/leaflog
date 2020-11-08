@@ -12,8 +12,18 @@
         color="primary"
         v-bind="attrs"
         v-on="on"
+        v-show="!$store.state.isLogin"
       >
         로그인
+      </v-btn>
+      <v-btn class="ma-2" 
+        outlined 
+        rounded 
+        color="primary"
+        v-show="$store.state.isLogin"
+        @click="logout()"
+      >
+        로그아웃
       </v-btn>
     </template>
 
@@ -168,12 +178,17 @@ export default {
           .then(response => {
             console.log('login sucess -> ' + JSON.stringify(response))
             this.$store.dispatch('login', response.data)
+            location.reload()
             this.closeLoginDialog()
           })
           .catch(err => {
             console.log('login error -> ' + JSON.stringify(err))
             this.closeLoginDialog()
           })
+      },
+      logout() {
+        this.$store.dispatch('logout')
+        location.reload()
       }
     }
 }
