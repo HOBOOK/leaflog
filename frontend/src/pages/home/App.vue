@@ -5,7 +5,7 @@
       app
       clipped
     >
-      <v-list 
+      <v-list
         dense 
         flat
         nav>
@@ -14,6 +14,7 @@
           v-for="item in items"
           :key="item.text"
           :to="item.link"
+          v-show="item.show"
         >
           <v-list-item-action>
             <v-icon>{{ item.icon }}</v-icon>
@@ -24,33 +25,38 @@
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <div> <!-- v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1"> -->
-        <v-subheader class="mt-6 grey--text text--darken-1">페이지 트리</v-subheader>
+        <div v-show="$store.state.isLogin">
+          <v-subheader
+            class="mt-6 grey--text text--darken-1">페이지 트리
+          </v-subheader>
           <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
               <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
-          </div>
+        </div>
         <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
-        <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
-        <v-list
-          dense
-          >
-          <v-list-item
-            v-for="item in items2"
-            :key="item.text"
-            link
-          >
-            <v-list-item-avatar size=28>
-              <img
-                :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
-                alt=""
-              >
-            </v-list-item-avatar>
-            <v-list-item-title v-text="item.text"></v-list-item-title>
-          </v-list-item>
-        </v-list>
+        <div v-show="$store.state.isLogin">
+          <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
+          <v-list
+            dense
+            v-show="$store.state.isLogin"
+            >
+            <v-list-item
+              v-for="item in items2"
+              :key="item.text"
+              link
+            >
+              <v-list-item-avatar size=28>
+                <img
+                  :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
+                  alt=""
+                >
+              </v-list-item-avatar>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </div>
         <v-divider class="mt-2 mb-2"></v-divider>
         <v-list-item link>
           <v-list-item-action>
@@ -75,7 +81,7 @@
         </v-row>
       </v-toolbar-title>
       <v-spacer />
-      <div v-show="$Common.getCurrentRoutePath().indexOf('/tree') !== -1">
+      <div v-show="$store.state.isLogin">
         <v-tooltip bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn class="ma-2" 
@@ -148,9 +154,9 @@
       document.title = 'leaflog'
       this.userId = 'pkh879'
       this.items = [
-        { icon: 'mdi-terrain', text: '숲', link: '/' },
-        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.userId + '/' },
-        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.userId + '/'},
+        { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
+        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.userId + '/', show: this.$store.state.isLogin },
+        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.userId + '/', show: this.$store.state.isLogin },
       ],
       this.findLeafsById(this.userId)
     },

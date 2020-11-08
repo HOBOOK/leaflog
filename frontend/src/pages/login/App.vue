@@ -1,12 +1,18 @@
 <template>
-  <v-app id="sign">
+  <v-app id="app">
+    <div>
+      <p>Hello World!</p>
+    </div>
       <SignComponent></SignComponent>
+      <div>
+        Hello World!
+      </div>
   </v-app>
 </template>
 
 <script>
   import axios from "axios"
-  import SignComponent from "./components/common/Sign"
+  import SignComponent from "../../components/common/Sign"
   export default {
     name: 'app',
 
@@ -17,18 +23,6 @@
       source: String,
     },
     data: () => ({
-      drawer: null,
-      alerts: 0,
-      userId: '',
-      items: [],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' },
-      ],
-      root: [],
       currentPath: function(){
         return this.$router.currentRoute.path;
       }

@@ -17,7 +17,9 @@ export default new Vuex.Store({
         href: '#about',
       },
     ],
-    token: localStorage.getItem("leaflog_token")
+    token: localStorage.getItem("leaflog_token"),
+    loginDialogShow: false,
+    isLogin: localStorage.getItem("leaflog_token") !== null
   },
   getters: {
     categories: state => {

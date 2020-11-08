@@ -1,7 +1,7 @@
 <template>
 <transition name="slide-y-reverse-transition" appear>
   <v-dialog
-    v-model="dialog"
+    v-model="loginDialogShow"
     width="700"
     persistent
   >
@@ -30,7 +30,7 @@
               text
               small
               fab
-              @click="dialog = false"
+              @click="closeLoginDialog()"
               class="mr-6"
             >
               <v-icon>mdi-close</v-icon>
@@ -67,7 +67,7 @@
                 :disabled="!valid"
                 color="primary"
                 class="align-center"
-                flat
+                text
                 outlined
                 @click="validate"
               >
@@ -119,7 +119,6 @@
 export default {
     data () {
       return {
-        dialog: false,
         currentPath: this.getCurrentPath(),
         password: '',
         passwordRules: [
@@ -134,10 +133,31 @@ export default {
         valid: false
       }
     },
+    computed: {
+      loginDialogShow: {
+        get () {
+          return this.$store.state.loginDialogShow
+        },
+        set (val){
+          this.$store.state.loginDialogShow = val;
+        }
+      }
+    },
+    watch: {
+        loginDialogShow (val) {
+            console.log('login dialog: ' + val)   
+        }
+    }, 
     methods: {
       getCurrentPath: function(){
         return this.$router.currentRoute.path;
       },
+      closeLoginDialog() {
+        this.loginDialogShow = false
+      },
+      validate() {
+        console.log('validate')
+      }
     }
 }
 </script>

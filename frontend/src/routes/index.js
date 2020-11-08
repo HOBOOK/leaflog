@@ -11,11 +11,12 @@ import store from '../store/index'
 Vue.use(VueRouter)
 
 const requireAuth = () => (to, from, next) => {
-    if (store.state.token !== null) {
+    if (store.state.isLogin) {
         return next();
     }
     else{
-        next('/sign');
+        // next('/sign');
+        store.state.loginDialogShow = true
     }
 };
 

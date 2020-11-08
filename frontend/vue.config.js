@@ -4,6 +4,11 @@ module.exports = {
       entry: './src/pages/home/main.js',
       template: 'public/index.html',
       title: 'home',
+    },
+    'login':{
+      entry: './src/pages/login/main.js',
+      template: 'public/index.html',
+      title: 'login'
     }
   },
   "transpileDependencies": [
