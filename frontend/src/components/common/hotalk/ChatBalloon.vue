@@ -128,6 +128,6 @@ export default {
 </script>
 <style scoped>
     .text-time{
-        color:rgba(0,0,0,0.36)
+        color:#BDBDBD;
     }
 </style>

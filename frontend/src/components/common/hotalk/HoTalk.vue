@@ -58,10 +58,10 @@
           <v-row class="d-flex align-center ma-0 pa-0">
             <v-col cols="2" class="ma-0 pa-0">
               <v-row class="ma-0 pa-0">
-                <v-icon class="ml-1">
+                <v-icon class="ml-1" color="grey lighten-1">
                   mdi-paperclip
                 </v-icon>
-                <v-icon class="ml-1">
+                <v-icon class="ml-1" color="grey lighten-1">
                   mdi-emoticon-cool-outline
                 </v-icon>
               </v-row>
@@ -83,10 +83,11 @@
               <v-icon class="ma-1 pr-1"
                 @click="sendMessage"
                 v-if="validateIsSendMessage()"
+                color="primary"
               >
                 mdi-send
               </v-icon>
-              <v-icon class="ma-1 pr-1"
+              <v-icon class="ma-1 pr-1" color="grey lighten-1"
                 v-else
               >
                 mdi-send-outline
@@ -97,19 +98,23 @@
       </v-container>
     </v-card>
     <div v-else class="chat-button-cover">
-      <v-sheet>
-        <v-icon
-            @click="onShowChat"
-          >
-            mdi-circle
-        </v-icon>
+      <v-btn
+        class="mx-2"
+        fab
+        dark
+        @click="onShowChat"
+      >
         <v-badge
           color="primary"
-          :content="unreadMessages.length"
-          v-if="unreadMessages.length>0"
+          :content="unreadMessages"
+          :value="unreadMessages"
+          left
         >
+          <v-icon>
+            mdi-message-processing-outline
+          </v-icon>
         </v-badge>
-      </v-sheet>
+      </v-btn>
     </div>
   </v-slide-y-reverse-transition> 
 </div>
@@ -131,7 +136,7 @@ export default {
     cacheMessage: {},
     websocketTryCount: 0,
     color: 'primary',
-    unreadMessages: []
+    unreadMessages: 0
   }),
   components:{
     ChatBalloon
@@ -193,7 +198,7 @@ export default {
         message.isBind = this.validateIsBind(message)
         message.self = this.me === message.sender
         if(!this.on && !message.self)
-          this.unreadMessages.push(message)
+          this.unreadMessages++
       }
       
       this.messages.push(message)
@@ -224,7 +229,7 @@ export default {
     onShowChat(){
       this.on = true
       this.connectChat()
-      this.unreadMessages = []
+      this.unreadMessages = 0
       this.$nextTick(()=>{
         this.$refs.messageContainer.$el.scrollTop = this.$refs.messageContainer.$el.scrollHeight
       })
