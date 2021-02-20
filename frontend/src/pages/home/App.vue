@@ -113,18 +113,22 @@
     <v-main>
       <router-view :key="$route.fullPath"></router-view>
     </v-main>
+    <ho-talk>
+    </ho-talk>
       
   </v-app>
 </template>
 
 <script>
-  import axios from "axios"
-  import SignComponent from "../../components/common/Sign"
+import SignComponent from "../../components/common/Sign"
+import HoTalk from '../../components/common/hotalk/HoTalk.vue'
+
   export default {
     name: 'app',
 
     components: {
-      SignComponent
+      SignComponent,
+      HoTalk
     },
     props: {
       source: String,
@@ -169,7 +173,7 @@
         return "sss"
       },
       async findLeafsById(id) {
-        await axios.get("http://localhost:3000/api/leafs/" + id)
+        await this.$axios.get("http://localhost:3000/api/leafs/" + id)
           .then(response => {
             
             let datas = response.data.data.leafs
