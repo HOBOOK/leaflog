@@ -194,4 +194,7 @@ export default {
 }
 </script>
 <style scoped>
+  div >>> .v-card {
+    overflow: hidden;
+  }
 </style>
