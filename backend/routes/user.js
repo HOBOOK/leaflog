@@ -13,7 +13,6 @@ router.post('/new', usersController.createNewUser);
 // Read by user Id
 router.get("/:id", cors(), function(req, res, next) {
     const userId = req.params.id;
-    console.log(userId)
     users
       .findOne({ id: userId })
       .then(users => {
@@ -21,9 +20,7 @@ router.get("/:id", cors(), function(req, res, next) {
         console.log("Read Detail 완료");
         res.status(200).json({
           message: "users Detail success",
-          data: {
-            users: users
-          }
+          data: users
         });
       })
       .catch(err => {
@@ -49,9 +46,7 @@ router.put("/", cors(), function(req, res, next) {
         console.log("success update users > " + user);
         res.status(200).json({
           message: "Update user success",
-          data: {
-            user: output
-          }
+          data: output
         });
       });
     })

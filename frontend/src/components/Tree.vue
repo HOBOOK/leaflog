@@ -146,7 +146,7 @@
         this.isFetching = true
         await axios.get(this.articleUrl)
           .then(response => {
-            let datas = response.data.data.articles
+            let datas = response.data.data
             for(let i = 0; i < datas.length; i++) {
               let article = {
                 title : datas[i].title,
@@ -163,7 +163,6 @@
             this.isFetching = false
             
             this.page++
-            console.log('fetch sucess page -> ' + (this.page-1))
           })
           .catch(err => {
             this.isFetching = false

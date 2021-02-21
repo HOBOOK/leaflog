@@ -11,17 +11,12 @@ var articles = require("../model/article")
 router.post("/", cors(), function(req, res, next) {
     const { title, content, author, thunbmail, private, prominent, water } = req.body; // 비구조화 할당
   
-    console.log(req.body);
-  
     new articles(req.body)
       .save()
       .then(newArticle => {
-        console.log("Create 완료 > " + newArticle);
         res.status(200).json({
           message: "Create success",
-          data: {
-            article: newArticle
-          }
+          data: newArticle
         });
       })
       .catch(err => {
@@ -49,9 +44,7 @@ router.post("/", cors(), function(req, res, next) {
           console.log("articles Read All 완료 " + articles.length);
           res.status(200).json({
             message: articles.length < limit ? "last" : "Read All success",
-            data: {
-              articles
-            }
+            data: articles
           });
         })
         .catch(err => {
@@ -80,9 +73,7 @@ router.post("/", cors(), function(req, res, next) {
           console.log("articles Read All 완료 " + articles.length);
           res.status(200).json({
             message: articles.length < limit ? "last" : "Read All success",
-            data: {
-              articles
-            }
+            data: articles
           });
         })
         .catch(err => {
@@ -99,12 +90,9 @@ router.post("/", cors(), function(req, res, next) {
       .findOne({ author: req.params.id, title: req.params.article })
       .then(article => {
         if (!article) return res.status(404).json({ message: "article not found" });
-        console.log("success get article -> " + article);
         res.status(200).json({
           message: "article Detail success",
-          data: {
-            article: article
-          }
+          data: article
         });
       })
       .catch(err => {
@@ -120,9 +108,9 @@ router.post("/", cors(), function(req, res, next) {
       .deleteOne({ author: req.params.id, title: req.params.article })
       .then(output => {
         if (output.n === 0) return res.status(404).json({ message: "article not found" });
-        console.log("success delete article");
         res.status(200).json({
-          message: "article delete success"
+          message: "article delete success",
+          data: true
         });
       })
       .catch(err => {

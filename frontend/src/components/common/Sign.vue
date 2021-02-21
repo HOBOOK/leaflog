@@ -171,12 +171,11 @@ export default {
       },
       login() {
         let data = {
-          id: this.email,
+          email: this.email,
           password: this.password
         }
         this.$axios.post('http://localhost:3000/api/auth/login', data, null)
           .then(response => {
-            console.log('login sucess -> ' + JSON.stringify(response))
             this.$store.dispatch('login', response.data)
             location.reload()
             this.closeLoginDialog()

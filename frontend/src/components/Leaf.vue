@@ -94,8 +94,7 @@ export default {
       getArticle() {
         axios.get(this.articleUrl)
           .then(response => {
-            this.article = response.data.data.article
-            console.log('success get article -> ' + response)
+            this.article = response.data.data
           })
           .catch(err =>{
             console.log('error get article -> ' + err)
@@ -104,8 +103,7 @@ export default {
       deleteArticle() {
         this.dialog = false
         axios.delete(this.articleUrl)
-          .then(response => {
-            console.log('success delete article -> ' + response)
+          .then(() => {
             this.$Common.goRoute('/tree/@' + this.article.author)
 
           })

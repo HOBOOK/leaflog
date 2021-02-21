@@ -11,7 +11,7 @@
         nav>
         <v-list-item
           color="primary"
-          v-for="item in items"
+          v-for="item in menus"
           :key="item.text"
           :to="item.link"
           v-show="item.show"
@@ -31,7 +31,7 @@
           </v-subheader>
           <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + userId + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
+              <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + user.id + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
         </div>
@@ -43,17 +43,18 @@
             v-show="$store.state.isLogin"
             >
             <v-list-item
-              v-for="item in items2"
-              :key="item.text"
+              v-for="item in subscribes"
+              :key="item.id"
+              :to="item.link"
               link
             >
               <v-list-item-avatar size=28>
                 <img
-                  :src="`https://randomuser.me/api/portraits/men/${item.picture}.jpg`"
+                  :src="`https://randomuser.me/api/portraits/men/${item.avatar}.jpg`"
                   alt=""
                 >
               </v-list-item-avatar>
-              <v-list-item-title v-text="item.text"></v-list-item-title>
+              <v-list-item-title v-text="item.name"></v-list-item-title>
             </v-list-item>
           </v-list>
         </div>
@@ -136,53 +137,63 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     data: () => ({
       drawer: null,
       alerts: 0,
-      userId: '',
-      items: [],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' },
-      ],
+      user:{},
+      menus: [],
+      subscribes: [],
       root: [],
       currentPath: function(){
         return this.$router.currentRoute.path;
       }
     }),
     mounted () {
-
+      if(this.$store.state.isLogin)
+        this.findUsersById()
     },
     created () {
-      this.$vuetify.theme.dark = false
       document.title = 'leaflog'
-      this.userId = 'pkh879'
-      this.items = [
-        { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
-        { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.userId + '/', show: this.$store.state.isLogin },
-        { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.userId + '/', show: this.$store.state.isLogin },
-      ],
-      this.findLeafsById(this.userId)
-    },
-    computed: {
-
     },
     methods: {
-      getTest() {
-        console.log('test')
-        return "sss"
-      },
       async findLeafsById(id) {
+        console.log(id)
         await this.$axios.get("http://localhost:3000/api/leafs/" + id)
-          .then(response => {
-            
-            let datas = response.data.data.leafs
+          .then(res => {
+            let datas = res.data.data
             this.root = datas.root
-            console.log('fetch sucess leafs -> ')
           })
           .catch(err => {
             console.log('fetch error leafs -> ' + err)
           })
+      },
+      findUsersById() {
+        let id = 'pkh879'
+        this.$axios.get("http://localhost:3000/api/auth/" + id)
+          .then(res => {
+            this.user = res.data.data
+            this.menus = [
+                { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
+                { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.user.id + '/', show: this.$store.state.isLogin },
+                { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$store.state.isLogin },
+              ]
+            this.findLeafsById(this.user.id)
+            this.findSubscribes(this.user.subscribes)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      async findSubscribes(subscribes){
+        for(let i = 0; i < subscribes.length; i++) {
+          await this.$axios.get("http://localhost:3000/api/auth/" + subscribes[i])
+          .then((res)=>{
+            let subscribeModel = {
+              id: res.data.data.id,
+              name: res.data.data.name,
+              avatar: res.data.data.avatar,
+              link: 'tree/@' + res.data.data.id+'/'
+            }
+            this.subscribes.push(subscribeModel)
+          })
+        }
       }
     },
     watch: {

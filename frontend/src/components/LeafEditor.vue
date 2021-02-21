@@ -178,7 +178,6 @@ export default {
       },
       validate () {
         if (this.article.author.length === 0) {
-          console.log('validate error -> author is invalid')
           return false
         } else if (this.article.title.length === 0) {
           console .log('validate error -> title is invalid')
@@ -219,7 +218,6 @@ export default {
       },
       findLeafInRootRecursive (root, select) {
         if (root.name === select) {
-          console.log('Find! > ' + JSON.stringify(root.children))
           let leaf = {
             name: this.article.title,
             children: []
@@ -244,9 +242,7 @@ export default {
         // 트리 구조 가져오기
         axios.get(this.leafUrl + this.article.author)
           .then(response => {
-            console.log('fetch sucess leafs -> ')
-            let leafKeyIndexes = response.data.data.leafs.keyIndexes
-            console.log(response.data.data.leafs.keyIndexes)
+            let leafKeyIndexes = response.data.data.keyIndexes
             let isDuplicatedTitle = false
             for (let i = 0; i < leafKeyIndexes.length; i++) {
               if (leafKeyIndexes[i] === this.article.title) {
@@ -259,12 +255,11 @@ export default {
               return
             }
             // 트리 에서 루트찾기
-            if(this.findLeafInRoot(response.data.data.leafs, this.select)) {
+            if(this.findLeafInRoot(response.data.data, this.select)) {
               // 키인덱스에 생성될 문서 제목 추가
-              response.data.data.leafs.keyIndexes.push(this.article.title)
-              console.log('success get root -> ' + this.targetRoot)
+              response.data.data.keyIndexes.push(this.article.title)
               // 루트 업데이트
-              axios.put(this.leafUrl, response.data.data.leafs, this.axiosConfig)
+              axios.put(this.leafUrl, response.data.data, this.axiosConfig)
                 .then(response => {
                   console.log('update root success -> ' + response)
                   this.createArticle()
