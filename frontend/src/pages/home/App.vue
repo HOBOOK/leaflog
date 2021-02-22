@@ -189,7 +189,7 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
               id: res.data.data.id,
               name: res.data.data.name,
               avatar: res.data.data.avatar,
-              link: 'tree/@' + res.data.data.id+'/'
+              link: '/tree/@' + res.data.data.id+'/'
             }
             this.subscribes.push(subscribeModel)
           })
