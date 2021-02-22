@@ -18,4 +18,28 @@ export default class Common {
         }
         return JSON.stringify(query)
     }
+    findLeafInRoot (root, select) {
+        for (let i = 0; i < root.length; i++) {
+            if(root[i].name !== null && root[i].name === select)
+                return root[i]
+            else {
+                let leaf = this.findLeafInRoot(root[i].children, select)
+                if(typeof leaf === 'undefined') continue
+                return leaf
+            }
+        }
+    }
+    deleteLeafInRoot (root, select) {
+        for (let i = 0; i < root.length; i++) {
+            if(root[i].name !== null && root[i].name === select){
+                root.splice(i, 1)
+                return true
+            }
+            else {
+                let leaf = this.deleteLeafInRoot(root[i].children, select)
+                if(!leaf) continue
+            }
+        }
+        return false
+    }
 }

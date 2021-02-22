@@ -154,7 +154,6 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     },
     methods: {
       async findLeafsById(id) {
-        console.log(id)
         await this.$axios.get("http://localhost:3000/api/leafs/" + id)
           .then(res => {
             let datas = res.data.data

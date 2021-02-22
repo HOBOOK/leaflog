@@ -280,8 +280,7 @@ export default {
       // 새로운 문서 생성
       createArticle() {
         axios.post(this.articleUrl, this.article, this.axiosConfig)
-          .then(response => {
-            console.log('success create article -> ' + response)
+          .then(() => {
             this.reloadNavigationRoot()
             this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
           })

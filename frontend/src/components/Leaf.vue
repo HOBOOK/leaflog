@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import axios from "axios"
-
 export default {
     data () {
       return {
@@ -92,7 +90,7 @@ export default {
     },
     methods: {
       getArticle() {
-        axios.get(this.articleUrl)
+        this.$axios.get(this.articleUrl)
           .then(response => {
             this.article = response.data.data
           })
@@ -100,12 +98,26 @@ export default {
             console.log('error get article -> ' + err)
           })
       },
-      deleteArticle() {
+      async deleteArticle() {
         this.dialog = false
-        axios.delete(this.articleUrl)
+        let leafs = null
+        await this.$axios.get("http://localhost:3000/api/leafs/" + this.userId)
+          .then(res => {
+            leafs = res.data.data
+            this.$Common.deleteLeafInRoot(leafs.root, this.title)
+          })
+          .catch(err => {
+            console.log('fetch error leafs -> ' + err)
+          })
+
+        await this.$axios.put("http://localhost:3000/api/leafs/", leafs)
+        .catch(err =>{
+          console.log(err)
+        })
+        
+        await this.$axios.delete(this.articleUrl)
           .then(() => {
             this.$Common.goRoute('/tree/@' + this.article.author)
-
           })
           .catch(err =>{
             console.log('error delete article -> ' + err)

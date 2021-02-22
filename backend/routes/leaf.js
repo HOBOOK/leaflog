@@ -5,6 +5,7 @@ var router = express.Router();
 
 /* Models */
 var leafs = require("../model/leaf")
+var article = require("../model/article")
 
 // Read by user Id
 router.get("/:id", cors(), function(req, res, next) {
