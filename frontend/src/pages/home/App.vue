@@ -15,8 +15,9 @@
           :key="item.text"
           :to="item.link"
           v-show="item.show"
+          :ripple="false"
         >
-          <v-list-item-action>
+          <v-list-item-action class="mr-3">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
@@ -203,18 +204,6 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     
   }
 </script>
-<style>
-  html{
-    background-color:#FFFFFF;
-  }
-  .v-navigation-drawer__border {
-    display: none;
-  } 
-  .v-overlay__scrim {
-    background-color: rgb(230,230,230) !important;
-    border-color: rgb(230,230,230) !important;
-  }
-  .v-dialog {
-    box-shadow: 0 2px 30px -1px rgba(85,85,85,.08), 0 4px 30px 0 rgba(85,85,85,.06), 0 1px 30px 0 rgba(85,85,85,.03) !important;
-  }
+<style lang="scss">
+  @import '../../../scss/main.scss'
 </style>
