@@ -60,7 +60,7 @@ app.use(function(err, req, res, next) {
 mongoose.Promise = global.Promise;
 
 // CONNECT TO MONGODB SERVER
-let connectionString = 'mongodb://'+ dbUser + ':' + dbPass +'@'+ dbHost +':' + dbPort + '/' + dbName;
+let connectionString = 'mongodb://'+ dbUser + ':' +  encodeURIComponent(dbPass) +'@'+ dbHost +':' + dbPort + '/' + dbName;
 
 mongoose.connect(connectionString,{ useUnifiedTopology: true, useNewUrlParser: true })
   .then(() => console.log('Successfully connected to mongodb'))
