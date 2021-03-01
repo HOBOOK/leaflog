@@ -15,17 +15,6 @@ export default class Common {
             window.scrollTo(0,0);
         }
     }
-    getCurrentRoutePath() {
-        return router.app.$router.currentRoute.path;
-    }
-    getCurrentRouteArticleInfo() {
-        const root = router.app.$router.currentRoute.path;
-        const query = {
-            title: root.substring(root.lastIndexOf('/')+1),
-            author: root.substring(root.indexOf('@')+1, root.lastIndexOf('/'))
-        }
-        return JSON.stringify(query)
-    }
     findLeafInRoot (root, select) {
         for (let i = 0; i < root.length; i++) {
             if(root[i].name !== null && root[i].name === select)

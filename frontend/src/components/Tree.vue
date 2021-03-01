@@ -100,7 +100,6 @@
 
 
     data: () => ({
-      userId: '',
       page: 1,
       bottom: false,
       isFetching: false,
@@ -112,12 +111,11 @@
         return Math.ceil(this.articles.length / 11)
       },
       articleUrl() { 
-        return "http://localhost:3000/api/articles/" + this.userId + "?page=" + this.page
+        return "http://localhost:3000/api/articles/" + this.$router.currentRoute.params.id.substring(1) + "?page=" + this.page
       },
     },
 
     created() {
-      this.userId = 'pkh879'
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
       })

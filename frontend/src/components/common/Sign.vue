@@ -166,7 +166,6 @@ export default {
         this.loginDialogShow = false
       },
       validate() {
-        console.log('validate')
         this.login()
       },
       login() {
@@ -174,14 +173,23 @@ export default {
           email: this.email,
           password: this.password
         }
-        this.$axios.post('http://localhost:3000/api/auth/login', data, null)
+        this.$axios.post('/api/auth/login', data, null)
           .then(response => {
-            this.$store.dispatch('login', response.data)
-            location.reload()
-            this.closeLoginDialog()
+            let id = JSON.parse(atob(response.data.token.split('.')[1])).id
+            if(id.length === 0){
+              alert('오류')
+            }else {
+              this.$axios.get('/api/auth/' + id)
+              .then(res => {
+                this.$Storage.setUser(res.data.data, true)
+                this.$store.dispatch('login', response.data)
+                location.reload()
+                this.closeLoginDialog()
+              })
+            }
           })
           .catch(err => {
-            console.log('login error -> ' + JSON.stringify(err))
+            console.log('login error -> ' + err)
             this.closeLoginDialog()
           })
       },

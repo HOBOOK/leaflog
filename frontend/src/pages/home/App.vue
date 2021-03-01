@@ -165,25 +165,18 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
           })
       },
       findUsersById() {
-        let id = 'pkh879'
-        this.$axios.get("http://localhost:3000/api/auth/" + id)
-          .then(res => {
-            this.user = res.data.data
-            this.menus = [
-                { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
-                { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.user.id + '/', show: this.$store.state.isLogin },
-                { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$store.state.isLogin },
-              ]
-            this.findLeafsById(this.user.id)
-            this.findSubscribes(this.user.subscribes)
-          })
-          .catch(err => {
-            console.log(err)
-          })
+        this.user = this.$Storage.getUser()
+        this.menus = [
+            { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
+            { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.user.id + '/', show: this.$store.state.isLogin },
+            { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$store.state.isLogin },
+          ]
+        this.findLeafsById(this.user.id)
+        this.findSubscribes(this.user.subscribes)
       },
       async findSubscribes(subscribes){
         for(let i = 0; i < subscribes.length; i++) {
-          await this.$axios.get("http://localhost:3000/api/auth/" + subscribes[i])
+          await this.$axios.get("/api/auth/" + subscribes[i])
           .then((res)=>{
             let subscribeModel = {
               id: res.data.data.id,

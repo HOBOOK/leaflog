@@ -19,7 +19,7 @@
               </v-icon> 삭제
             </span>
             <v-dialog
-              v-if="author === userId" justify="center"
+              v-if="isAuthor" justify="center"
                 v-model="dialog"
                 max-width="500"
             >
@@ -49,8 +49,8 @@
                 </v-card-actions>
             </v-card>
             </v-dialog>
-          <span v-if="author === userId" class="ma-1" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> 편집</span>
-          <span class="ma-1" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> 공유</span>
+          <span v-if="isAuthor" class="ma-1" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> 편집</span>
+          <span v-if="isAuthor" class="ma-1" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> 공유</span>
         </span>
       </v-row>
     </v-col>
@@ -66,10 +66,10 @@
           size="128px"
           v-if="author"
         >
-          <img
+          <v-img
             alt="Avatar"
             :src="`https://randomuser.me/api/portraits/men/` + author.avatar +`.jpg`"
-          >
+          ></v-img>
         </v-avatar>
       </v-col>
       <v-col cols="10" justify-center align-center>
@@ -83,19 +83,36 @@
     </v-row>
   </v-col>
   <v-divider/>
-  <v-col style="min-height:150px">
+  <v-col class="mt-8">
+    <div>
+      <v-row>
+        <v-text-field
+          flat
+          label="댓글을 남겨주세요"
+          :single-line="true"
+          :solo-inverted="true"
+          :hide-details="true"
+        >
+        </v-text-field>
+        <v-icon large class="ma-2">
+          mdi-send-circle-outline
+        </v-icon>
+      </v-row>
+    </div>
+  </v-col>
+  <v-col style="min-height:150px" class="mt-8">
     <span 
       v-for="item in article.comments"
-      :key="item"
+      :key="item.id"
     >
       <v-avatar
         size="32px"
         v-if="item.author"
       >
-        <img
+        <v-img
           alt="Avatar"
           :src="item.avatar"
-        >
+        ></v-img>
       </v-avatar>
       {{$Time.dateToFormatKorean(item.regDate)}} - {{item.author}} : {{item.comment}}
     </span>
@@ -108,20 +125,22 @@
 export default {
     data () {
       return {
-        currentPath: '',
         authorId: '',
         title: '',
         article: {},
         author: {},
-        userId: '',
         dialog: false
       }
     },
+    computed: {
+      isAuthor() {
+        return this.authorId === this.$Storage.getUser().id
+      }
+    },
     created() {
-      this.currentPath = this.$Common.getCurrentRoutePath()
-      this.title = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).title
-      this.authorId = JSON.parse(this.$Common.getCurrentRouteArticleInfo()).author
-      this.userId = 'pkh879'
+      let routerParams = this.$router.currentRoute.params
+      this.title = routerParams.key
+      this.authorId = routerParams.id.substring(1)
       this.getArticle()
     },
     methods: {
@@ -141,7 +160,7 @@ export default {
       async deleteArticle() {
         this.dialog = false
         let leafs = null
-        await this.$axios.get("http://localhost:3000/api/leafs/" + this.userId)
+        await this.$axios.get("http://localhost:3000/api/leafs/" + this.author.id)
           .then(res => {
             leafs = res.data.data
             this.$Common.deleteLeafInRoot(leafs.root, this.title)
