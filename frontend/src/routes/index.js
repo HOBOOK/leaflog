@@ -36,6 +36,7 @@ const router = new VueRouter({
             component: Tree,
             meta: {
                 auth: true,
+                tree: true,
                 title: '나의 나무'
             }
         },
@@ -44,6 +45,7 @@ const router = new VueRouter({
             component: Leaf,
             meta: {
                 auth: true,
+                tree: true,
                 title: 'leaf'
             }
         },
