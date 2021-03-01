@@ -10,6 +10,7 @@
         flat
         nav>
         <v-list-item
+          class="mt-0 mb-0 pt-0 pb-0"
           color="primary"
           v-for="item in menus"
           :key="item.text"
@@ -168,7 +169,7 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
         this.user = this.$Storage.getUser()
         this.menus = [
             { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
-            { icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.user.id + '/', show: this.$store.state.isLogin },
+            { icon: 'mdi-tree', text: '나의 나무', link: '/tree/@' + this.user.id + '/', show: this.$store.state.isLogin },
             { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$store.state.isLogin },
           ]
         this.findLeafsById(this.user.id)
