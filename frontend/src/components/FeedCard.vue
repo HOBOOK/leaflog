@@ -27,7 +27,7 @@
                   size="32"
                   class="ma-2">
                     <img
-                      :src="require(`@/assets/articles/${value.thumbnail}`)"
+                      :src="'https://randomuser.me/api/portraits/men/' + value.authorAvatar +'.jpg'"
                       alt="avatar"
                     >
                   </v-avatar>
@@ -57,7 +57,7 @@
         type: Object,
         default: () => ({}),
       },
-    },
+    }
   }
 </script>
 

@@ -70,31 +70,32 @@
         return bottomOfPage || pageHeight < visible
       },
       async fetchData() {
+        if(this.isFetching)
+          return
         this.isFetching = true
         await axios.get(this.articleUrl)
           .then(response => {
-            let datas = response.data.data
-            for(let i = 0; i < datas.length; i++) {
-              let article = {
-                title : datas[i].title,
-                author : datas[i].author,
-                category : datas[i].category,
-                thumbnail: datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail,
-                prominent: datas[i].prominent,
-                private: datas[i].private,
-                water: datas[i].water,
-                date: datas[i].date
-              }
-              this.articles.push(article)
-            }
-            this.isFetching = false
-            
-            this.page++
+            if(typeof response.data.data !== 'undefined')
+              this.fetchData2(response.data.data)
+            else
+              this.isFetching = false
           })
           .catch(err => {
             this.isFetching = false
             console.log('fetch error -> ' + err)
           })
+      },
+      async fetchData2(datas) {
+        for(let i = 0; i < datas.length; i++) {
+          datas[i].thumbnail = datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail
+          await this.$axios.get('/api/auth/' + datas[i].author)
+          .then(res => {
+            datas[i].authorAvatar = res.data.data.avatar
+          })
+          this.articles.push(datas[i])
+        }
+        this.isFetching = false
+        this.page++
       }
     }
   }
