@@ -32,7 +32,7 @@
           </v-subheader>
           <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="$Common.goRoute('/tree/@' + user.id + '/' +props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
+              <span style="cursor:pointer" @click="$Common.goLeafRoute(user.id, props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
         </div>
@@ -198,7 +198,10 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     },
     watch: {
       '$route' (to) {
-        document.title = 'leaflog | ' + to.meta.title
+        if(to.meta.title === 'leaf')
+          document.title = to.params.key
+        else
+          document.title = 'leaflog | ' + to.meta.title
       }
     },
     

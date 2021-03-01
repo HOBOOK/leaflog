@@ -5,7 +5,7 @@
     >
       <base-card
         :height="value.prominent ? 370 : 320"
-        @click="$Common.goRoute('/tree/@' + value.author + '/' + value.title)"
+        @click="$Common.goLeafRoute(value.author, value.title)"
       >
         <v-img
           :src="require(`@/assets/articles/${value.thumbnail}`)"

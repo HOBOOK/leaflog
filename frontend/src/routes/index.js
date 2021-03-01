@@ -44,7 +44,7 @@ const router = new VueRouter({
             component: Leaf,
             meta: {
                 auth: true,
-                title: ''
+                title: 'leaf'
             }
         },
         {

@@ -9,6 +9,7 @@ let userSchema = new Schema(
     passwrod: String,
     subscribes: Array,
     avatar: String,
+    introduction: String,
     regDate: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

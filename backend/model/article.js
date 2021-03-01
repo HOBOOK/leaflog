@@ -11,6 +11,7 @@ let articleSchema = new Schema(
     thumbnail: String,
     prominent: Boolean,
     water: Number,
+    comments: Array,
     date: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

@@ -1,7 +1,15 @@
 import router from "../routes/index.js"
+import "../plugins/axios"
 
 export default class Common {
     goRoute(route){
+        if (router.app.$route.path !== route) {
+            router.app.$router.push(route);
+            window.scrollTo(0,0);
+        }
+    }
+    goLeafRoute(author, title){
+        let route = '/tree/@' + author + '/' + title
         if (router.app.$route.path !== route) {
             router.app.$router.push(route);
             window.scrollTo(0,0);
