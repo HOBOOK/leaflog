@@ -9,7 +9,7 @@ var articles = require("../model/article")
 
 // Create
 router.post("/", cors(), function(req, res, next) {
-    const { title, content, author, thunbmail, private, prominent, water } = req.body; // 비구조화 할당
+    const { title, content, author, thunbmail, private, prominent, water, comments } = req.body; // 비구조화 할당
   
     new articles(req.body)
       .save()
@@ -26,6 +26,36 @@ router.post("/", cors(), function(req, res, next) {
         });
       });
   });
+
+//update
+router.put("/", cors(), function(req, res, next) {
+  const { id, title, content, author, thunbmail, private, prominent, water, comments } = req.body;
+
+  articles
+    .findOne({ id: req.body.id })
+    .then(article => {
+      if (!article) return res.status(404).json({message: "leaf not found"});
+      
+      article.title = req.body.title;
+      article.content = req.body.content;
+      article.thunbmail = req.body.thunbmail;
+      article.private = req.body.private;
+      article.comments = req.body.comments;
+
+      article.save().then(output => {
+        res.status(200).json({
+          message: "Update article success",
+          data: output
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err)
+      res.status(500).json({
+        message: err
+      });
+    });
+});
   
   // Read All
   router.get("/", cors(), function(req, res, next) {

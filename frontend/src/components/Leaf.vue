@@ -92,9 +92,12 @@
           :single-line="true"
           :solo-inverted="true"
           :hide-details="true"
+          v-model="commentText"
         >
         </v-text-field>
-        <v-icon large class="ma-2">
+        <v-icon large class="ma-2"
+          @click="sendComment"
+        >
           mdi-send-circle-outline
         </v-icon>
       </v-row>
@@ -129,7 +132,9 @@ export default {
         title: '',
         article: {},
         author: {},
-        dialog: false
+        dialog: false,
+        comment: null,
+        commentText:''
       }
     },
     computed: {
@@ -195,6 +200,30 @@ export default {
             comments[i].avatar = `https://randomuser.me/api/portraits/men/` + res.data.data.avatar +`.jpg`
           })
         }
+      },
+      sendComment() {
+        if(this.commentText.length === 0)
+          alert('댓글내용을 작성해주세요.')
+        this.comment = {
+          regDate: new Date().toUTCString(),
+          author: this.$Storage.getUser().id,
+          avatar: this.$Storage.getUser().avatar,
+          comment: this.commentText,
+          childrens: []
+        }
+        this.article.comments.push(this.comment)
+
+        this.axios.put('/api/articles', this.article)
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(()=> {
+          this.commentText = ''
+          this.comment = null
+        })
       }
     }
 }
