@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 export default class Storage {
+    localKey= 'leaflog-storage'
+
     setUser (value, saveLocalStorage) {
         let all = this.getAll()
         all.saveLocalStorage = saveLocalStorage

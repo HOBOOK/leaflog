@@ -163,8 +163,8 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
         
         this.menus = [
             { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
-            { icon: 'mdi-tree', text: (this.user.id !== this.$Storage.getUser().id ? this.user.id : '나의') + ' 나무', link: '/tree/@' + this.user.id + '/', show: true },
-            { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: true },
+            { icon: 'mdi-tree', text: (this.user.id !== this.$Storage.getUser().id ? this.user.id : '나의') + ' 나무', link: '/tree/@' + this.user.id + '/', show: this.$Storage.getUser()!==null },
+            { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$Storage.getUser()!==null },
           ]
         await this.findLeafsById(this.user.id)
         if(this.user.id === this.$Storage.getUser().id)

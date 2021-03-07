@@ -62,6 +62,7 @@ export default new Vuex.Store({
     logout: function(options){
       options.commit('setToken', null)
       localStorage.removeItem("token")
+      localStorage.removeItem("leaflog-storage")
     },
     updateToken: function(options, token){
       options.commit('setToken', token)
