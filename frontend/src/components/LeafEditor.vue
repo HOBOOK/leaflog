@@ -90,7 +90,6 @@
       <v-btn
         rounded
         text
-        flat
         color="#EF5350"
         class="mr-4"
         @click="$router.go(-1)"

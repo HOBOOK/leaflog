@@ -56,7 +56,7 @@ export default class Storage {
             return all[key]
         } else {
             if(typeof Vue.prototype.$session === 'undefined') {
-            return ''
+            return null
             }
             return Vue.prototype.$session.get(key)
         }

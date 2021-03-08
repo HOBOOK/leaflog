@@ -15,9 +15,9 @@
           v-for="item in menus"
           :key="item.text"
           :to="item.link"
-          v-show="item.show"
           :ripple="false"
         >
+          
           <v-list-item-action class="mr-3">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
@@ -42,7 +42,7 @@
           <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
           <v-list
             dense
-            v-show="$store.state.isLogin"
+            v-if="subscribes !== null && subscribes.length > 0"
             >
             <v-list-item
               v-for="item in subscribes"
@@ -146,6 +146,7 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     }),
     mounted () {
       this.findUsersById()
+      this.findSubscribes()
     },
     created () {
       document.title = 'leaflog'
@@ -160,15 +161,21 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
         }else{
           this.user = this.$Storage.getUser()
         }
-        
         this.menus = [
-            { icon: 'mdi-terrain', text: '숲', link: '/', show: true },
-            { icon: 'mdi-tree', text: (this.user.id !== this.$Storage.getUser().id ? this.user.id : '나의') + ' 나무', link: '/tree/@' + this.user.id + '/', show: this.$Storage.getUser()!==null },
-            { icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/', show: this.$Storage.getUser()!==null },
-          ]
-        await this.findLeafsById(this.user.id)
-        if(this.user.id === this.$Storage.getUser().id)
-          this.findSubscribes(this.user.subscribes)
+            { icon: 'mdi-terrain', text: '숲', link: '/' }
+        ]
+        if(this.user !== null) {
+          if(this.$Storage.getUser() !==null && this.user.id === this.$Storage.getUser().id){
+            this.menus.push({icon: 'mdi-tree', text: '나의 나무', link: '/tree/@' + this.user.id + '/'})
+          }
+          else {
+            this.menus.push({icon: 'mdi-tree', text: this.user.id+'의 나무', link: '/tree/@' + this.user.id + '/'})
+          }
+          this.menus.push({ icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/'})
+
+          this.findLeafsById(this.user.id)
+        }
+        
       },
       findLeafsById(id) {
         this.$axios.get("http://localhost:3000/api/leafs/" + id)
@@ -180,9 +187,13 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
             console.log('fetch error leafs -> ' + err)
           })
       },
-      async findSubscribes(subscribes){
-        for(let i = 0; i < subscribes.length; i++) {
-          await this.$axios.get("/api/auth/" + subscribes[i])
+      async findSubscribes(){
+        this.subscribes = []
+        if(this.$Storage.getUser() === null){
+           return
+        } 
+        for(let i = 0; i < this.$Storage.getUser().subscribes.length; i++) {
+          await this.$axios.get("/api/auth/" + this.$Storage.getUser().subscribes[i])
           .then((res)=>{
             let subscribeModel = {
               id: res.data.data.id,
@@ -197,8 +208,13 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     },
     watch: {
       '$route' (to) {
-        if(to.meta.title === 'leaf')
+        this.findUsersById()
+        if(to.meta.title === 'leaf'){
           document.title = to.params.key
+        }
+        else if(to.meta.title ==='tree'){
+          document.title = to.params.id +'의 나무'
+        }
         else
           document.title = 'leaflog | ' + to.meta.title
       }

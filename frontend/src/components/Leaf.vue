@@ -139,7 +139,7 @@ export default {
     },
     computed: {
       isAuthor() {
-        return this.authorId === this.$Storage.getUser().id
+        return this.$Storage.getUser() !==null && this.authorId === this.$Storage.getUser().id
       }
     },
     created() {
