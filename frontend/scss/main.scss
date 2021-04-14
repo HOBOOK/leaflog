@@ -7,14 +7,12 @@ body{
     font-size:14px;
     letter-spacing: -0.25px;;
     font-weight: 400;
+
 }
 
 html{
-    background-color:#FFFFFF;
+    background-color:#fcfcfc;
 }
-.v-navigation-drawer__border {
-    display: none;
-} 
 .v-overlay__scrim {
     background-color: rgb(230,230,230) !important;
     border-color: rgb(230,230,230) !important;
@@ -30,4 +28,13 @@ html{
     i{
         width:14px !important;
     }
+}
+
+.header{
+    box-shadow: 0 1px 1px -1px rgba(85,85,85,.09),0 1px 10px 0 rgba(85,85,85,.07) !important;
+    -webkit-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+.off-shadow{
+    box-shadow: none !important;
 }

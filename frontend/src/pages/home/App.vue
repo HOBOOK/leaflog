@@ -1,11 +1,14 @@
 <template>
-  <v-app id="app">
+  <v-app id="app" :style="{background: $vuetify.theme.themes[theme].background}">
     <v-navigation-drawer
-      v-model="drawer"
       app
+      class="d-flex pt-8"
+      floating
       clipped
+      color="background"
     >
       <v-list
+        :style="'border-right:3px solid ' + $vuetify.theme.themes[theme].second"
         dense 
         flat
         nav>
@@ -37,7 +40,6 @@
             </template>
           </v-treeview>
         </div>
-        <!-- <v-divider class="mt-2 mb-2"></v-divider> -->
         <div v-show="$store.state.isLogin">
           <v-subheader class="mt-6 grey--text text--darken-1">구독</v-subheader>
           <v-list
@@ -60,26 +62,19 @@
             </v-list-item>
           </v-list>
         </div>
-        <v-divider class="mt-2 mb-2"></v-divider>
-        <v-list-item link>
-          <v-list-item-action>
-            <v-icon color="grey darken-1">mdi-cog</v-icon>
-          </v-list-item-action>
-          <v-list-item-title class="grey--text text--darken-1">설정</v-list-item-title>
-        </v-list-item>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
       app
       clipped-left
       flat
-      color="#FFFFFF" style="border:1px solid rgba(0,0,0,0.0);"
-      hide-on-scroll
+      class="header"
+      :class="scrollPosition === 0 ? 'off-shadow' : ''"
+      color="background"
     >
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="$Common.goRoute('/')">
         <v-row>
-          <v-img src="../../assets/logo/leaflog_symbol.png" height=26 width=26></v-img>
+          <v-img class="ml-4" src="../../assets/logo/leaflog_symbol.png" height=26 width=26></v-img>
           <v-img class="d-none d-sm-flex" src="../../assets/logo/leaflog.png" height=26 width=120 contain></v-img>
         </v-row>
       </v-toolbar-title>
@@ -125,7 +120,7 @@
 <script>
 import SignComponent from "../../components/common/Sign"
 import HoTalk from '../../components/common/hotalk/HoTalk.vue'
-
+import VueSticky from 'vue-sticky'
   export default {
     name: 'app',
 
@@ -133,16 +128,19 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
       SignComponent,
       HoTalk
     },
+    directives:{
+      sticky: VueSticky
+    },
     props: {
       source: String,
     },
     data: () => ({
-      drawer: null,
       alerts: 0,
       user:{},
       menus: [],
       subscribes: [],
-      root: []
+      root: [],
+      scrollPosition: 0,
     }),
     mounted () {
       this.findUsersById()
@@ -150,8 +148,12 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
     },
     created () {
       document.title = 'leaflog'
+      window.addEventListener('scroll', this.scrollEvent);
     },
     methods: {
+      scrollEvent(){
+        this.scrollPosition = document.querySelector('html').scrollTop
+      },
       async findUsersById() {
         if(this.$router.currentRoute.meta.tree) {
           await this.$axios.get('/api/auth/' + this.$router.currentRoute.params.id.substring(1))
@@ -162,16 +164,17 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
           this.user = this.$Storage.getUser()
         }
         this.menus = [
-            { icon: 'mdi-terrain', text: '숲', link: '/' }
+            { icon: 'mdi-trending-up', text: '트렌드', link: '/' },
+            { icon: 'mdi-clock-time-seven-outline', text: '새로운', link: '/new' }
         ]
         if(this.user !== null) {
           if(this.$Storage.getUser() !==null && this.user.id === this.$Storage.getUser().id){
-            this.menus.push({icon: 'mdi-tree', text: '나의 나무', link: '/tree/@' + this.user.id + '/'})
+            this.menus.push({icon: 'mdi-tree-outline', text: '나의 나무', link: '/tree/@' + this.user.id + '/'})
           }
           else {
-            this.menus.push({icon: 'mdi-tree', text: this.user.id+'의 나무', link: '/tree/@' + this.user.id + '/'})
+            this.menus.push({icon: 'mdi-tree-outline', text: this.user.id+'의 나무', link: '/tree/@' + this.user.id + '/'})
           }
-          this.menus.push({ icon: 'mdi-foot-print', text: '발자취', link: '/footprint/@' + this.user.id + '/'})
+          this.menus.push({ icon: 'mdi-shoe-print', text: '발자취', link: '/footprint/@' + this.user.id + '/'})
 
           this.findLeafsById(this.user.id)
         }
@@ -204,6 +207,11 @@ import HoTalk from '../../components/common/hotalk/HoTalk.vue'
             this.subscribes.push(subscribeModel)
           })
         }
+      }
+    },
+    computed: {
+      theme(){
+        return (this.$vuetify.theme.dark) ? 'dark' : 'light'
       }
     },
     watch: {

@@ -28,7 +28,15 @@ const router = new VueRouter({
             component: Main,
             meta: {
                 auth: true,
-                title: '숲'
+                title: '트렌드'
+            }
+        },
+        {
+            path: '/new',
+            component: Main,
+            meta: {
+                auth: true,
+                title: '새로운'
             }
         },
         {
