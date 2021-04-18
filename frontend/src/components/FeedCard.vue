@@ -1,46 +1,60 @@
 <template>
     <v-col
-      cols="12"
-      :md="4"
+      cols="4"
+      class="ma-0 pa-0"
     >
-      <base-card
-        :height="value.prominent ? 370 : 320"
-        @click="$Common.goLeafRoute(value.author, value.title)"
-      >
-        <v-img
-          :src="require(`@/assets/articles/${value.thumbnail}`)"
-          height="50%"
-          gradient="rgba(0, 0, 0, .42), rgba(0, 0, 0, .42)"
+      <div class="feed-card-container ma-2 px-0 pb-2">
+        <v-card
+          flat
+          tile
+          :max-height="370"
+          @click="$Common.goLeafRoute(value.author, value.title)"
+          class="ma-0 pa-0"
         >
-        </v-img>
-          <v-row
-            v-if="!value.prominent"
-            class="fill-height text-right ma-0"
+          <v-img
+            :src="require(`@/assets/articles/${value.thumbnail}`)"
+            :height="192"
+            gradient="rgba(0, 0, 0, .42), rgba(50, 50, 50, .42)"
           >
-            <v-col cols="12">
-              <span class="text-h6 title font-weight-bold mb-2">
-                {{ value.title }}
-              </span>
-
-              <div class="caption">
-                <v-avatar
-                  size="32"
-                  class="ma-2">
-                    <img
-                      :src="'https://randomuser.me/api/portraits/men/' + value.authorAvatar +'.jpg'"
-                      alt="avatar"
-                    >
-                  </v-avatar>
-                  <span class="text-subtitle-3 font-weight-bold">{{ value.author }}</span>
-                  <br/>
-                <span class="text-body-4">조회수 3.5만 | {{ $Time.dateToFormatForToday(value.date) }}</span>
-                  <v-icon class="ma-0" color="blue darken-2">mdi-water-outline</v-icon>
-                  <span class="text-body-6" v-text="value.water.toString()"></span>
-              </div>
-            </v-col>
+          </v-img>
+          <v-row
+            class="text-left ma-2 pa-0 feed-card-title"
+          >
+            <span class="font-weight-bold">
+              {{ value.title }}
+            </span>
           </v-row>
-
-      </base-card>
+          <v-row
+            class="text-left mx-2 my-0 pa-0 feed-card-content"
+          >
+            {{value.content}}
+          </v-row>
+          <v-row class="text-right text-caption ma-2 pa-0" align="center">
+            <v-spacer/>
+            <span class="font-weight-bold mr-2">{{ value.author }}</span>
+            <v-avatar
+              size="32"
+            >
+              <img
+                :src="'https://randomuser.me/api/portraits/men/' + value.authorAvatar +'.jpg'"
+                alt="avatar"
+              >
+            </v-avatar>
+          </v-row>
+          <v-row class="ma-2 pa-0 text-caption color-caption" justify="end" align="center">
+            <span class="pr-2">
+              <v-icon small class="ma-1">mdi-clock-time-seven-outline</v-icon>{{ $Time.dateToFormatForToday(value.date) }}
+            </span>
+            <span class="pr-2">
+              <v-icon small class="ma-1">mdi-eye-outline</v-icon>3.5만
+            </span>
+            <span class="pr-0">
+              <v-icon small class="ma-1" color="blue darken-2">mdi-water-outline</v-icon>
+              <span v-text="value.water.toString()"></span>
+            </span>
+          </v-row>
+        </v-card>
+      </div>
     </v-col>
 </template>
 
@@ -49,10 +63,6 @@
     name: 'FeedCard',
 
     props: {
-      size: {
-        type: Number,
-        required: true,
-      },
       value: {
         type: Object,
         default: () => ({}),

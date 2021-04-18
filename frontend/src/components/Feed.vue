@@ -1,20 +1,15 @@
 <template>
   <v-container>
-    <v-row>
-      <v-col cols="12">
-        <slot />
-      </v-col>
-
+    <v-row class="feed-container">
       <feed-card
         v-for="(article, i) in articles"
         :key="article.title"
-        :size=layout[i%layout.length]
         :index=i
         :value="article"
       />
-      <v-col class="text-center" col=12>
-      <v-progress-circular class="justify-center text-center" indeterminate color="#AFB42B" v-if="isFetching"></v-progress-circular>
-      </v-col>
+    </v-row>
+    <v-row v-if="isFetching" justify="center" align="center">
+      <v-progress-circular class="justify-center align-center text-center" indeterminate color="primary"/>
     </v-row>
   </v-container>
 </template>
@@ -100,3 +95,6 @@
     }
   }
 </script>
+<style lang="scss">
+  @import '../../scss/feed.scss';
+</style>

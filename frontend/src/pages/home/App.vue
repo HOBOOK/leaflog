@@ -108,7 +108,7 @@
       <SignComponent></SignComponent>
     </v-app-bar>
 
-    <v-main>
+    <v-main class="mx-8">
       <router-view :key="$route.fullPath"></router-view>
     </v-main>
     <ho-talk>
@@ -231,5 +231,6 @@ import VueSticky from 'vue-sticky'
   }
 </script>
 <style lang="scss">
-  @import '../../../scss/main.scss'
+  @import '../../../scss/main.scss';
+  @import '../../../scss/common.scss';
 </style>

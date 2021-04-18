@@ -89,36 +89,52 @@
         <v-text-field
           flat
           label="댓글을 남겨주세요"
-          :single-line="true"
-          :solo-inverted="true"
+          :single-line="false"
+          :solo="true"
           :hide-details="true"
           v-model="commentText"
+          style="border: 1px solid rgba(0, 0, 0, 0.12);"
         >
         </v-text-field>
-        <v-icon large class="ma-2"
+        <v-icon large class="ma-4"
           @click="sendComment"
         >
-          mdi-send-circle-outline
+          mdi-comment-processing-outline
         </v-icon>
       </v-row>
     </div>
   </v-col>
-  <v-col style="min-height:150px" class="mt-8">
-    <span 
+  <v-col style="min-height:150px" class="mt-8 mx-0 px-0">
+    <div 
       v-for="item in article.comments"
       :key="item.id"
+      class="my-8"
     >
-      <v-avatar
-        size="32px"
-        v-if="item.author"
-      >
-        <v-img
-          alt="Avatar"
-          :src="item.avatar"
-        ></v-img>
-      </v-avatar>
-      {{$Time.dateToFormatKorean(item.regDate)}} - {{item.author}} : {{item.comment}}
-    </span>
+      <v-row align="center" class="mx-0 px-0">
+        <v-avatar
+          size="48"
+          v-if="item.author"
+        >
+          <v-img
+            alt="Avatar"
+            :src="item.avatar"
+          ></v-img>
+        </v-avatar>
+        <v-col class="ml-4">
+          <v-row>
+            <span class="font-weight-bold">{{item.author}}</span>
+          </v-row>
+          <v-row>
+            <span class="text-caption">{{$Time.dateToFormatForToday(item.regDate)}}</span>
+          </v-row>
+        </v-col>
+        <v-spacer/>
+      </v-row>
+      <v-row class="my-4 mx-0 px-0">
+        {{item.comment}}
+      </v-row>
+      <v-divider/>
+    </div>
   </v-col>
   <div style="height:150px"></div>
 </v-container>
