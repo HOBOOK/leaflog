@@ -1,95 +1,49 @@
 <template>
-<v-container style="min-height: calc(100vh + 200px)">
-  <v-col class="text-left" cols="12">
-    <transition name="slide-y-reverse-transition" appear>
-      <h1 class="text-h3 mt-8 mb-8" style="font-weight:700; overflow:hidden; text-overflow: ellipsis;">{{this.article.title}}</h1>
-    </transition>
-    <v-col>
-      <v-row class="align-center" style="position:sticky !important; top:10rem;">
-        <h4 class="subheading mr-4">@{{this.article.author}}</h4>
-        <span v-cloak>{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
+<v-container style="min-height: calc(100vh + 200px); width:100%;">
+  <v-row class="pb-16">
+    <v-col cols="9" class="ma-0 pa-0">
+      <transition name="slide-y-reverse-transition" appear>
+        <v-row>
+        <h1 class="text-h3 mt-8 mb-8" style="font-weight:700; overflow:hidden; text-overflow: ellipsis;">{{this.article.title}}</h1>
+        </v-row>
+      </transition>
+      <v-row class="align-center">
+        <h4 class="subheading">@{{this.article.author}}</h4>
+        <span v-cloak class="text-caption ml-4">{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
         <v-spacer/>
-        <span class="d-flex flex-row-reverse">
-            <span
-              class="ma-1" 
-              style="cursor:pointer"
-              @click.stop="dialog = true"
-            >
-              <v-icon>mdi-delete-variant
-              </v-icon> 삭제
-            </span>
-            <v-dialog
-              v-if="isAuthor" justify="center"
-                v-model="dialog"
-                max-width="500"
-            >
-            <v-card>
-                <v-card-title class="headline">
-                정말로 이 글을 삭제하시겠습니까?
-                </v-card-title>
-                <v-card-text>로그 삭제시 복구할 수 없습니다</v-card-text>
-                <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                    text
-                    @click="dialog = false"
-                >
-                    취소
-                </v-btn>
-                <v-btn
-                    color="green darken-1"
-                    text
-                    @click="deleteArticle()"
-                >
-                    <v-icon>
-                      mdi-delete-variant
-                    </v-icon> 
-                    삭제
-                </v-btn>
-                </v-card-actions>
-            </v-card>
-            </v-dialog>
-          <span v-if="isAuthor" class="ma-1" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> 편집</span>
-          <span v-if="isAuthor" class="ma-1" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> 공유</span>
+      </v-row>
+      <v-row  class="mt-16" style="min-height:300px">
+        <span v-html="article.content">
         </span>
       </v-row>
-    </v-col>
-  </v-col>
-  <v-col style="min-height:300px">
-    <span v-html="article.content">
-    </span>
-  </v-col>
-  <v-col class="mt-8 mb-8">
-    <v-row>
-      <v-col cols="2">
-        <v-avatar
-          size="128px"
-          v-if="author"
-        >
-          <v-img
-            alt="Avatar"
-            :src="`https://randomuser.me/api/portraits/men/` + author.avatar +`.jpg`"
-          ></v-img>
-        </v-avatar>
-      </v-col>
-      <v-col cols="10" justify-center align-center>
+      <v-row class="mt-8 mb-8">
         <v-row>
-        {{author.id}}
+          <v-col cols="2">
+            <v-avatar
+              size="128px"
+              v-if="author"
+            >
+              <v-img
+                alt="Avatar"
+                :src="`https://randomuser.me/api/portraits/men/` + author.avatar +`.jpg`"
+              ></v-img>
+            </v-avatar>
+          </v-col>
+          <v-col cols="10" justify-center align-center>
+            <v-row>
+            {{author.id}}
+            </v-row>
+            <v-row>
+              {{author.introduction}}
+            </v-row>
+          </v-col>
         </v-row>
-        <v-row>
-          {{author.introduction}}
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-col>
-  <v-divider/>
-  <v-col class="mt-8">
-    <div>
-      <v-row>
+      </v-row>
+      <v-divider/>
+      <v-row class="mt-8">
         <v-text-field
           flat
           label="댓글을 남겨주세요"
-          :single-line="false"
           :solo="true"
           :hide-details="true"
           v-model="commentText"
@@ -102,46 +56,101 @@
           mdi-comment-processing-outline
         </v-icon>
       </v-row>
-    </div>
-  </v-col>
-  <v-col style="min-height:150px" class="mt-8 mx-0 px-0">
-    <div 
-      v-for="item in article.comments"
-      :key="item.id"
-      class="my-8"
-    >
-      <v-row align="center" class="mx-0 px-0">
-        <v-avatar
-          size="48"
-          v-if="item.author"
+      <v-row style="min-height:150px" class="mt-8 mx-0 px-0">
+        <v-col
+          cols="12" 
+          v-for="item in article.comments"
+          :key="item.id"
+          class="mx-0 pa-0 mb-8"
         >
-          <v-img
-            alt="Avatar"
-            :src="item.avatar"
-          ></v-img>
-        </v-avatar>
-        <v-col class="ml-4">
-          <v-row>
-            <span class="font-weight-bold">{{item.author}}</span>
+          <v-row align="center" class="mx-0 px-0">
+            <v-avatar
+              size="48"
+              v-if="item.author"
+            >
+              <v-img
+                alt="Avatar"
+                :src="item.avatar"
+              ></v-img>
+            </v-avatar>
+            <v-col class="ml-4">
+              <v-row>
+                <span class="font-weight-bold">{{item.author}}</span>
+              </v-row>
+              <v-row>
+                <span class="text-caption">{{$Time.dateToFormatForToday(item.regDate)}}</span>
+              </v-row>
+            </v-col>
+            <v-spacer/>
           </v-row>
-          <v-row>
-            <span class="text-caption">{{$Time.dateToFormatForToday(item.regDate)}}</span>
+          <v-row class="my-4 mx-0 px-0">
+            {{item.comment}}
           </v-row>
+          <v-divider/>
         </v-col>
-        <v-spacer/>
       </v-row>
-      <v-row class="my-4 mx-0 px-0">
-        {{item.comment}}
+    </v-col>
+    <v-col 
+      cols="3"
+    >
+      <div 
+        style="margin-top:300px !important;"
+        v-sticky="{ zIndex: 10,  stickyTop: 128}"
+        class="mx-8"
+      >
+      <v-row
+        style="cursor:pointer"
+        @click.stop="dialog = true"
+        class="my-4"
+      >
+        <v-icon>mdi-delete-variant
+        </v-icon> 
       </v-row>
-      <v-divider/>
-    </div>
-  </v-col>
-  <div style="height:150px"></div>
+      <v-dialog
+        v-if="isAuthor" justify="center"
+          v-model="dialog"
+          max-width="500"
+      >
+      <v-card>
+          <v-card-title class="headline">
+          정말로 이 글을 삭제하시겠습니까?
+          </v-card-title>
+          <v-card-text>로그 삭제시 복구할 수 없습니다</v-card-text>
+          <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+              text
+              @click="dialog = false"
+          >
+              
+          </v-btn>
+          <v-btn
+              color="green darken-1"
+              text
+              @click="deleteArticle()"
+          >
+              <v-icon>
+                mdi-delete-variant
+              </v-icon> 
+          </v-btn>
+          </v-card-actions>
+      </v-card>
+      </v-dialog>
+      <v-row v-if="isAuthor" class="my-4" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> </v-row>
+      <v-row v-if="isAuthor" class="my-4" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> </v-row>
+      </div>
+    </v-col>
+  </v-row>
 </v-container>
 </template>
 
 <script>
+import VueSticky from 'vue-sticky'
+
 export default {
+    directives:{
+      sticky: VueSticky
+    },
     data () {
       return {
         authorId: '',

@@ -21,7 +21,8 @@ export default new Vuex.Store({
     loginDialogShow: false,
     isLogin: localStorage.getItem("token") !== null,
     socket: null,
-    stompClient: null
+    stompClient: null,
+    parentComponent: null
   },
   getters: {
     categories: state => {

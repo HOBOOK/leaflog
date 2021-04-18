@@ -39,18 +39,18 @@
       <v-col>
         <v-divider></v-divider>
       </v-col>
-      <v-col class="mt-16">
+      <v-col class="my-16" style="min-height: 900px;">
           <v-tabs
             background-color="white"
             centered
             grow
             color="#827717"
           >
-            <v-tab style="font-size:1.3rem; max-width:10rem">
+            <v-tab :ripple="false" style="font-size:1.3rem; max-width:10rem">
               <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 contain></v-img></v-tab>
-            <v-tab style="font-size:1.3rem; max-width:10rem">소개</v-tab>
+            <v-tab :ripple="false" style="font-size:1.3rem; max-width:10rem">소개</v-tab>
       
-            <v-tab-item class="mt-8">
+            <v-tab-item class="mt-8" transition="fade-transition" reverse-transition="fade-transition">
               <v-container fluid>
                 <v-row>
                   <v-col cols="12">
@@ -70,14 +70,19 @@
                 </v-row>
               </v-container>
             </v-tab-item>
-            <v-tab-item class="mt-8">
+            <v-tab-item class="mt-8" transition="fade-transition" reverse-transition="fade-transition">
               <v-container fluid>
-                <v-col class="text-center" cols="12">
+                <v-row class="ma-0 pa-0">
+                  <Footprint/>
+                </v-row>
+                <v-row>
                   <v-img src="../assets/vector/tree.png" aspect-ratio="1.7" max-height=300 contain></v-img>
+                </v-row>
+                <v-row justify="center" align="center" class="text-center">
                   <transition name="slide-y-reverse-transition" appear>
                     <h1 class="mt-8 display-1 font-weight-thin mb-4">당신의 나무를 소개해보세요</h1>
                   </transition>
-                </v-col>
+                </v-row>
               </v-container>
             </v-tab-item>
           </v-tabs>
@@ -90,12 +95,12 @@
 
 <script>
   import axios from "axios"
-
   export default {
     name: 'Tree',
 
     components: {
       FeedCard: () => import('@/components/FeedCard'),
+      Footprint: () => import('@/components/Footprint')
     },
 
 

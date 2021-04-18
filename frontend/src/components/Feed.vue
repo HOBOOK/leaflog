@@ -95,6 +95,4 @@
     }
   }
 </script>
-<style lang="scss">
-  @import '../../scss/feed.scss';
-</style>
+

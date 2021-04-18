@@ -1,20 +1,17 @@
+.feed-card-container{
 
-.feed-container{
-    .feed-card-container{
-
-        box-shadow: 0 1px 16px -1px rgba(000, 000, 000, 0.07);
-        transition: all 0.2s ease-in-out;
-        -webkit-transition: all 0.2s ease-in-out;
-        &:hover{
-            box-shadow: 0 1px 16px -1px rgba(000, 000, 000, 0.2);
-        }
-        .feed-card-title{
-            font-size:1.1em;
-        }
-        .feed-card-content {
-            height:50px;
-            font-size:0.87em;
-            color:rgba(000, 000, 000, 0.62);
-        }
+    box-shadow: 0 1px 16px -1px rgba(000, 000, 000, 0.07);
+    transition: all 0.2s ease-in-out;
+    -webkit-transition: all 0.2s ease-in-out;
+    &:hover{
+        box-shadow: 0 1px 16px -1px rgba(000, 000, 000, 0.2);
+    }
+    .feed-card-title{
+        font-size:1.1em;
+    }
+    .feed-card-content {
+        height:50px;
+        font-size:0.87em;
+        color:rgba(000, 000, 000, 0.62);
     }
 }

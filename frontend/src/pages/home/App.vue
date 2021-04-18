@@ -2,13 +2,14 @@
   <v-app id="app" :style="{background: $vuetify.theme.themes[theme].background}">
     <v-navigation-drawer
       app
-      class="d-flex pt-8"
+      class="d-flex pt-12"
       floating
       clipped
       color="background"
     >
       <v-list
-        :style="'border-right:3px solid ' + $vuetify.theme.themes[theme].second"
+        class="mr-4"
+        :style="'border-right:1px solid ' + $vuetify.theme.themes[theme].second"
         dense 
         flat
         nav>
@@ -174,8 +175,6 @@ import VueSticky from 'vue-sticky'
           else {
             this.menus.push({icon: 'mdi-tree-outline', text: this.user.id+'의 나무', link: '/tree/@' + this.user.id + '/'})
           }
-          this.menus.push({ icon: 'mdi-shoe-print', text: '발자취', link: '/footprint/@' + this.user.id + '/'})
-
           this.findLeafsById(this.user.id)
         }
         

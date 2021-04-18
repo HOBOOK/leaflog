@@ -3,14 +3,14 @@
       cols="4"
       class="ma-0 pa-0"
     >
-      <div class="feed-card-container ma-2 px-0 pb-2">
+      <div class="feed-card-container ma-2 pa-0">
         <v-card
           flat
           tile
           :max-height="370"
-          @click="$Common.goLeafRoute(value.author, value.title)"
           class="ma-0 pa-0"
         >
+          <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
           <v-img
             :src="require(`@/assets/articles/${value.thumbnail}`)"
             :height="192"
@@ -29,6 +29,7 @@
           >
             {{value.content}}
           </v-row>
+          </span>
           <v-row class="text-right text-caption ma-2 pa-0" align="center">
             <v-spacer/>
             <span class="font-weight-bold mr-2">{{ value.author }}</span>
@@ -71,8 +72,9 @@
   }
 </script>
 
-<style>
-.v-image__image {
-  transition: .3s linear;
-}
+<style lang="scss">
+  @import '../../scss/feed.scss';
+  .v-image__image {
+    transition: .3s linear;
+  }
 </style>
