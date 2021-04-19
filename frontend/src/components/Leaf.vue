@@ -167,12 +167,13 @@ export default {
         return this.$Storage.getUser() !==null && this.authorId === this.$Storage.getUser().id
       }
     },
-    created() {
+    mounted() {
       let routerParams = this.$router.currentRoute.params
       this.title = routerParams.key
       this.authorId = routerParams.id.substring(1)
       this.getArticle()
     },
+    
     methods: {
       async getArticle() {
         await this.$axios.get("http://localhost:3000/api/articles/" + this.authorId + "/" + this.title)
@@ -236,11 +237,12 @@ export default {
           comment: this.commentText,
           childrens: []
         }
-        this.article.comments.push(this.comment)
+        
 
         this.axios.put('/api/articles', this.article)
-        .then(res => {
-          console.log(res)
+        .then(() => {
+          this.article.comments.push(this.comment)
+          this.getComment(this.article.comments)
         })
         .catch(err => {
           console.log(err)
