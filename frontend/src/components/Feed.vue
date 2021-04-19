@@ -25,7 +25,6 @@
     },
 
     data: () => ({
-      layout: [2, 2, 3, 3, 3, 2, 2, 3, 3, 3],
       page: 1,
       bottom: false,
       isFetching: false,

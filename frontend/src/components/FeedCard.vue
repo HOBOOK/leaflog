@@ -3,35 +3,38 @@
       cols="4"
       class="ma-0 pa-0"
     >
-      <div class="feed-card-container ma-2 pa-0">
+      <div class="feed-card-container ma-4 pa-0">
         <v-card
           flat
           tile
           :max-height="370"
+          :height="370"
           class="ma-0 pa-0"
         >
           <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
-          <v-img
-            :src="require(`@/assets/articles/${value.thumbnail}`)"
-            :height="192"
-            gradient="rgba(0, 0, 0, .42), rgba(50, 50, 50, .42)"
-          >
-          </v-img>
-          <v-row
-            class="text-left ma-2 pa-0 feed-card-title"
-          >
-            <span class="font-weight-bold">
-              {{ value.title }}
-            </span>
-          </v-row>
-          <v-row
-            class="text-left mx-2 my-0 pa-0 feed-card-content"
-          >
-            {{value.content}}
-          </v-row>
+            <v-img
+              :src="require(`@/assets/articles/${value.thumbnail}`)"
+              :height="192"
+              gradient="rgba(0, 0, 0, .42), rgba(50, 50, 50, .42)"
+            >
+            </v-img>
+            
+            <v-row
+              class="text-left my-2 mx-4 px-0 pt-2 feed-card-title"
+            >
+              <span class="font-weight-bold">
+                {{ value.title }}
+              </span>
+            </v-row>
+            <v-row
+              class="text-left mx-4 mb-4 px-0 pb-2 feed-card-content"
+            >
+              {{ $Common.replaceTag(value.content)}}
+            </v-row>
           </span>
-          <v-row class="text-right text-caption ma-2 pa-0" align="center">
+          <v-row class="text-right text-caption mx-4 px-0 pb-2" align="center">
             <v-spacer/>
+            <v-icon small left>mdi-feather</v-icon>
             <span class="font-weight-bold mr-2">{{ value.author }}</span>
             <v-avatar
               size="32"
@@ -42,12 +45,12 @@
               >
             </v-avatar>
           </v-row>
-          <v-row class="ma-2 pa-0 text-caption color-caption" justify="end" align="center">
+          <v-row class="mx-4 px-0 pb-2 text-caption color-caption" justify="end" align="center">
             <span class="pr-2">
               <v-icon small class="ma-1">mdi-clock-time-seven-outline</v-icon>{{ $Time.dateToFormatForToday(value.date) }}
             </span>
             <span class="pr-2">
-              <v-icon small class="ma-1">mdi-eye-outline</v-icon>3.5만
+              <v-icon small class="ma-1">mdi-eye-outline</v-icon>{{$Common.convertNumberUnit(value.view)}}
             </span>
             <span class="pr-0">
               <v-icon small class="ma-1" color="blue darken-2">mdi-water-outline</v-icon>
@@ -68,7 +71,7 @@
         type: Object,
         default: () => ({}),
       },
-    }
+    },
   }
 </script>
 

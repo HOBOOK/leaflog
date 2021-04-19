@@ -12,6 +12,7 @@ let articleSchema = new Schema(
     prominent: Boolean,
     water: Number,
     comments: Array,
+    view: Number,
     date: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

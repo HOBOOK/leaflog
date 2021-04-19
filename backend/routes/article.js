@@ -9,7 +9,7 @@ var articles = require("../model/article")
 
 // Create
 router.post("/", cors(), function(req, res, next) {
-    const { title, content, author, thunbmail, private, prominent, water, comments } = req.body; // 비구조화 할당
+    const { title, content, author, thunbmail, private, prominent, water, comments, view } = req.body; // 비구조화 할당
   
     new articles(req.body)
       .save()
@@ -29,7 +29,7 @@ router.post("/", cors(), function(req, res, next) {
 
 //update
 router.put("/", cors(), function(req, res, next) {
-  const { id, title, content, author, thunbmail, private, prominent, water, comments } = req.body;
+  const { id, title, content, author, thunbmail, private, prominent, water, comments, view } = req.body;
 
   articles
     .findOne({ id: req.body.id })
@@ -41,6 +41,7 @@ router.put("/", cors(), function(req, res, next) {
       article.thunbmail = req.body.thunbmail;
       article.private = req.body.private;
       article.comments = req.body.comments;
+      article.view = req.body.view
 
       article.save().then(output => {
         res.status(200).json({

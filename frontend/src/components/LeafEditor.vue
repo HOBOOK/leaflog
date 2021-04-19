@@ -130,7 +130,8 @@ export default {
         category: '',
         private: false,
         prominent: false,
-        water: 0
+        water: 0,
+        view: 0
       },
       valid: true,
       select: null,  

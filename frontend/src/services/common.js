@@ -50,4 +50,24 @@ export default class Common {
         }
         return false
     }
+    //숫자단위포멧 변환 함수
+    convertNumberUnit(number){
+        let numStr = number.toString()
+        if(numStr.length > 8) {
+            return (number / 100000000).toFixed(1) + '억'
+        } else if(numStr.length > 7) {
+            return (number / 10000000).toFixed(1) + '천만'
+        } else if(numStr.length > 4) {
+            return (number / 10000).toFixed(1) + '만'
+        } else if(numStr.length > 3) {
+            return (number / 1000).toFixed(1) + '천'
+        } else {
+            return number
+        }
+    }
+    //html 태그 제외한 텍스트 반환 함수
+    replaceTag(html) {
+        let regExp = /<\/?[^>]+>/gi;
+        return html.replace(regExp,"");
+    }
 }
