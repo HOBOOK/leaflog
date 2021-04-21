@@ -137,7 +137,7 @@ export default {
       select: null,  
       items: [],
       sheet: false,
-      targetRoot: {}
+      targetRoot: null
     }),
     created() {
       this.currentPath = this.$Common.getCurrentRoutePath()
@@ -154,20 +154,6 @@ export default {
       this.items.push(this.select)
     },
     computed: {
-      axiosConfig() {
-        const headers = {
-          'headers': {
-            'Content-Type': 'application/json'
-          }
-        }
-        return headers
-      },
-      articleUrl() { 
-        return "http://localhost:3000/api/articles"
-      },
-      leafUrl() { 
-        return "http://localhost:3000/api/leafs/"
-      }
     },
     mounted() {
 
@@ -191,95 +177,81 @@ export default {
       resetValidation () {
       this.$refs.form.resetValidation()
       },
-      findLeafInRoot (leafs, select) {
-        let root = leafs.root
+      findLeafInRoot (root, select) {
         if (select === '뿌리') {
           let leaf = {
             name: this.article.title,
             children: []
           }
           root.push(leaf)
-          return true
+          this.targetRoot = root
+          return
         }
-        this.targetRoot = {}
-        let temp = {}
         for (let i = 0; i < root.length; i++) {
-          if (typeof targetRoot === 'undefined') {
-            temp = this.findLeafInRootRecursive(root[i], select)
-            if (typeof temp !== 'undefined') {
-              this.targetRoot = temp
-              break
-            }
-          } else {
-            break
-          }
+          this.findLeafInRootRecursive(root[i], select)
         }
-        return typeof this.targetRoot !== 'undefined'
       },
-      findLeafInRootRecursive (root, select) {
-        if (root.name === select) {
+      findLeafInRootRecursive (parent, select) {
+        if (parent.name === select) {
           let leaf = {
             name: this.article.title,
             children: []
           }
-          root.children.push(leaf)
-          return root
+          parent.children.push(leaf)
+          this.targetRoot = parent
         } else {
-          for (let i = 0; i < root.children.length; i++) {
-            return this.findLeafInRootRecursive(root.children[i], select)
+          for (let i = 0; i < parent.children.length; i++) {
+            this.findLeafInRootRecursive(parent.children[i], select)
           }
         }
-        return undefined
       },
 
       // 새로운 루트 생성
-      createLeaf () {
+      async createLeaf () {
         if (!this.validate()) {
           this.alert()
           return
         }
-
+        let pageTree = null
         // 트리 구조 가져오기
-        axios.get(this.leafUrl + this.article.author)
-          .then(response => {
-            let leafKeyIndexes = response.data.data.keyIndexes
-            let isDuplicatedTitle = false
-            for (let i = 0; i < leafKeyIndexes.length; i++) {
-              if (leafKeyIndexes[i] === this.article.title) {
-                isDuplicatedTitle = true
-                break
-              }
-            }
-            if (isDuplicatedTitle) {
-              console.log('leaf title is duplicated -> ' + this.article.title)
-              return
-            }
-            // 트리 에서 루트찾기
-            if(this.findLeafInRoot(response.data.data, this.select)) {
-              // 키인덱스에 생성될 문서 제목 추가
-              response.data.data.keyIndexes.push(this.article.title)
-              // 루트 업데이트
-              axios.put(this.leafUrl, response.data.data, this.axiosConfig)
-                .then(response => {
-                  console.log('update root success -> ' + response)
-                  this.createArticle()
-                })
-                .catch(err => {
-                  console.log('create err -> ' + err)
-                })
-            } else {
-              console.log('error get root')
-            }
-          })
-          .catch(err => {
-            console.log('fetch error leafs -> ' + err)
-          })
+        await axios.get('/leafs/' + this.article.author)
+        .then(response => {
+          pageTree = response.data.data
+          let leafKeyIndexes = response.data.data.keyIndexes
+          if (leafKeyIndexes.indexOf(this.article.title) !== -1) {
+            console.log('leaf title is duplicated -> ' + this.article.title)
+            return
+          }
+        })
 
+        if(typeof pageTree === 'undefined' || pageTree === null){
+          this.alert()
+          return
+        }
+
+        let root = pageTree.root
+
+        // 트리 에서 루트찾기
+        this.targetRoot = null
+        this.findLeafInRoot(root, this.select)
+        if(this.targetRoot !== null) {
+          // 키인덱스에 생성될 문서 제목 추가
+          pageTree.keyIndexes.push(this.article.title)
+          // 루트 업데이트
+        } else {
+          this.alert()
+          return
+        }
+
+        axios.put('/leafs/', pageTree)
+        .then(() => {
+          this.createArticle()
+        })
       },
 
       // 새로운 문서 생성
       createArticle() {
-        axios.post(this.articleUrl, this.article, this.axiosConfig)
+        axios.post('/articles', this.article)
           .then(() => {
             this.reloadNavigationRoot()
             this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)

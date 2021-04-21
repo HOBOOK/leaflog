@@ -5,9 +5,9 @@ import axios from 'axios'
 import store from '../store/index'
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = 'http://localhost:3000' || '';
+axios.defaults.baseURL = 'http://localhost:3000/api' || '';
 // axios.defaults.headers.common['Authorization'] = store.token;
-// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 let config = {
   // baseURL: process.env.baseURL || process.env.apiUrl || ""

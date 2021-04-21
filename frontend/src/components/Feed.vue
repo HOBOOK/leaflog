@@ -36,7 +36,7 @@
         return Math.ceil(this.articles.length / 11)
       },
       articleUrl() { 
-        return "http://localhost:3000/api/articles?page=" + this.page
+        return "/articles?page=" + this.page
       },
     },
 
@@ -82,7 +82,7 @@
       async fetchData2(datas) {
         for(let i = 0; i < datas.length; i++) {
           datas[i].thumbnail = datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail
-          await this.$axios.get('/api/auth/' + datas[i].author)
+          await this.$axios.get('/auth/' + datas[i].author)
           .then(res => {
             datas[i].authorAvatar = res.data.data.avatar
           })

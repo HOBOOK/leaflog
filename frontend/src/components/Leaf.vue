@@ -1,14 +1,15 @@
 <template>
 <v-container style="min-height: calc(100vh + 200px); width:100%;">
   <v-row class="pb-16">
-    <v-col cols="9" class="ma-0 pa-0">
+    <v-col cols="10" class="ma-0 pa-0">
       <transition name="slide-y-reverse-transition" appear>
         <v-row>
         <h1 class="text-h3 mt-8 mb-8" style="font-weight:700; overflow:hidden; text-overflow: ellipsis;">{{this.article.title}}</h1>
         </v-row>
       </transition>
       <v-row class="align-center">
-        <h4 class="subheading">@{{this.article.author}}</h4>
+        <v-icon small left>mdi-feather</v-icon>
+        <h4 class="subheading">{{this.article.author}}</h4>
         <span v-cloak class="text-caption ml-4">{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
         <v-spacer/>
       </v-row>
@@ -50,11 +51,7 @@
           style="border: 1px solid rgba(0, 0, 0, 0.12);"
         >
         </v-text-field>
-        <v-icon large class="ma-4"
-          @click="sendComment"
-        >
-          mdi-comment-processing-outline
-        </v-icon>
+        <v-btn class="ma-4 font-weight-bold" elevation=0 @click="sendComment" filled>댓글 작성</v-btn>
       </v-row>
       <v-row style="min-height:150px" class="mt-8 mx-0 px-0">
         <v-col
@@ -91,7 +88,7 @@
       </v-row>
     </v-col>
     <v-col 
-      cols="3"
+      cols="2"
     >
       <div 
         style="margin-top:300px !important;"
@@ -102,6 +99,7 @@
         style="cursor:pointer"
         @click.stop="dialog = true"
         class="my-4"
+        justify="center"
       >
         <v-icon>mdi-delete-variant
         </v-icon> 
@@ -136,8 +134,8 @@
           </v-card-actions>
       </v-card>
       </v-dialog>
-      <v-row v-if="isAuthor" class="my-4" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> </v-row>
-      <v-row v-if="isAuthor" class="my-4" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> </v-row>
+      <v-row v-if="isAuthor" justify="center" class="my-4" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> </v-row>
+      <v-row v-if="isAuthor" justify="center" class="my-4" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> </v-row>
       </div>
     </v-col>
   </v-row>
@@ -176,7 +174,7 @@ export default {
     
     methods: {
       async getArticle() {
-        await this.$axios.get("http://localhost:3000/api/articles/" + this.authorId + "/" + this.title)
+        await this.$axios.get("/articles/" + this.authorId + "/" + this.title)
           .then(response => {
             this.article = response.data.data
           })
@@ -191,7 +189,7 @@ export default {
       async deleteArticle() {
         this.dialog = false
         let leafs = null
-        await this.$axios.get("http://localhost:3000/api/leafs/" + this.author.id)
+        await this.$axios.get("/leafs/" + this.author.id)
           .then(res => {
             leafs = res.data.data
             this.$Common.deleteLeafInRoot(leafs.root, this.title)
@@ -199,29 +197,32 @@ export default {
           .catch(err => {
             console.log('fetch error leafs -> ' + err)
           })
-
-        await this.$axios.put("http://localhost:3000/api/leafs/", leafs)
+        if(leafs.keyIndexes.indexOf(this.title) !== -1) {
+          leafs.keyIndexes.splice(leafs.keyIndexes.indexOf(this.title), 1)
+        }
+        await this.$axios.put("/leafs/", leafs)
         .catch(err =>{
           console.log(err)
         })
         
-        await this.$axios.delete("http://localhost:3000/api/articles/" + this.authorId + "/" + this.title)
+        await this.$axios.delete("/articles/" + this.authorId + "/" + this.title)
           .then(() => {
             this.$Common.goRoute('/tree/@' + this.article.author)
+            this.reloadNavigationRoot()
           })
           .catch(err =>{
             console.log('error delete article -> ' + err)
           })
       },
       getAuthor() {
-        this.$axios.get("http://localhost:3000/api/auth/" + this.authorId)
+        this.$axios.get("/auth/" + this.authorId)
         .then(res => {
           this.author = res.data.data
         })
       },
       async getComment(comments) {
         for(let i = 0; i < comments.length; i++) {
-          await this.$axios.get('/api/auth/' + comments[i].author)
+          await this.$axios.get('/auth/' + comments[i].author)
           .then(res => {
             comments[i].avatar = `https://randomuser.me/api/portraits/men/` + res.data.data.avatar +`.jpg`
           })
@@ -251,6 +252,12 @@ export default {
           this.commentText = ''
           this.comment = null
         })
+      },
+
+      // 네비게이션 트리 리로드
+      reloadNavigationRoot() {
+        let app = this.$root._self.$children[0]
+        app.findLeafsById(this.article.author)
       }
     }
 }
