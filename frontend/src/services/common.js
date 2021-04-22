@@ -52,6 +52,8 @@ export default class Common {
     }
     //숫자단위포멧 변환 함수
     convertNumberUnit(number){
+        if(typeof number === 'undefined')
+            return number
         let numStr = number.toString()
         if(numStr.length > 8) {
             return (number / 100000000).toFixed(1) + '억'
@@ -67,7 +69,12 @@ export default class Common {
     }
     //html 태그 제외한 텍스트 반환 함수
     replaceTag(html) {
-        let regExp = /<\/?[^>]+>/gi;
-        return html.replace(regExp,"");
+        if(typeof html !== 'undefined') {
+            let regExp = /<\/?[^>]+>/gi;
+            return html.replace(regExp,"");
+        }else {
+            return html
+        }
+        
     }
 }

@@ -114,10 +114,7 @@
     computed: {
       pages () {
         return Math.ceil(this.articles.length / 11)
-      },
-      articleUrl() { 
-        return "http://localhost:3000/api/articles/" + this.$router.currentRoute.params.id.substring(1) + "?page=" + this.page
-      },
+      }
     },
 
     created() {
@@ -147,7 +144,7 @@
       async fetchData() {
         if(this.isFetching) return
         this.isFetching = true
-        await axios.get(this.articleUrl)
+        await axios.get("/articles/" + this.$router.currentRoute.params.id.substring(1) + "?page=" + this.page)
           .then(response => {
             let datas = response.data.data
             for(let i = 0; i < datas.length; i++) {
