@@ -155,6 +155,15 @@
               </v-card-text>
               <v-card-actions class="d-flex justify-center align-end">
                 <v-btn
+                  rounded
+                  text
+                  color="#EF5350"
+                  class="mr-4"
+                  @click="createPanel = !createPanel"
+                >
+                  <v-icon class="ma-2">mdi-close-circle-outline</v-icon> 취소
+                </v-btn>
+                <v-btn
                   @click="createLeaf"
                   rounded
                   text
@@ -164,14 +173,6 @@
                   <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
                   생성
                 </v-btn>
-                <v-btn
-                  color="error"
-                  rounded
-                  text
-                  outlined
-                  class="mx-2"
-                  @click="createPanel = !createPanel"
-                >취소</v-btn>
               </v-card-actions>
             </v-card>
           </v-container>
@@ -228,13 +229,17 @@ export default {
     },
     methods: {
       showCreatePanel () {
+        if(!this.validate()){
+          return
+        }
         this.createPanel = !this.createPanel
       },
       validate () {
-        if (this.article.author.length === 0) {
+        if (this.article.title.length === 0) {
+          this.$store.commit('setAlert', this.$Lang.getString('alert_error_title'))
           return false
-        } else if (this.article.title.length === 0) {
-          console .log('validate error -> title is invalid')
+        } else if (this.article.content.length === 0) {
+          this.$store.commit('setAlert', this.$Lang.getString('alert_error_content'))
           return false
         }
         return true

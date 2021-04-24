@@ -22,7 +22,10 @@ export default new Vuex.Store({
     isLogin: localStorage.getItem("token") !== null,
     socket: null,
     stompClient: null,
-    parentComponent: null
+    parentComponent: null,
+    alert: false,
+    alertMessage: '',
+    
   },
   getters: {
     categories: state => {
@@ -54,6 +57,10 @@ export default new Vuex.Store({
     setToken: function(state, token){
       state.token = token;
     },
+    setAlert: function(state, message){
+      state.alert = true;
+      state.alertMessage = message;
+    }
   },
   actions: {
     login: function(options, tokenData){

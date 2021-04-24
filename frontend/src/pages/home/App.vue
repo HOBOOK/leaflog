@@ -55,7 +55,7 @@
             >
               <v-list-item-avatar size=28>
                 <img
-                  :src="`https://randomuser.me/api/portraits/men/${item.avatar}.jpg`"
+                  :src="$File.getAvatar(item.avatar)"
                   alt=""
                 >
               </v-list-item-avatar>
@@ -85,9 +85,7 @@
             v-show="$store.state.isLogin"
             outlined 
             rounded 
-            v-bind="attrs"
             color="primary"
-            v-on="on"
             @click="$Common.goRoute('/edit?=' + $Common.getCurrentRouteArticleInfo())"
             ><v-icon small left>mdi-plus</v-icon>나뭇잎 생성</v-btn>
       </div>
@@ -109,6 +107,28 @@
     </v-main>
     <ho-talk>
     </ho-talk>
+    <v-snackbar
+        v-model="$store.state.alert"
+        
+        rounded="pill"
+        outlined
+        absolute
+        :timeout="2000"
+      >
+        <v-icon left>mdi-alert-circle-outline</v-icon>
+        {{$store.state.alertMessage}}
+  
+        <template v-slot:action="{ attrs }">
+          <v-icon
+            @click="$store.state.alert = false"
+            v-bind="attrs"
+            dense
+            class="mx-2"
+          >
+            mdi-close
+          </v-icon>
+        </template>
+      </v-snackbar>
       
   </v-app>
 </template>
@@ -152,7 +172,7 @@ import VueSticky from 'vue-sticky'
       },
       async findUsersById() {
         if(this.$router.currentRoute.meta.tree) {
-          await this.$axios.get('/api/auth/' + this.$router.currentRoute.params.id.substring(1))
+          await this.$axios.get('/auth/' + this.$router.currentRoute.params.id.substring(1))
           .then(res => {
             this.user = res.data.data
           })
@@ -175,7 +195,7 @@ import VueSticky from 'vue-sticky'
         
       },
       findLeafsById(id) {
-        this.$axios.get("http://localhost:3000/api/leafs/" + id)
+        this.$axios.get("/leafs/" + id)
           .then(res => {
             let datas = res.data.data
             this.root = datas.root
@@ -190,7 +210,7 @@ import VueSticky from 'vue-sticky'
            return
         } 
         for(let i = 0; i < this.$Storage.getUser().subscribes.length; i++) {
-          await this.$axios.get("/api/auth/" + this.$Storage.getUser().subscribes[i])
+          await this.$axios.get("/auth/" + this.$Storage.getUser().subscribes[i])
           .then((res)=>{
             let subscribeModel = {
               id: res.data.data.id,

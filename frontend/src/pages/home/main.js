@@ -12,6 +12,7 @@ import Common from '../../services/common.js'
 import Storage from '../../services/storeage.js'
 import File from '../../services/file.js'
 import Time from '../../services/time.js'
+import Lang from '../../services/lang.js'
 
 Vue.use(PerfectScrollbar)
 Vue.config.productionTip = false
@@ -20,6 +21,7 @@ Vue.prototype.$Common = new Common()
 Vue.prototype.$Storage = new Storage()
 Vue.prototype.$Time = new Time()
 Vue.prototype.$File = new File()
+Vue.prototype.$Lang = new Lang()
 
 new Vue({
   vuetify,
