@@ -19,7 +19,8 @@
         small-chips
         :items="items"
         background-color="#FAFAFA"
-        label="가지"
+        label="뿌리"
+        :menu-props="{ top: false, offsetY: true}"
         dense
         color="#BDBDBD"
         class="ml-2 mr-2"
@@ -215,8 +216,7 @@ export default {
       if(this.$store.state.currentLeaf.author === this.article.author) {
         root = this.$store.state.currentLeaf.title
       }
-      this.select = root.length === 0 ? '뿌리' : root
-      this.items.push('뿌리')
+      this.select = root.length === 0 ? '' : root
       this.items.push(this.select)
     },
     methods: {
@@ -243,7 +243,7 @@ export default {
       this.$refs.form.resetValidation()
       },
       findLeafInRoot (root, select) {
-        if (select === '뿌리') {
+        if (select === null || typeof select === 'undefined' || select === '') {
           let leaf = {
             name: this.article.title,
             children: []
@@ -286,7 +286,6 @@ export default {
         })
 
         if(typeof pageTree === 'undefined' || pageTree === null){
-          this.alert()
           return
         }
 
@@ -300,7 +299,6 @@ export default {
           pageTree.keyIndexes.push(this.article.title)
           // 루트 업데이트
         } else {
-          this.alert()
           return
         }
 
@@ -311,15 +309,17 @@ export default {
       },
 
       // 새로운 문서 생성
-      createArticle() {
-        axios.post('/articles', this.article)
+      async createArticle() {
+        await axios.post('/articles', this.article)
           .then(() => {
             this.reloadNavigationRoot()
-            this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
           })
           .catch(err => {
             console.log('error create article -> ' + err)
+            return 
           })
+        await this.$File.upload(this.article.thumbnail, this.imageFile)
+        this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
       },
 
       // 네비게이션 트리 리로드
@@ -329,7 +329,8 @@ export default {
       },
 
       inputImageChange(event){
-          this.article.thumbnail = event.name
+          this.article.thumbnail = this.$Storage.getUser().id + "/" + event.name
+          this.imageFile = event
           this.thumbnail = window.URL.createObjectURL(event)
       },
     }

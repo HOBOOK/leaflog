@@ -13,8 +13,9 @@
         >
           <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
             <v-img
-              v-if="value.thumbnail.length > 0"
+              v-if="value.thumbnail.length > 0 && !thumbnailError"
               :src="$File.getImage(value.thumbnail)"
+              @error="thumbnailError = true"
               :height="192"
               gradient="rgba(0, 0, 0, .42), rgba(50, 50, 50, .42)"
             >
@@ -79,6 +80,10 @@
         default: () => ({}),
       },
     },
+
+    data: () => ({
+      thumbnailError: false
+    }),
   }
 </script>
 

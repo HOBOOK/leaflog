@@ -15,22 +15,23 @@ const upload = multer({
         s3: s3,
         bucket: "bucket-ghpark",
         key: function (req, file, cb) {
-             let extension = path.extname(file.originalname);
-             cb(null, Date.now().toString() + extension)
+             cb(null, req.body.name)
         },
         acl: 'public-read-write',
     })
 })
 
 
-router.post('/', upload.single("imgFile"), function(req, res, next){
+router.post('/upload', upload.single("file"), function(req, res, next){
     console.log(req.file)
 })
 
 router.get("/download/:key", function(req, res, next){
+    let buff = Buffer.from(req.params.key, 'base64');
+    let key = buff.toString('utf-8');
     let params = {
         Bucket: 'bucket-ghpark',
-        Key: req.params.key
+        Key: key
     }
     let file = s3.getObject(params)
 		.createReadStream()
