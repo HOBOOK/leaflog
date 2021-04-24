@@ -13,12 +13,15 @@
         >
           <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
             <v-img
-              :src="require(`@/assets/articles/${value.thumbnail}`)"
+              v-if="value.thumbnail.length > 0"
+              :src="$File.getImage(value.thumbnail)"
               :height="192"
               gradient="rgba(0, 0, 0, .42), rgba(50, 50, 50, .42)"
             >
             </v-img>
-            
+            <v-row v-else
+                style="height:192px !important;">
+            </v-row>
             <v-row
               class="text-left my-2 mx-4 px-0 pt-2 feed-card-title"
             >
@@ -40,7 +43,7 @@
               size="32"
             >
               <img
-                :src="'https://randomuser.me/api/portraits/men/' + value.authorAvatar +'.jpg'"
+                :src="$File.getAvatar(value.authorAvatar)"
                 alt="avatar"
               >
             </v-avatar>

@@ -26,7 +26,8 @@
             >
               <v-img
                 alt="Avatar"
-                :src="`https://randomuser.me/api/portraits/men/` + author.avatar +`.jpg`"
+                :lazy-src="$File.getAvatar(author.avatar)"
+                :src="$File.getAvatar(author.avatar)"
               ></v-img>
             </v-avatar>
           </v-col>
@@ -239,8 +240,7 @@ export default {
           childrens: []
         }
         
-
-        this.axios.put('/api/articles', this.article)
+        this.axios.put('/articles', this.article)
         .then(() => {
           this.article.comments.push(this.comment)
           this.getComment(this.article.comments)

@@ -80,21 +80,16 @@
         </v-row>
       </v-toolbar-title>
       <v-spacer />
-      <div v-show="$store.state.isLogin">
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn class="ma-2" 
+      <div >
+        <v-btn class="mx-4" 
+            v-show="$store.state.isLogin"
             outlined 
             rounded 
             v-bind="attrs"
             color="primary"
             v-on="on"
             @click="$Common.goRoute('/edit?=' + $Common.getCurrentRouteArticleInfo())"
-            ><v-icon>mdi-plus</v-icon>나뭇잎 생성</v-btn>
-          </template>
-        <span>로그 작성</span>
-        </v-tooltip>
-        
+            ><v-icon small left>mdi-plus</v-icon>나뭇잎 생성</v-btn>
       </div>
       <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
       <v-badge

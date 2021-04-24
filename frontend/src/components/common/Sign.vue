@@ -12,19 +12,20 @@
         color="primary"
         v-bind="attrs"
         v-on="on"
-        v-show="!$store.state.isLogin"
+        v-if="!$store.state.isLogin"
       >
         로그인
       </v-btn>
-      <v-btn class="ma-2" 
-        outlined 
-        rounded 
-        color="primary"
-        v-show="$store.state.isLogin"
+      <v-avatar
+        v-else
+        size="32"
+        class="mx-4"
         @click="logout()"
       >
-        로그아웃
-      </v-btn>
+        <v-img
+          :src="$File.getAvatar($Storage.getUser().avatar)">
+        </v-img>
+      </v-avatar>
     </template>
 
     <v-card class="pa-0">
@@ -173,13 +174,13 @@ export default {
           email: this.email,
           password: this.password
         }
-        this.$axios.post('/api/auth/login', data, null)
+        this.$axios.post('/auth/login', data, null)
           .then(response => {
             let id = JSON.parse(atob(response.data.token.split('.')[1])).id
             if(id.length === 0){
               alert('오류')
             }else {
-              this.$axios.get('/api/auth/' + id)
+              this.$axios.get('/auth/' + id)
               .then(res => {
                 this.$Storage.setUser(res.data.data, true)
                 this.$store.dispatch('login', response.data)

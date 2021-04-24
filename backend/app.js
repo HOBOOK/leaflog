@@ -8,6 +8,7 @@ const indexRouter = require('./routes/index');
 const articleRouter = require('./routes/article');
 const leafRouter = require('./routes/leaf');
 const userRouter = require('./routes/user');
+const s3Router = require('./routes/s3');
 
 const cors = require('cors');
 
@@ -38,6 +39,7 @@ app.use('/', indexRouter);
 app.use('/api/articles', articleRouter)
 app.use('/api/leafs', leafRouter)
 app.use('/api/auth', userRouter);
+app.use('/api/s3', s3Router);
 
 
 // catch 404 and forward to error handler
