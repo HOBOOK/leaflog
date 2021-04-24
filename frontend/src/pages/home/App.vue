@@ -86,7 +86,7 @@
             outlined 
             rounded 
             color="primary"
-            @click="$Common.goRoute('/edit?=' + $Common.getCurrentRouteArticleInfo())"
+            @click="goLeafEditor"
             ><v-icon small left>mdi-plus</v-icon>나뭇잎 생성</v-btn>
       </div>
       <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
@@ -221,6 +221,9 @@ import VueSticky from 'vue-sticky'
             this.subscribes.push(subscribeModel)
           })
         }
+      },
+      goLeafEditor() {
+        this.$Common.goRoute('/edit')
       }
     },
     computed: {

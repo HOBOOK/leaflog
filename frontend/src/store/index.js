@@ -25,7 +25,10 @@ export default new Vuex.Store({
     parentComponent: null,
     alert: false,
     alertMessage: '',
-    
+    currentLeaf: {
+      author:'',
+      title:''
+    }
   },
   getters: {
     categories: state => {

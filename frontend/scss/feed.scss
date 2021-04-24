@@ -10,6 +10,11 @@
     }
     .feed-card-title{
         font-size:1.1em;
+        text-overflow: ellipsis;
+        word-wrap:break-word; 
+        white-space: nowrap;
+        overflow: hidden;
+        display:block;
     }
     .feed-card-content {
         height:50px;

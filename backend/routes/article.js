@@ -71,6 +71,7 @@ router.put("/", cors(), function(req, res, next) {
         .find()
         .skip(skip)
         .limit(limit)
+        .sort({date: -1})
         .then(articles => {
           console.log("articles Read All 완료 " + articles.length);
           res.status(200).json({
@@ -100,6 +101,7 @@ router.put("/", cors(), function(req, res, next) {
         .find({author: id})
         .skip(skip)
         .limit(limit)
+        .sort({date: -1})
         .then(articles => {
           console.log("articles Read All 완료 " + articles.length);
           res.status(200).json({

@@ -20,7 +20,11 @@
             >
             </v-img>
             <v-row v-else
-                style="height:192px !important;">
+              class="ma-0 pa-0"
+              justify="center"
+              align="center"
+              style="height:192px !important; font-family:Nanum Myeongjo !important; font-size:1.2em;">
+                 “Only Text”
             </v-row>
             <v-row
               class="text-left my-2 mx-4 px-0 pt-2 feed-card-title"

@@ -166,14 +166,26 @@ export default {
         return this.$Storage.getUser() !==null && this.authorId === this.$Storage.getUser().id
       }
     },
+    watch:{
+      '$route'() {
+        this.init()
+      },
+    },
     mounted() {
-      let routerParams = this.$router.currentRoute.params
-      this.title = routerParams.key
-      this.authorId = routerParams.id.substring(1)
-      this.getArticle()
+      this.init()
     },
     
     methods: {
+      init() {
+        let routerParams = this.$router.currentRoute.params
+        this.title = routerParams.key
+        this.authorId = routerParams.id.substring(1)
+        this.$store.state.currentLeaf = {
+          title: this.title,
+          author: this.authorId
+        }
+        this.getArticle()
+      },
       async getArticle() {
         await this.$axios.get("/articles/" + this.authorId + "/" + this.title)
           .then(response => {

@@ -188,7 +188,6 @@ export default {
       VueEditor
     },
     data: () => ({
-      currentPath: '',
       article: {
         title: '',
         content: '',
@@ -208,24 +207,17 @@ export default {
       createPanel: false,
       targetRoot: null
     }),
-    created() {
-      this.currentPath = this.$Common.getCurrentRoutePath()
-      
-      let query = this.$route.query[""]
-      if(typeof query === 'undefined' || !query) {
-        console.log('Error get query')
-      }
-      query = JSON.parse(query)
-      this.article.author = query.author
-      let root = query.title
-      this.select = root.length === 0 ? '뿌리' : root
-      this.items.push('뿌리')
-      this.items.push(this.select)
-    },
     computed: {
     },
     mounted() {
-
+      this.article.author = this.$Storage.getUser().id
+      let root = ''
+      if(this.$store.state.currentLeaf.author === this.article.author) {
+        root = this.$store.state.currentLeaf.title
+      }
+      this.select = root.length === 0 ? '뿌리' : root
+      this.items.push('뿌리')
+      this.items.push(this.select)
     },
     methods: {
       showCreatePanel () {

@@ -11,6 +11,9 @@
     <v-row v-if="isFetching" justify="center" align="center">
       <v-progress-circular class="justify-center align-center text-center" indeterminate color="primary"/>
     </v-row>
+    <v-row v-if="isEnd" class="py-16 my-16" justify="center" align="end">
+      더이상 가져올 내용이 없습니다.
+    </v-row>
   </v-container>
 </template>
 
@@ -28,6 +31,7 @@
       page: 1,
       bottom: false,
       isFetching: false,
+      isEnd: false,
       articles: []
     }),
 
@@ -44,12 +48,15 @@
       window.addEventListener('scroll', () => {
         this.bottom = this.bottomVisible()
       })
+    },
+
+    mounted() {
       this.fetchData()
     },
 
     watch: {
       bottom(bottom) {
-        if (bottom) {
+        if (bottom && !this.isEnd) {
           this.fetchData()
         }
       }
@@ -67,12 +74,17 @@
         if(this.isFetching)
           return
         this.isFetching = true
+        this.isEnd = false
         await axios.get(this.articleUrl)
           .then(response => {
             if(typeof response.data.data !== 'undefined')
               this.fetchData2(response.data.data)
-            else
+            else{
+              if(typeof response.data.message !== 'undefined' && response.data.message === 'last'){
+                this.isEnd = true
+              }
               this.isFetching = false
+            }
           })
           .catch(err => {
             this.isFetching = false
