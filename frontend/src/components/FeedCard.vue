@@ -37,7 +37,7 @@
           </span>
           <v-row class="text-right text-caption mx-4 px-0 pb-2" align="center">
             <v-spacer/>
-            <v-icon small left>mdi-feather</v-icon>
+            <v-icon small left color="primary">mdi-feather</v-icon>
             <span class="font-weight-bold mr-2">{{ value.author }}</span>
             <v-avatar
               size="32"

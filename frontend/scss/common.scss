@@ -1,3 +1,20 @@
 .color-caption {
     opacity: 0.5;
 }
+.image-upload-container{
+    position:relative;
+    .image-upload{
+        position:absolute;
+        background-color:#fff;
+        bottom:5px;
+        right:5px;
+        border-radius: 5px;
+        cursor: pointer;
+        display: block;
+        text-align: center;
+    }
+
+    .v-text-field{
+        display: none;
+    }
+}

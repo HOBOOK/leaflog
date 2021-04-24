@@ -62,7 +62,7 @@
         text
         outlined
         color="#827717"
-        @click="createLeaf"
+        @click="showCreatePanel"
       >
         <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
         생성
@@ -100,15 +100,81 @@
     </v-form>
     </v-layout>
 
-    <v-bottom-sheet v-model="sheet" hide-overlay>
-        <v-sheet class="text-center" height="100px">
-          <v-btn
-            class="mt-6"
-            text
-            color="error"
-            @click="sheet = !sheet"
-          >close</v-btn>
-          <div class="py-3">This is a bottom sheet using the persistent prop</div>
+    <v-bottom-sheet v-model="createPanel" hide-overlay fullscreen>
+        <v-sheet class="text-center ma-0 pa-0" style="height:100%;">
+          <v-container class="d-flex justify-center align-center" style="height:100%;">
+            <v-card flat style="width:80%;">
+              <v-card-title class="text-center d-flex justify-center align-center">
+                추가 정보 입력
+              </v-card-title>
+              <v-card-text class="py-3" justify="center" align="center">
+                <v-sheet
+                  flat
+                  :max-height="370"
+                  :height="370"
+                  style="width:320px;"
+                  class="ma-0 pa-0"
+                >
+                  <div>
+                    <v-img
+                      :height="192"
+                      :width="320"
+                      style="background-color:rgba(0, 0, 0, .12)"
+                      :src="thumbnail"
+                    />
+                  </div>
+                  <div class="image-upload-container">
+                    <div>
+                        <label class="image-upload pa-2">
+                        <v-icon small left>mdi-image-edit-outline</v-icon>
+                        썸네일 변경
+                        <v-file-input 
+                            v-model="imageFile"
+                            accept="image/png, image/jpeg, image/bmp"
+                            dense
+                            @change="inputImageChange"
+                            hide-input
+                        />
+                        </label> 
+                    </div>
+                  </div>
+                  
+                  <v-row class="mt-8 mx-0">
+                    <v-textarea
+                      outlined
+                      flat
+                      no-resize
+                      label="이 글은 어떤 글인가요? (최대 100자)"
+                      :hide-details="true"
+                      :solo="true"
+                      background-color="#fafafa"
+                    >
+                    </v-textarea>
+                  </v-row>
+                </v-sheet>
+              </v-card-text>
+              <v-card-actions class="d-flex justify-center align-end">
+                <v-btn
+                  @click="createLeaf"
+                  rounded
+                  text
+                  outlined
+                  class="mx-2"
+                >
+                  <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
+                  생성
+                </v-btn>
+                <v-btn
+                  color="error"
+                  rounded
+                  text
+                  outlined
+                  class="mx-2"
+                  @click="createPanel = !createPanel"
+                >취소</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-container>
         </v-sheet>
       </v-bottom-sheet>
   </v-container>
@@ -133,10 +199,12 @@ export default {
         water: 0,
         view: 0
       },
+      imageFile:[],
+      thumbnail: '/default-image',
       valid: true,
       select: null,  
       items: [],
-      sheet: false,
+      createPanel: false,
       targetRoot: null
     }),
     created() {
@@ -159,8 +227,8 @@ export default {
 
     },
     methods: {
-      alert () {
-        this.sheet = !this.sheet
+      showCreatePanel () {
+        this.createPanel = !this.createPanel
       },
       validate () {
         if (this.article.author.length === 0) {
@@ -208,10 +276,6 @@ export default {
 
       // 새로운 루트 생성
       async createLeaf () {
-        if (!this.validate()) {
-          this.alert()
-          return
-        }
         let pageTree = null
         // 트리 구조 가져오기
         await axios.get('/leafs/' + this.article.author)
@@ -265,7 +329,12 @@ export default {
       reloadNavigationRoot() {
         let app = this.$root._self.$children[0]
         app.findLeafsById(this.article.author)
-      }
+      },
+
+      inputImageChange(event){
+          this.article.thumbnail = event.name
+          this.thumbnail = window.URL.createObjectURL(event)
+      },
     }
 }
 </script>
@@ -273,6 +342,9 @@ export default {
   .v-text-field-title input{
     font-weight:600;
     font-size:1.5rem;
+  }
+  .v-text-field--outlined fieldset {
+    border: none !important;
   }
   .v-text-field-title .v-label{
     opacity: 0.5;
