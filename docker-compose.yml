@@ -25,7 +25,7 @@ services:
         image: leaflog-front
         container_name: leaflog-front
         expose:
-            - "8000"           # 다른 컨테이너에게 3000번 포트 open
+            - "8080"
         volumes:
             - ./frontend:/app # host <-> container의 source 디렉토리를 공유
             - /app/node_modules # !!!!!!!! Dockerfile 설명에서 다시 설명합니다.
