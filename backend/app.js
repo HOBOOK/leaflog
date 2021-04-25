@@ -41,6 +41,9 @@ app.use('/api/leafs', leafRouter)
 app.use('/api/auth', userRouter);
 app.use('/api/s3', s3Router);
 
+app.listen(3000, '0.0.0.0', () => {                                 
+  console.log('listen 3000 port')                                 
+}); 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
