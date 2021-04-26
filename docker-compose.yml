@@ -26,7 +26,8 @@ services:
         container_name: leaflog-front
         expose:
             - "8080"
+        ports: 
+            - "8080:8080" 
         volumes:
-            - ./frontend:/app # host <-> container의 source 디렉토리를 공유
-            - /app/node_modules # !!!!!!!! Dockerfile 설명에서 다시 설명합니다.
+            - ./frontend:/dist # host <-> container의 source 디렉토리를 공유
         restart: "unless-stopped"
