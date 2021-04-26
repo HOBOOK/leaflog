@@ -3,9 +3,10 @@
 import Vue from 'vue'
 import axios from 'axios'
 import store from '../store/index'
+import Config from '../services/config'
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = '/api' || '';
+axios.defaults.baseURL = Config.DEBUG ? 'http://localhost:3000/api' : '/api';
 // axios.defaults.headers.common['Authorization'] = store.token;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 
