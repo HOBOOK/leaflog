@@ -1,5 +1,5 @@
 export default Object.freeze({
-  DEBUG: true,
+  DEBUG: false,
   VERSION: '1.0.0',
   LANGUAGE: 'ko'
 })
