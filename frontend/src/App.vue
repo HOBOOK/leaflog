@@ -109,11 +109,11 @@
     </ho-talk>
     <v-snackbar
         v-model="$store.state.alert"
-        
         rounded="pill"
         outlined
         absolute
         :timeout="2000"
+        style="position:fixed;"
       >
         <v-icon left>mdi-alert-circle-outline</v-icon>
         {{$store.state.alertMessage}}

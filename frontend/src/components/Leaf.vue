@@ -68,7 +68,7 @@
             >
               <v-img
                 alt="Avatar"
-                :src="item.avatar"
+                :src="$File.getAvatar(item.avatar)"
               ></v-img>
             </v-avatar>
             <v-col class="ml-4">
@@ -237,13 +237,15 @@ export default {
         for(let i = 0; i < comments.length; i++) {
           await this.$axios.get('/auth/' + comments[i].author)
           .then(res => {
-            comments[i].avatar = `https://randomuser.me/api/portraits/men/` + res.data.data.avatar +`.jpg`
+            comments[i].avatar = res.data.data.avatar
           })
         }
       },
       sendComment() {
-        if(this.commentText.length === 0)
-          alert('댓글내용을 작성해주세요.')
+        if(this.commentText.length === 0){
+          this.$store.commit('setAlert', this.$Lang.getString('alert_error_comment_empty'))
+          return
+        }
         this.comment = {
           regDate: new Date().toUTCString(),
           author: this.$Storage.getUser().id,
@@ -251,10 +253,9 @@ export default {
           comment: this.commentText,
           childrens: []
         }
-        
+        this.article.comments.push(this.comment)
         this.axios.put('/articles', this.article)
         .then(() => {
-          this.article.comments.push(this.comment)
           this.getComment(this.article.comments)
         })
         .catch(err => {
