@@ -16,6 +16,8 @@
       >
         로그인
       </v-btn>
+      
+      
       <v-avatar
         v-else
         size="32"
@@ -182,8 +184,9 @@ export default {
             }else {
               this.$axios.get('/auth/' + id)
               .then(res => {
+
                 this.$Storage.setUser(res.data.data, true)
-                this.$store.dispatch('login', response.data)
+                this.$store.dispatch('login', response.data.token)
                 location.reload()
                 this.closeLoginDialog()
               })
