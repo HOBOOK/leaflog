@@ -1,8 +1,8 @@
 <template>
-<transition name="slide-y-reverse-transition" appear>
   <v-dialog
     v-model="loginDialogShow"
-    width="700"
+    transition="scroll-y-reverse-transition"
+    width="900"
     persistent
   >
     <template v-slot:activator="{ on, attrs }">
@@ -30,28 +30,44 @@
       </v-avatar>
     </template>
 
-    <v-card class="pa-0">
-      <v-row>
-        <v-col>
+    <v-card>
+      <v-container class="pa-0 ma-0" style="background-color:#f0f0f0; position:relative;">
+      <v-row class="pa-0 ma-0" style="color:#555;">
+        <v-col 
+          class="col-7 ma-0 pa-0 d-flex justify-center align-center"
+          style="background-color:#E8F5E9; border-top-right-radius:0%; border-top-left-radius:0%;" 
+        >
+          <v-container>
+            <v-row class="d-flex justify-center align-center">
+              <v-avatar size="64">
+                <v-img src="/favicon.png"></v-img>
+              </v-avatar>
+            </v-row>
+            
+            <v-row>
+              <v-img class="my-4" src="../../assets/logo/leaflog.png" height=26 contain></v-img>
+            </v-row>
+          </v-container>
         </v-col>
         <v-col
-          class="col-8"
+          class="col-5"
+          style="background-color:#fff; border-top-left-radius:0%; border-bottom-right-radius:15%; "
         >
-          <v-row>
+          <v-row class="ma-0 pa-0">
             <v-spacer />
             <v-btn
               text
               small
               fab
               @click="closeLoginDialog()"
-              class="mr-6"
+              class="ma-2 pa-0"
             >
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-row>
           <v-card-title
+            class="font-weight-bold"
           >
-            <v-img class="mr-2" src="../../assets/logo/leaflog_symbol.png" max-width=26 height=26 contain></v-img>
             로그인
           </v-card-title>
           
@@ -67,6 +83,10 @@
                 :rules="emailRules"
                 label="이메일"
                 required
+                solo
+                flat
+                hide-details
+                style="border-bottom:1px solid #f0f0f0;"
               ></v-text-field>
           
               <v-text-field
@@ -74,14 +94,19 @@
                 :rules="passwordRules"
                 label="비밀번호"
                 required
+                hide-details
+                solo
+                flat
+                style="border-bottom:1px solid #f0f0f0;"
               ></v-text-field>
 
               <v-btn
                 :disabled="!valid"
                 color="primary"
-                class="align-center"
+                class="align-center mt-4"
                 text
                 outlined
+                rounded
                 @click="validate"
               >
                 들어가기
@@ -123,9 +148,9 @@
           </v-card-text>
         </v-col>
       </v-row>
+      </v-container>
     </v-card>
   </v-dialog>
-</transition>
 </template>
 
 <script>
@@ -187,14 +212,14 @@ export default {
 
                 this.$Storage.setUser(res.data.data, true)
                 this.$store.dispatch('login', response.data.token)
-                location.reload()
                 this.closeLoginDialog()
+                location.reload()
               })
             }
           })
           .catch(err => {
             console.log('login error -> ' + err)
-            this.closeLoginDialog()
+            this.$store.commit('setAlert', '로그인 실패')
           })
       },
       logout() {

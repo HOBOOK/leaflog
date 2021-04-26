@@ -112,16 +112,22 @@
         rounded="pill"
         outlined
         absolute
+        infinite
         :timeout="2000"
-        style="position:fixed;"
+        class="alert-snackbar"
+        style="position:fixed; z-index:9999;"
+        
+        transition="slide-y-reverse-transition"
       >
-        <v-icon left>mdi-alert-circle-outline</v-icon>
-        {{$store.state.alertMessage}}
-  
+        <v-icon left color="primary">mdi-alert-circle-outline</v-icon>
+        <span :style="'color:' + $vuetify.theme.themes[theme].primary +' !important;'">
+          {{$store.state.alertMessage}}
+        </span>
         <template v-slot:action="{ attrs }">
           <v-icon
             @click="$store.state.alert = false"
             v-bind="attrs"
+            color="primary"
             dense
             class="mx-2"
           >
