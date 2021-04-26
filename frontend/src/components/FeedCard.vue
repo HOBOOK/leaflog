@@ -1,14 +1,11 @@
 <template>
     <v-col
-      cols="4"
-      class="ma-0 pa-0"
+      class="ma-0 pa-0 col-sm-6 col-md-4 col-lg-4 col-xl-3"
     >
       <div class="feed-card-container ma-4 pa-0">
         <v-card
           flat
           tile
-          :max-height="370"
-          :height="370"
           class="ma-0 pa-0"
         >
           <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
