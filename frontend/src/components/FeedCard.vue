@@ -14,7 +14,7 @@
               :src="$File.getImage(value.thumbnail)"
               @error="thumbnailError = true"
               :height="192"
-              gradient="rgba(0, 0, 0, .42), rgba(30, 30, 30, .56)"
+              gradient="rgba(0, 0, 0, .1), rgba(30, 30, 30, .15)"
             >
             </v-img>
             <v-row v-else
