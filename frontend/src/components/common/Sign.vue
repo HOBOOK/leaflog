@@ -67,8 +67,10 @@
           </v-row>
           <v-card-title
             class="font-weight-bold"
+            transition="slide-x-transition"
+            :key="signUpMode"
           >
-            로그인
+            <span>{{signUpMode ? '회원가입' : '로그인'}}</span>
           </v-card-title>
           
           <v-card-text>
@@ -76,7 +78,6 @@
             ref="form"
             v-model="valid"
             lazy-validation
-            class="mr-16"
             >
               <v-text-field
                 v-model="email"
@@ -84,34 +85,61 @@
                 label="이메일"
                 required
                 solo
+                loading
                 flat
                 hide-details
                 style="border-bottom:1px solid #f0f0f0;"
-              ></v-text-field>
+              >
+                <template v-slot:progress>
+                  <v-progress-linear
+                    :value="progressEmail"
+                    absolute
+                    height="1"
+                  ></v-progress-linear>
+                </template>
+              </v-text-field>
           
               <v-text-field
+                v-if="!signUpMode"
                 v-model="password"
                 :rules="passwordRules"
                 label="비밀번호"
                 required
                 hide-details
+                type="password"
+                loading
                 solo
                 flat
                 style="border-bottom:1px solid #f0f0f0;"
-              ></v-text-field>
-
-              <v-btn
-                :disabled="!valid"
-                color="primary"
-                class="align-center mt-4"
-                text
-                outlined
-                rounded
-                @click="validate"
               >
-                들어가기
-              </v-btn>
+                <template v-slot:progress>
+                  <v-progress-linear
+                    :value="progressPwd"
+                    absolute
+                    height="1"
+                  ></v-progress-linear>
+                </template>
+              </v-text-field>
+
+              
+              <v-row align="center" class="mx-0 px-0 mt-4">
+                <v-btn
+                  :disabled="!valid"
+                  color="primary"
+                  text
+                  outlined
+                  rounded
+                  @click="validate"
+                >
+                  {{signUpMode ? '회원가입' : '들어가기'}}
+                </v-btn>
+                <v-spacer/>
+                <div style="cursor:pointer; font-weight:500;" v-if="signUpMode" @click="signUpMode = false">로그인 화면</div>
+                <div style="cursor:pointer; font-weight:500;" v-else @click="signUpMode = true">회원가입</div>
+              </v-row>
             </v-form>
+
+            
 
             <v-row class="mt-4 mb-0 justify-center">
               <p class="text--disabled">또는</p>
@@ -123,26 +151,26 @@
               <v-btn
                 fab
                 text
+                class="mx-2"
               >
-                <v-icon large color="#4285F4">
-                  mdi-google
-                </v-icon>
+                <v-img :width="48" :height="48" contain src="/google.svg">
+                </v-img>
               </v-btn>
               <v-btn
                 fab
                 text
+                class="mx-2"
               >
-                <v-icon large color="#4285F4">
-                  mdi-facebook
-                </v-icon>
+                <v-img :width="48" :height="48" contain src="/naver.svg">
+                </v-img>
               </v-btn>
               <v-btn
                 fab
                 text
+                class="mx-2"
               >
-                <v-icon large color="#24292e">
-                  mdi-github
-                </v-icon>
+                <v-img :width="48" :height="48" contain src="/github.svg">
+                </v-img>
               </v-btn>
             </v-row>
           </v-card-text>
@@ -168,7 +196,8 @@ export default {
           v => !!v || '아메일을 입력해주세요',
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
-        valid: false
+        valid: false,
+        signUpMode: false
       }
     },
     computed: {
@@ -179,6 +208,12 @@ export default {
         set (val){
           this.$store.state.loginDialogShow = val;
         }
+      },
+      progressEmail(){
+        return Math.min(100, this.email.length * 10)
+      },
+      progressPwd(){
+        return Math.min(100, this.password.length * 10)
       }
     },
     watch: {
