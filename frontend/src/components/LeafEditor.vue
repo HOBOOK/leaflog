@@ -54,7 +54,7 @@
       <v-card
         flat
       >
-        <vue-editor v-model="article.content"></vue-editor>
+        <vue-editor v-model="article.content" label="ddd"></vue-editor>
       </v-card>
 
       <div class="align-end d-flex flex-row-reverse">
