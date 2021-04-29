@@ -88,6 +88,7 @@
                 loading
                 flat
                 hide-details
+                :disabled="signUpMode && signUpSuccess"
                 style="border-bottom:1px solid #f0f0f0;"
               >
                 <template v-slot:progress>
@@ -124,14 +125,26 @@
               
               <v-row align="center" class="mx-0 px-0 mt-4">
                 <v-btn
+                  v-if="!signUpMode"
                   :disabled="!valid"
                   color="primary"
                   text
                   outlined
                   rounded
-                  @click="validate"
+                  @click="sign"
                 >
-                  {{signUpMode ? '회원가입' : '들어가기'}}
+                  들어가기
+                </v-btn>
+                <v-btn
+                  v-else
+                  :disabled="!valid || signUpSuccess"
+                  color="primary"
+                  text
+                  outlined
+                  rounded
+                  @click="sign"
+                >
+                  회원가입
                 </v-btn>
                 <v-spacer/>
                 <div style="cursor:pointer; font-weight:500;" v-if="signUpMode" @click="signUpMode = false">로그인 화면</div>
@@ -197,6 +210,7 @@ export default {
           v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
         ],
         valid: false,
+        signUpSuccess: false,
         signUpMode: false
       }
     },
@@ -228,8 +242,12 @@ export default {
       closeLoginDialog() {
         this.loginDialogShow = false
       },
-      validate() {
-        this.login()
+      sign(){
+        if(this.signUpMode){
+          this.signUp()
+        }else{
+          this.login()
+        }
       },
       login() {
         let data = {
@@ -260,6 +278,25 @@ export default {
       logout() {
         this.$store.dispatch('logout')
         location.reload()
+      },
+      async signUp(){
+        alert('회원가입')
+        const email = {
+          to: this.email,
+          type: 'signup'
+        }
+        await this.$axios.post('/auth/email/signup', email)
+        .then(() =>{
+          this.signUpSuccess = true
+        })
+        .catch(err=>{
+          this.$store.commit('setAlert', '회원가입 인증메일 전송에 실패하였습니다. 다시 시도해주세요.')
+          this.signUpSuccess = false
+          console.log(err)
+        })
+        .catch(()=>{
+          console.log('전송완료')
+        })
       }
     }
 }

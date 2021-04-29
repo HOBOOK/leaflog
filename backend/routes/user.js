@@ -1,14 +1,35 @@
 /* leaf Controller */
-var express = require('express');
-var cors = require('cors');
-var router = express.Router();
+const express = require('express');
+const cors = require('cors');
+let router = express.Router();
+const transport = require('../plugins/mail.transport')
 const usersController = require('../controller/user.controller');
 
 /* Models */
-var users = require("../model/user")
+let users = require("../model/user")
 
 router.post('/login', usersController.createToken);
 router.post('/new', usersController.createNewUser);
+//회원가입 인증 메일
+router.post('/email/signup', (req, res, next) => {
+
+  const email = req.body
+
+  transport.sendMail({
+    from: `leeflog <hobookmanager@gmail.com>`,
+    to: email.to,
+    subject: 'leeflog 회원가입 인증',
+    text: 'text',
+    html: `
+      <div style="text-align: center;">
+        <h3 style="color: #FA5882">ABC</h3>
+        <br />
+        <p>text</p>
+      </div>
+    `})
+    .then(res => res.json(send))
+    .catch(err => next(err))
+})
 
 // Read by user Id
 router.get("/:id", cors(), function(req, res, next) {
@@ -34,8 +55,6 @@ router.get("/:id", cors(), function(req, res, next) {
 router.put("/", cors(), function(req, res, next) {
   const { id, root, keyIndexes } = req.body; // 비구조화 할당
 
-  console.log(req.body);
-
   users
     .findOne({ id: req.body.id })
     .then(leaf => {
@@ -56,6 +75,8 @@ router.put("/", cors(), function(req, res, next) {
         message: err
       });
     });
+
+  
 });
 
 module.exports = router;
