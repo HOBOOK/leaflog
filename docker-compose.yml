@@ -26,8 +26,6 @@ services:
         container_name: leaflog-front
         expose:
             - "8080"
-        ports: 
-            - "8080:8080" 
         volumes:
             - ./frontend:/dist # host <-> container의 source 디렉토리를 공유
         restart: "unless-stopped"
