@@ -88,7 +88,7 @@
                 loading
                 flat
                 hide-details
-                :disabled="signUpMode && signUpSuccess"
+                :disabled="signUpMode && (isSignUpLoading || signUpSuccess)"
                 style="border-bottom:1px solid #f0f0f0;"
               >
                 <template v-slot:progress>
@@ -96,7 +96,17 @@
                     :value="progressEmail"
                     absolute
                     height="1"
+                    :indeterminate="isSignUpLoading"
                   ></v-progress-linear>
+                </template>
+                <template v-slot:append>
+                  <v-spacer/>
+                  <transition name="slide-y-reverse-transition" appear>
+                  <span v-if="signUpMode && signUpSuccess" class="text-caption">
+                    <v-icon small color="primary">mdi-check-circle-outline</v-icon>
+                    전송 완료
+                  </span>
+                  </transition>
                 </template>
               </v-text-field>
           
@@ -125,7 +135,7 @@
               
               <v-row align="center" class="mx-0 px-0 mt-4">
                 <v-btn
-                  v-if="!signUpMode"
+                  v-if="! signUpMode"
                   :disabled="!valid"
                   color="primary"
                   text
@@ -211,7 +221,8 @@ export default {
         ],
         valid: false,
         signUpSuccess: false,
-        signUpMode: false
+        signUpMode: false,
+        isSignUpLoading: false
       }
     },
     computed: {
@@ -280,7 +291,7 @@ export default {
         location.reload()
       },
       async signUp(){
-        alert('회원가입')
+        this.isSignUpLoading = true
         const email = {
           to: this.email,
           type: 'signup'
@@ -296,6 +307,9 @@ export default {
         })
         .catch(()=>{
           console.log('전송완료')
+        })
+        .finally(()=>{
+          this.isSignUpLoading = false
         })
       }
     }

@@ -1,12 +1,12 @@
-body{
-    font-family: 'Noto Sans KR', sans-serif;
+body,html,#app{
+    font-family: 'Noto Sans KR', sans-serif !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-stroke: 0.45px;
-    -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.1);
-    font-size:14px;
-    letter-spacing: -0.25px;;
-    font-weight: 300;
+    -webkit-text-stroke: 0.45px rgba(0, 0, 0, 0.07);
+    font-size:16px;
+    letter-spacing: 0.25px;;
+    font-weight: 400;
     
 }
 

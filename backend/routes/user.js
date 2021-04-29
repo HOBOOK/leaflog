@@ -12,9 +12,8 @@ router.post('/login', usersController.createToken);
 router.post('/new', usersController.createNewUser);
 //회원가입 인증 메일
 router.post('/email/signup', (req, res, next) => {
-
+  
   const email = req.body
-
   transport.sendMail({
     from: `leeflog <hobookmanager@gmail.com>`,
     to: email.to,
@@ -27,8 +26,16 @@ router.post('/email/signup', (req, res, next) => {
         <p>text</p>
       </div>
     `})
-    .then(res => res.json(send))
-    .catch(err => next(err))
+    .then(r => {
+      console.log('0')
+      res.status(200).json({
+        message: "send email success",
+        data: r
+      });
+    })
+    .catch(err => {
+      next(err)
+    })
 })
 
 // Read by user Id

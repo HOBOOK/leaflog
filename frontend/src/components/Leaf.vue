@@ -13,7 +13,7 @@
         <span v-cloak class="text-caption ml-4">{{typeof article.date !== 'undefined' ? this.$Time.dateToFormatKorean(this.article.date) : ''}}</span>
         <v-spacer/>
       </v-row>
-      <v-row  class="mt-16" style="min-height:300px">
+      <v-row  class="mt-16" style="min-height:300px;">
         <span v-html="article.content">
         </span>
       </v-row>
@@ -32,7 +32,7 @@
             </v-avatar>
           </v-col>
           <v-col cols="10" justify-center align-center>
-            <v-row>
+            <v-row class="font-weight-bold">
             {{author.id}}
             </v-row>
             <v-row>
