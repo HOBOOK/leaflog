@@ -88,7 +88,7 @@
                 loading
                 flat
                 hide-details
-                :disabled="signUpMode && (isSignUpLoading || signUpSuccess)"
+                :disabled="isSignLoading || (signUpMode && signUpSuccess)"
                 style="border-bottom:1px solid #f0f0f0;"
               >
                 <template v-slot:progress>
@@ -96,7 +96,7 @@
                     :value="progressEmail"
                     absolute
                     height="1"
-                    :indeterminate="isSignUpLoading"
+                    :indeterminate="isSignLoading"
                   ></v-progress-linear>
                 </template>
                 <template v-slot:append>
@@ -147,7 +147,7 @@
                 </v-btn>
                 <v-btn
                   v-else
-                  :disabled="!valid || signUpSuccess"
+                  :disabled="!valid || signUpSuccess || isSignLoading"
                   color="primary"
                   text
                   outlined
@@ -222,7 +222,7 @@ export default {
         valid: false,
         signUpSuccess: false,
         signUpMode: false,
-        isSignUpLoading: false
+        isSignLoading: false
       }
     },
     computed: {
@@ -260,38 +260,46 @@ export default {
           this.login()
         }
       },
-      login() {
+      async login() {
+        this.isSignLoading = true
         let data = {
           email: this.email,
           password: this.password
         }
-        this.$axios.post('/auth/login', data, null)
-          .then(response => {
-            let id = JSON.parse(atob(response.data.token.split('.')[1])).id
-            if(id.length === 0){
-              alert('오류')
-            }else {
-              this.$axios.get('/auth/' + id)
-              .then(res => {
-
-                this.$Storage.setUser(res.data.data, true)
-                this.$store.dispatch('login', response.data.token)
-                this.closeLoginDialog()
-                location.reload()
-              })
-            }
+        let id = ''
+        let token = ''
+        await this.$axios.post('/auth/login', data, null)
+          .then(res => {
+            id = JSON.parse(atob(res.data.token.split('.')[1])).id
+            token = res.data.token
           })
           .catch(err => {
-            console.log('login error -> ' + err)
+            console.log(err)
             this.$store.commit('setAlert', '로그인 실패')
           })
+        if(id.length === 0){
+          this.$store.commit('setAlert', '로그인 실패')
+        }else {
+          await this.$axios.get('/auth/' + id)
+          .then(res => {
+            this.$Storage.setUser(res.data.data, true)
+            this.$store.dispatch('login', token)
+            this.closeLoginDialog()
+            location.reload()
+          })
+          .catch(err =>{
+            console.log(err)
+            this.$store.commit('setAlert', '로그인 실패')
+          })
+        }
+        this.isSignLoading = false
       },
       logout() {
         this.$store.dispatch('logout')
         location.reload()
       },
       async signUp(){
-        this.isSignUpLoading = true
+        this.isSignLoading = true
         const email = {
           to: this.email,
           type: 'signup'
@@ -305,11 +313,8 @@ export default {
           this.signUpSuccess = false
           console.log(err)
         })
-        .catch(()=>{
-          console.log('전송완료')
-        })
         .finally(()=>{
-          this.isSignUpLoading = false
+          this.isSignLoading = false
         })
       }
     }

@@ -5,6 +5,8 @@ let userSchema = new Schema(
   {
     id: String,
     email: String,
+    authType: String,
+    token: String,
     name: String,
     passwrod: String,
     subscribes: Array,

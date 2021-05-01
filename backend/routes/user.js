@@ -27,13 +27,13 @@ router.post('/email/signup', (req, res, next) => {
       </div>
     `})
     .then(r => {
-      console.log('0')
       res.status(200).json({
         message: "send email success",
         data: r
       });
     })
     .catch(err => {
+      console.log(err)
       next(err)
     })
 })

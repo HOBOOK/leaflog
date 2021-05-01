@@ -1,15 +1,16 @@
 <template>
 <transition name="slide-y-reverse-transition" appear>
-  <v-form>
   <v-text-field class="ma-10"
     rounded
     outlined
     solo
     flat
+    hide-details
+    color="primary"
     label="무슨 나뭇잎을 찾으시나요?"
     prepend-inner-icon="mdi-magnify"
+    style="border:1px solid"
   ></v-text-field>
-  </v-form>
 </transition>
 </template>
 
