@@ -75,9 +75,9 @@
           
           <v-card-text>
             <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
+              ref="form"
+              v-model="valid"
+              lazy-validation
             >
               <v-text-field
                 v-model="email"

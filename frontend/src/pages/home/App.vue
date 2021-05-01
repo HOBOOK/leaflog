@@ -75,8 +75,8 @@
     >
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="$Common.goRoute('/')">
         <v-row>
-          <v-img class="ml-4" src="/leaflog_symbol.png" height=26 width=26></v-img>
-          <v-img class="d-none d-sm-flex" src="/leaflog.png" height=26 width=120 contain></v-img>
+          <v-img class="ml-4" src="/leaflog_symbol.png" height=32 width=32 contain></v-img>
+          <v-img class="d-none d-sm-flex" src="/leaflog.png" height=32 width=132 contain></v-img>
         </v-row>
       </v-toolbar-title>
       <v-spacer />
@@ -169,7 +169,7 @@ import VueSticky from 'vue-sticky'
       this.findSubscribes()
     },
     created () {
-      document.title = 'leaflog'
+      document.title = 'leeflog'
       window.addEventListener('scroll', this.scrollEvent);
     },
     methods: {
