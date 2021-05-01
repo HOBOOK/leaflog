@@ -45,7 +45,7 @@
             </v-row>
             
             <v-row>
-              <v-img class="my-4" src="../../assets/logo/leaflog.png" height=26 contain></v-img>
+              <v-img class="my-4" src="/leaflog.png" height=26 contain></v-img>
             </v-row>
           </v-container>
         </v-col>

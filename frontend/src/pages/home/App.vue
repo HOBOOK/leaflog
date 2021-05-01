@@ -75,8 +75,8 @@
     >
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="$Common.goRoute('/')">
         <v-row>
-          <v-img class="ml-4" src="./assets/logo/leaflog_symbol.png" height=26 width=26></v-img>
-          <v-img class="d-none d-sm-flex" src="./assets/logo/leaflog.png" height=26 width=120 contain></v-img>
+          <v-img class="ml-4" src="/leaflog_symbol.png" height=26 width=26></v-img>
+          <v-img class="d-none d-sm-flex" src="/leaflog.png" height=26 width=120 contain></v-img>
         </v-row>
       </v-toolbar-title>
       <v-spacer />
@@ -140,8 +140,8 @@
 </template>
 
 <script>
-import SignComponent from "./components/common/Sign"
-import HoTalk from './components/common/hotalk/HoTalk.vue'
+import SignComponent from "../../components/common/Sign"
+import HoTalk from '../../components/common/hotalk/HoTalk.vue'
 import VueSticky from 'vue-sticky'
   export default {
     name: 'app',
@@ -254,6 +254,6 @@ import VueSticky from 'vue-sticky'
   }
 </script>
 <style lang="scss">
-  @import './../scss/main.scss';
-  @import './../scss/common.scss';
+  @import '../../../scss/main.scss';
+  @import '../../../scss/common.scss';
 </style>
