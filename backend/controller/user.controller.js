@@ -1,6 +1,7 @@
 const User = require('../model/user');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const bcrypt = require('bcryptjs');
  
 const SECRET_KEY = config.get('secretKey');
 
@@ -9,8 +10,10 @@ let users = require("../model/user")
  
 exports.createToken = async function (req, res, next) {
   try {
+    let pwd = req.body.password;
+    delete req.body.password
     const user = await User.find(req.body);
-    if (user.length) {
+    if (user.length && bcrypt.compareSync(pwd, user[0].password)) {
       const token = jwt.sign({
         id: user[0].id
       }, SECRET_KEY, {

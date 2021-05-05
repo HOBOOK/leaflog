@@ -58,7 +58,7 @@
               </v-text-field>
               <transition name="slide-y-reverse-transition" appear>
                 <span v-if="validate && !nicknameRules[0]" class="text-caption validate-alert-message">
-                  <v-icon small color="primary">mdi-alert</v-icon>
+                  <v-icon small color="primary">mdi-alert-circle-outline</v-icon>
                   {{nicknameRules[1]}}
                 </span>
               </transition>
@@ -67,7 +67,7 @@
               <v-text-field
                 v-model="password"
                 :rules="passwordRules"
-                label="비밀번호(12자리 이상)"
+                label="비밀번호(특수문자 포함 10자리 이상)"
                 required
                 solo
                 loading
@@ -96,7 +96,7 @@
               </v-text-field>
               <transition name="slide-y-reverse-transition" appear>
                 <span v-if="validate && !passwordRules[0]" class="text-caption validate-alert-message">
-                  <v-icon small color="primary">mdi-alert</v-icon>
+                  <v-icon small color="primary">mdi-alert-circle-outline</v-icon>
                   {{passwordRules[1]}}
                 </span>
               </transition>
@@ -134,7 +134,7 @@
               </v-text-field>
               <transition name="slide-y-reverse-transition" appear>
                 <span v-if="validate && !passwordCheckRules[0]" class="text-caption validate-alert-message">
-                  <v-icon small color="primary">mdi-alert</v-icon>
+                  <v-icon small color="primary">mdi-alert-circle-outline</v-icon>
                   {{passwordCheckRules[1]}}
                 </span>
               </transition>
@@ -168,10 +168,40 @@
         </v-container>
       </transition>
     </section>
+    <v-snackbar
+        v-model="$store.state.alert"
+        rounded="pill"
+        outlined
+        absolute
+        infinite
+        :timeout="2000"
+        class="alert-snackbar"
+        style="position:fixed; z-index:9999;"
+        
+        transition="slide-y-reverse-transition"
+      >
+        <v-icon left color="primary">mdi-alert-circle-outline</v-icon>
+        <span>
+          {{$store.state.alertMessage}}
+        </span>
+        <template v-slot:action="{ attrs }">
+          <v-icon
+            @click="$store.state.alert = false"
+            v-bind="attrs"
+            color="primary"
+            dense
+            class="mx-2"
+          >
+            mdi-close
+          </v-icon>
+        </template>
+      </v-snackbar>
+      
   </v-app>
 </template>
 
 <script>
+import bcrypt from 'bcryptjs'
 export default {
   name: 'App',
 
@@ -184,36 +214,50 @@ export default {
 
   computed:{
     progressNickname(){
-      return Math.min(100, this.nickname.length * 25)
+      return Math.min(100, this.$Common.getStringLength(this.nickname) * 25)
     },
     progressPwd(){
-      return Math.min(100, this.password.length * 10)
+      return Math.min(100, this.$Common.getStringLength(this.password) * 10)
     },
     progressPwdCheck(){
-      return Math.min(100, this.passwordCheck.length * 10)
+      return Math.min(100, this.$Common.getStringLength(this.passwordCheck) * 10)
     },
     nicknameRules() {
-      if(this.nickname.length === 0) {
+      if(!this.nickname) {
         return [false,'사용할 닉네임을 입력해주세요.']
       } else {
-        if(this.nickname && (this.nickname.length < 4 || this.nickname.length > 12)){
-          return [false,'닉네임은 4자리 이상 12자리 이하로 해주세요']
+        if(this.nickname && (this.$Common.getStringLength(this.nickname) < 4 || this.$Common.getStringLength(this.nickname) > 15)){
+          return [false,'닉네임은 2자리 이상 8자리 이하로 해주세요']
+        }
+        if(this.nickname.indexOf(' ') !== -1){
+          return [false, '닉네임에 공백이 포함되어 있습니다.']
         }
       }
       return [true,'적합']
     },
     passwordRules() {
-      if(this.password.length === 0) {
+      if(!this.password) {
         return [false,'비밀번호를 입력해주세요.']
       } else {
-        if(this.password && this.password.length <= 9){
+        if(this.password && this.$Common.getStringLength(this.password) <= 9){
           return [false,'비밀번호는 10자리 이상으로 해주세요']
+        }
+        if(this.password.indexOf(' ') !== -1){
+          return [false, '비밀번호에 공백이 포함되어 있습니다.']
+        }
+        let checkKor = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/
+        if(checkKor.test(this.password)){
+          return [false, '비밀번호에 한글이 포함되어 있습니다.']
+        }
+        let checkSpc = /[~!@#$%^&*()_+|<>?:{}]/;
+        if(!checkSpc.test(this.password)){
+          return [false, '비밀번호에 특수문자가 하나이상 포함되어야 합니다.']
         }
       }
       return [true,'적합']
     },
     passwordCheckRules() {
-      if(this.passwordCheck.length === 0) {
+      if(!this.passwordCheck) {
         return [false,'비밀번호를 다시 입력해주세요.']
       } else {
         if(this.passwordCheck !== this.password){
@@ -250,24 +294,28 @@ export default {
     },
     async signUp(){
       this.isSignLoading = true
+      let passwordHash = bcrypt.hashSync(this.password, this.password.length)
       let user={
         id: this.nickname,
         email: this.email,
         authType: 'email',
         name: this.nickname,
-        password: this.password
+        password: passwordHash
       }
       if(this.validateSign()) {
         this.$axios.post('/auth/new', user)
         .then(()=>{
           this.validate = false
           this.isSignLoading = false
-          alert('생성 성공')
           this.$Common.goRoute('/')
           location.reload()
         })
         .catch(err=>{
-          console.log(err)
+          try{
+            this.$store.commit('setAlert', err.response.data.message)
+          }catch{
+            this.$store.commit('setAlert', this.Lang.getString('alert_error_500'))
+          }
           this.validate = true
           this.isSignLoading = false
         })
@@ -277,7 +325,7 @@ export default {
       }
     },
     validateSign(){
-      return this.nicknameRules[0] && this.passwordCheck[0] && this.passwordCheckRules[0]
+      return this.nicknameRules[0] && this.passwordRules[0] && this.passwordCheckRules[0]
     }
   }
 };
