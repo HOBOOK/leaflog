@@ -187,10 +187,10 @@ export default {
       return Math.min(100, this.nickname.length * 25)
     },
     progressPwd(){
-      return Math.min(100, this.password.length * 8.5)
+      return Math.min(100, this.password.length * 10)
     },
     progressPwdCheck(){
-      return Math.min(100, this.passwordCheck.length * 8.5)
+      return Math.min(100, this.passwordCheck.length * 10)
     },
     nicknameRules() {
       if(this.nickname.length === 0) {
@@ -206,8 +206,8 @@ export default {
       if(this.password.length === 0) {
         return [false,'비밀번호를 입력해주세요.']
       } else {
-        if(this.password && this.password.length <= 11){
-          return [false,'비밀번호는 12자리 이상으로 해주세요']
+        if(this.password && this.password.length <= 9){
+          return [false,'비밀번호는 10자리 이상으로 해주세요']
         }
       }
       return [true,'적합']
@@ -250,19 +250,34 @@ export default {
     },
     async signUp(){
       this.isSignLoading = true
-      
-      setTimeout(()=>{
-        this.isSignLoading = false
-        if(this.validateSign()) {
+      let user={
+        id: this.nickname,
+        email: this.email,
+        authType: 'email',
+        name: this.nickname,
+        password: this.password
+      }
+      if(this.validateSign()) {
+        this.$axios.post('/auth/new', user)
+        .then(()=>{
           this.validate = false
+          this.isSignLoading = false
           alert('생성 성공')
-        } else{
+          this.$Common.goRoute('/')
+          location.reload()
+        })
+        .catch(err=>{
+          console.log(err)
           this.validate = true
-        }
-      }, 2000)
+          this.isSignLoading = false
+        })
+      } else{
+        this.validate = true
+        this.isSignLoading = false
+      }
     },
     validateSign(){
-      return this.passwordCheck[0] && this.passwordCheckRules[0]
+      return this.nicknameRules[0] && this.passwordCheck[0] && this.passwordCheckRules[0]
     }
   }
 };

@@ -6,12 +6,12 @@ let userSchema = new Schema(
     id: String,
     email: String,
     authType: String,
-    token: String,
+    token: {type:String, default: ''},
     name: String,
-    passwrod: String,
-    subscribes: Array,
-    avatar: String,
-    introduction: String,
+    password: String,
+    subscribes: {type:Array, default: []},
+    avatar: {type:String, default: ''},
+    introduction: {type:String, default: ''},
     regDate: { type: Date, default: Date.now }
   },
   { versionKey: "_somethingElse" }

@@ -270,7 +270,7 @@ export default {
         let token = ''
         await this.$axios.post('/auth/login', data, null)
           .then(res => {
-            id = JSON.parse(atob(res.data.token.split('.')[1])).id
+            id = this.$Common.verifyToken(res.data.token).id
             token = res.data.token
           })
           .catch(err => {
@@ -280,6 +280,7 @@ export default {
         if(id.length === 0){
           this.$store.commit('setAlert', '로그인 실패')
         }else {
+          console.log(id)
           await this.$axios.get('/auth/' + id)
           .then(res => {
             this.$Storage.setUser(res.data.data, true)

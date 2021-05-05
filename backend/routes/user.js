@@ -16,7 +16,6 @@ router.post('/new', usersController.createNewUser);
 //회원가입 인증 메일
 router.post('/email/signup', (req, res, next) => {
   const email = req.body
-
   users
     .findOne({ email: email.to })
     .then(users => {
