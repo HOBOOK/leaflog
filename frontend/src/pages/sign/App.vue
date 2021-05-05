@@ -20,7 +20,7 @@
             </v-card>
           </v-row>
           <v-row justify="center" align="center" class="my-4">
-            <v-chip color="primary">pkh879@naver.com</v-chip>
+            <v-chip color="primary">{{email}}</v-chip>
           </v-row>
           <v-row justify="center" align="center">
             <v-form
@@ -183,11 +183,14 @@ export default {
   },
 
   computed:{
+    progressNickname(){
+      return Math.min(100, this.nickname.length * 25)
+    },
     progressPwd(){
-      return Math.min(100, this.password.length * 10)
+      return Math.min(100, this.password.length * 8.5)
     },
     progressPwdCheck(){
-      return Math.min(100, this.passwordCheck.length * 10)
+      return Math.min(100, this.passwordCheck.length * 8.5)
     },
     nicknameRules() {
       if(this.nickname.length === 0) {
@@ -226,10 +229,25 @@ export default {
     nickname: '',
     isSignLoading: false,
     password: '',
-    passwordCheck: ''
+    passwordCheck: '',
+    email:''
   }),
 
+  mounted(){
+    this.init()
+  },
+
   methods:{
+    init() {
+      const token = this.$Common.verifyToken(this.$route.query.token)
+      if(typeof token === 'undefined' || token === ''){
+        alert(this.$Lang.getString('alert_error_expired_page'))
+        this.$Common.goRoute('/')
+        location.reload()
+        return
+      }
+      this.email = token.id
+    },
     async signUp(){
       this.isSignLoading = true
       

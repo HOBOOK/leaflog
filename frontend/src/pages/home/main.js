@@ -9,7 +9,7 @@ import router from "../../routes/index.js"
 import store from '../../store'
 
 import Common from '../../services/common.js'
-import Storage from '../../services/storeage.js'
+import Storage from '../../services/storage.js'
 import File from '../../services/file.js'
 import Time from '../../services/time.js'
 import Lang from '../../services/lang.js'

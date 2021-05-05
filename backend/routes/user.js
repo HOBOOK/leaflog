@@ -4,6 +4,9 @@ const cors = require('cors');
 let router = express.Router();
 const transport = require('../plugins/mail.transport')
 const usersController = require('../controller/user.controller');
+const config = require('config');
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = config.get('secretKey');
 
 /* Models */
 let users = require("../model/user")
@@ -12,29 +15,49 @@ router.post('/login', usersController.createToken);
 router.post('/new', usersController.createNewUser);
 //회원가입 인증 메일
 router.post('/email/signup', (req, res, next) => {
-  
   const email = req.body
-  transport.sendMail({
-    from: `leeflog <hobookmanager@gmail.com>`,
-    to: email.to,
-    subject: 'leeflog 회원가입 인증',
-    text: 'text',
-    html: `
-      <div style="text-align: center;">
-        <h3 style="color: #FA5882">ABC</h3>
-        <br />
-        <p>text</p>
-      </div>
-    `})
-    .then(r => {
-      res.status(200).json({
-        message: "send email success",
-        data: r
-      });
-    })
-    .catch(err => {
-      console.log(err)
-      next(err)
+
+  users
+    .findOne({ email: email.to })
+    .then(users => {
+      if (!users) {
+        const token = jwt.sign({
+          id: email.to
+        }, SECRET_KEY, {
+          subject: email.type,
+          expiresIn: '1h'
+        });
+        transport.sendMail({
+          from: `leeflog <hobookmanager@gmail.com>`,
+          to: email.to,
+          subject: 'leeflog 회원가입 인증',
+          text: 'text',
+          html: `
+            <div style="text-align: center;">
+              <h3 style="color: #FA5882">ABC</h3>
+              <br />
+              <a href=`+ req.headers.origin + `/sign?token=` + token + `>회원가입</a>
+              <br />
+              <p>text</p>
+            </div>
+          `})
+          .then(r => {
+            res.status(200).json({
+              message: "send email success",
+              data: r
+            });
+          })
+          .catch(err => {
+            console.log(err)
+            next(err)
+          })
+      } else {
+        res.status(500).json({
+          message: "이미 사용중인 이메일입니다.",
+          data: null
+        });
+      }
+      
     })
 })
 

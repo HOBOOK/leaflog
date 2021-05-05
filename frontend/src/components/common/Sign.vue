@@ -309,9 +309,13 @@ export default {
           this.signUpSuccess = true
         })
         .catch(err=>{
-          this.$store.commit('setAlert', '회원가입 인증메일 전송에 실패하였습니다. 다시 시도해주세요.')
+          console.log(err.response)
+          try {
+            this.$store.commit('setAlert', err.response.data.message)
+          }catch{
+            this.$store.commit('setAlert', '회원가입 인증메일 전송에 실패하였습니다. 다시 시도해주세요.')
+          }
           this.signUpSuccess = false
-          console.log(err)
         })
         .finally(()=>{
           this.isSignLoading = false
