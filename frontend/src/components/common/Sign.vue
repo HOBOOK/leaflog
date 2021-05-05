@@ -45,7 +45,7 @@
             </v-row>
             
             <v-row>
-              <v-img class="my-4" src="../../assets/logo/leaflog.png" height=26 contain></v-img>
+              <v-img class="my-4" src="/leaflog.png" height=26 contain></v-img>
             </v-row>
           </v-container>
         </v-col>
@@ -75,9 +75,9 @@
           
           <v-card-text>
             <v-form
-            ref="form"
-            v-model="valid"
-            lazy-validation
+              ref="form"
+              v-model="valid"
+              lazy-validation
             >
               <v-text-field
                 v-model="email"
@@ -88,7 +88,7 @@
                 loading
                 flat
                 hide-details
-                :disabled="signUpMode && (isSignUpLoading || signUpSuccess)"
+                :disabled="isSignLoading || (signUpMode && signUpSuccess)"
                 style="border-bottom:1px solid #f0f0f0;"
               >
                 <template v-slot:progress>
@@ -96,7 +96,7 @@
                     :value="progressEmail"
                     absolute
                     height="1"
-                    :indeterminate="isSignUpLoading"
+                    :indeterminate="isSignLoading"
                   ></v-progress-linear>
                 </template>
                 <template v-slot:append>
@@ -147,7 +147,7 @@
                 </v-btn>
                 <v-btn
                   v-else
-                  :disabled="!valid || signUpSuccess"
+                  :disabled="!valid || signUpSuccess || isSignLoading"
                   color="primary"
                   text
                   outlined
@@ -222,7 +222,7 @@ export default {
         valid: false,
         signUpSuccess: false,
         signUpMode: false,
-        isSignUpLoading: false
+        isSignLoading: false
       }
     },
     computed: {
@@ -260,38 +260,47 @@ export default {
           this.login()
         }
       },
-      login() {
+      async login() {
+        this.isSignLoading = true
         let data = {
           email: this.email,
           password: this.password
         }
-        this.$axios.post('/auth/login', data, null)
-          .then(response => {
-            let id = JSON.parse(atob(response.data.token.split('.')[1])).id
-            if(id.length === 0){
-              alert('오류')
-            }else {
-              this.$axios.get('/auth/' + id)
-              .then(res => {
-
-                this.$Storage.setUser(res.data.data, true)
-                this.$store.dispatch('login', response.data.token)
-                this.closeLoginDialog()
-                location.reload()
-              })
-            }
+        let id = ''
+        let token = ''
+        await this.$axios.post('/auth/login', data, null)
+          .then(res => {
+            id = this.$Common.verifyToken(res.data.token).id
+            token = res.data.token
           })
           .catch(err => {
-            console.log('login error -> ' + err)
+            console.log(err)
             this.$store.commit('setAlert', '로그인 실패')
           })
+        if(id.length === 0){
+          this.$store.commit('setAlert', '로그인 실패')
+        }else {
+          console.log(id)
+          await this.$axios.get('/auth/' + id)
+          .then(res => {
+            this.$Storage.setUser(res.data.data, true)
+            this.$store.dispatch('login', token)
+            this.closeLoginDialog()
+            location.reload()
+          })
+          .catch(err =>{
+            console.log(err)
+            this.$store.commit('setAlert', '로그인 실패')
+          })
+        }
+        this.isSignLoading = false
       },
       logout() {
         this.$store.dispatch('logout')
         location.reload()
       },
       async signUp(){
-        this.isSignUpLoading = true
+        this.isSignLoading = true
         const email = {
           to: this.email,
           type: 'signup'
@@ -301,15 +310,16 @@ export default {
           this.signUpSuccess = true
         })
         .catch(err=>{
-          this.$store.commit('setAlert', '회원가입 인증메일 전송에 실패하였습니다. 다시 시도해주세요.')
+          console.log(err.response)
+          try {
+            this.$store.commit('setAlert', err.response.data.message)
+          }catch{
+            this.$store.commit('setAlert', '회원가입 인증메일 전송에 실패하였습니다. 다시 시도해주세요.')
+          }
           this.signUpSuccess = false
-          console.log(err)
-        })
-        .catch(()=>{
-          console.log('전송완료')
         })
         .finally(()=>{
-          this.isSignUpLoading = false
+          this.isSignLoading = false
         })
       }
     }

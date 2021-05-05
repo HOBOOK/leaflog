@@ -1,5 +1,7 @@
 import router from "../routes/index.js"
 import "../plugins/axios"
+import jwt from "jsonwebtoken";
+import Config from "./config"
 
 export default class Common {
     goRoute(route){
@@ -64,6 +66,26 @@ export default class Common {
         }else {
             return html
         }
-        
+    }
+
+    //jwt 검증
+    verifyToken(token) {
+        try{
+            return jwt.verify(token, Config.SECRETKEY);
+        }catch {
+            return ''
+        }
+    }
+
+    //글자수 영문,한글 구분
+    getStringLength = function(str) {
+        let len = 0;
+        for (let i = 0; i < str.length; i++) {
+            if (escape(str.charAt(i)).length == 6) {
+                len++;
+            }
+            len++;
+        }
+        return len;
     }
 }
