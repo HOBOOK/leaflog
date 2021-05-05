@@ -8,6 +8,7 @@
           flat
           tile
           class="ma-0 pa-0"
+          v-if="value !== null && isLoad"
         >
           <span @click="$Common.goLeafRoute(value.author, value.title)" style="cursor:pointer;">
             <v-img
@@ -78,6 +79,12 @@
             </span>
           </v-row>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          tile
+          class="ma-0 pa-0"
+          type="image, card-heading, list-item-avatar-two-line"
+        ></v-skeleton-loader>
         </v-hover>
       </div>
     </v-col>
@@ -90,11 +97,26 @@
     props: {
       value: {
         type: Object,
-        default: () => ({}),
+        default: () => (null),
       },
     },
 
+    mounted() {
+      this.isLoad = true
+    },
+
+    watch:{
+      value(){
+        if(this.value !== null) {
+          this.isLoad = true
+        }else{
+          this.isLoad = false
+        }
+      }
+    },
+
     data: () => ({
+      isLoad: false,
       thumbnailError: false
     }),
   }
