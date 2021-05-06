@@ -17,17 +17,37 @@
         로그인
       </v-btn>
       
-      
-      <v-avatar
-        v-else
-        size="32"
-        class="mx-4"
-        @click="logout()"
-      >
-        <v-img
-          :src="$File.getAvatar($Storage.getUser().avatar)">
-        </v-img>
-      </v-avatar>
+      <span v-else>
+        <div class="admin mx-2" style="min-width:160px;">
+          <div 
+            class="admin-button" 
+            :class="{on:isMenuActive}"
+            @click="isMenuActive = !isMenuActive"
+          >
+            <v-avatar
+              size="32"
+              class="mx-2"
+            >
+              <v-img
+                :src="$File.getAvatar($Storage.getUser().avatar)">
+              </v-img>
+
+            </v-avatar>
+            <span class="ml-1 font-weight-bold">{{$Storage.getUser().name}}</span>
+            <v-icon class="row-down" color="primary">mdi-chevron-down </v-icon>
+          </div>
+          <div class="admin-content">
+            <v-container class="py-0">
+              <v-row>
+                <v-btn text block @click="logout" class="d-flex justify-start pa-2">설정</v-btn>
+              </v-row>
+              <v-row>
+                <v-btn text block @click="logout" class="d-flex justify-start pa-2">로그아웃</v-btn>
+              </v-row>
+            </v-container>
+          </div>
+        </div>
+      </span>
     </template>
 
     <v-card>
@@ -88,7 +108,7 @@
                 loading
                 flat
                 hide-details
-                :disabled="isSignLoading || (signUpMode && signUpSuccess)"
+                :disabled="signUpMode && (isSignLoading || signUpSuccess)"
                 style="border-bottom:1px solid #f0f0f0;"
               >
                 <template v-slot:progress>
@@ -96,7 +116,7 @@
                     :value="progressEmail"
                     absolute
                     height="1"
-                    :indeterminate="isSignLoading"
+                    :indeterminate="signUpMode && isSignLoading"
                   ></v-progress-linear>
                 </template>
                 <template v-slot:append>
@@ -136,14 +156,25 @@
               <v-row align="center" class="mx-0 px-0 mt-4">
                 <v-btn
                   v-if="! signUpMode"
-                  :disabled="!valid"
+                  :disabled="!valid || isSignLoading"
                   color="primary"
                   text
                   outlined
                   rounded
+                  :loading="isSignLoading"
                   @click="sign"
                 >
                   들어가기
+                  <template v-slot:loader>
+                    <v-progress-circular
+                      :size="16"
+                      :width="1"
+                      color="primary"
+                      indeterminate
+                      class="mx-2"
+                    ></v-progress-circular>
+                    들어가는중..
+                  </template>
                 </v-btn>
                 <v-btn
                   v-else
@@ -222,7 +253,8 @@ export default {
         valid: false,
         signUpSuccess: false,
         signUpMode: false,
-        isSignLoading: false
+        isSignLoading: false,
+        isMenuActive: false,
       }
     },
     computed: {

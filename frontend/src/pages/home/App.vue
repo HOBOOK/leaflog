@@ -89,16 +89,61 @@
             @click="goLeafEditor"
             ><v-icon small left>mdi-plus</v-icon>나뭇잎 생성</v-btn>
       </div>
-      <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
-      <v-badge
-            color="primary"
-            dot
-            overlap
-            :content="alerts"
-            :value="alerts"
+      <v-icon class="mx-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
+      <div 
+            class="alert-button" 
+            :class="{on:isAlert}"
           >
-        <v-icon class="ma-1" @click="$Common.goRoute('/search/keyword/')">mdi-bell-outline</v-icon>
-      </v-badge>
+            <span v-if="$Storage.getUser() !== null">
+              <v-badge
+                :value="alert"
+                bordered
+                dot
+                left
+                overlap
+              >
+                <v-icon
+                  @click="onAlert"
+                  class="mx-1"
+                >
+                  mdi-bell-outline
+                </v-icon>
+              </v-badge>
+            </span>
+          </div>
+          <div class="alert-content">
+            <v-card flat>
+              <v-card-title>
+                알림
+              </v-card-title>
+              <v-card-text>
+                <v-virtual-scroll
+                  :items="alertMessage.slice(0,alertLimit)"
+                  item-height="36"
+                  :height="250"
+                  v-if="alertMessage.length > 0"
+                >
+                  <template v-slot:default="{ item, index }">
+                    <v-list-item dense :key="item.id" style="font-size:0.9em; border-bottom:1px solid #ebebeb;" class="d-flex align-center">
+                      <v-icon small left>{{item.icon}}</v-icon>
+                      <span class="font-weight-bold mx-2">{{item.content}}</span>
+                      <v-spacer/>
+                      <span class="text-caption ml-2">{{$Time.dateToFormatForToday(item.regDate)}}</span>
+                    </v-list-item>
+                    <v-list-item v-if="alertLimit < alertMessage.length && index === alertLimit-1" @click="alertLimit += 5" style="cursor:pointer;">더보기</v-list-item>
+                  </template>
+                </v-virtual-scroll>
+                <div v-else class="d-flex justify-center align-center" style="height:300px;">
+                  알림 없음
+                </div>
+              </v-card-text>
+              <v-card-actions v-if="alertMessage.length > 0">
+                <v-spacer/>
+                  <div class="text-cation" style="cursor:pointer;" @click="removeAlert">모든 알림 삭제</div>
+                <v-spacer/>
+              </v-card-actions>
+            </v-card>
+        </div>
       <SignComponent></SignComponent>
     </v-app-bar>
 
@@ -157,12 +202,15 @@ import VueSticky from 'vue-sticky'
       source: String,
     },
     data: () => ({
-      alerts: 0,
       user:{},
       menus: [],
       subscribes: [],
       root: [],
       scrollPosition: 0,
+      alertMessage:[],
+      alertLimit:5,
+      alert:false,
+      isAlert: false
     }),
     mounted () {
       this.findUsersById()
@@ -230,7 +278,13 @@ import VueSticky from 'vue-sticky'
       },
       goLeafEditor() {
         this.$Common.goRoute('/edit')
-      }
+      },
+      onAlert() {
+        this.isAlert = !this.isAlert
+        if(this.alert && this.isAlert){
+          this.alert = false
+        }
+      },
     },
     computed: {
       theme(){
