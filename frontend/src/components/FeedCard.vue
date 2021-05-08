@@ -118,7 +118,6 @@
         this.hoverStatus = true
       },
       leaveCard(){
-        console.log('le')
         this.hoverStatus = true
         setTimeout(()=>{
           this.hoverStatus = false

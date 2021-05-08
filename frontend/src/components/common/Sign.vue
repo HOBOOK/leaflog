@@ -18,7 +18,7 @@
       </v-btn>
       
       <span v-else>
-        <div class="admin mx-2" style="min-width:160px;">
+        <div class="admin-header mx-2" style="min-width:160px;">
           <div 
             class="admin-button" 
             :class="{on:isMenuActive}"
@@ -34,14 +34,14 @@
 
             </v-avatar>
             <span class="ml-1 font-weight-bold">{{$Storage.getUser().name}}</span>
-            <v-icon class="row-down" color="primary">mdi-chevron-down </v-icon>
+            <v-icon class="row-down" color="primary" small>mdi-chevron-down </v-icon>
           </div>
           <div class="admin-content">
             <v-container class="py-0">
-              <v-row>
+              <v-row class="my-0">
                 <v-btn text block @click="logout" class="d-flex justify-start pa-2">설정</v-btn>
               </v-row>
-              <v-row>
+              <v-row class="my-0">
                 <v-btn text block @click="logout" class="d-flex justify-start pa-2">로그아웃</v-btn>
               </v-row>
             </v-container>

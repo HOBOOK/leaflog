@@ -90,9 +90,11 @@
             ><v-icon small left>mdi-plus</v-icon>나뭇잎 생성</v-btn>
       </div>
       <v-icon class="mx-1" @click="$Common.goRoute('/search/keyword/')">mdi-magnify</v-icon>
-      <div 
+        <div class="alert-header">
+          <div 
             class="alert-button" 
             :class="{on:isAlert}"
+            @click="onAlert"
           >
             <span v-if="$Storage.getUser() !== null">
               <v-badge
@@ -103,7 +105,6 @@
                 overlap
               >
                 <v-icon
-                  @click="onAlert"
                   class="mx-1"
                 >
                   mdi-bell-outline
@@ -143,6 +144,7 @@
                 <v-spacer/>
               </v-card-actions>
             </v-card>
+          </div>
         </div>
       <SignComponent></SignComponent>
     </v-app-bar>

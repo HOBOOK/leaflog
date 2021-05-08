@@ -2,6 +2,7 @@ import router from "../routes/index.js"
 import "../plugins/axios"
 import jwt from "jsonwebtoken";
 import Config from "./config"
+import vuetify from "../plugins/vuetify"
 
 export default class Common {
     goRoute(route){
@@ -87,5 +88,11 @@ export default class Common {
             len++;
         }
         return len;
+    }
+
+    //vuetify 컬러 가져오기
+    getColor(key) {
+        let mode = vuetify.framework.isDark ? "dark" : "light"
+        return vuetify.framework.theme.themes[mode][key]
     }
 }
