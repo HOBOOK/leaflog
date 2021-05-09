@@ -41,7 +41,8 @@
             </v-row>
             <v-row class="mx-4 px-0 feed-card-content"
                   :class="hover ? 'on':''">
-              <span v-html="value.content.substring(0,1000)"></span>
+                  
+              <span v-html="typeof value.content !== 'undefined' ? value.content.substring(0,1000) : value.content"></span>
             </v-row>
           </span>
           <v-row class="text-right text-caption mx-4 px-0 pb-2 feed-card-info" :class="hover ? 'on' : ''" align="center">

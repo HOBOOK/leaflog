@@ -142,32 +142,36 @@
         return bottomOfPage || pageHeight < visible
       },
       async fetchData() {
-        if(this.isFetching) return
+        if(this.isFetching)
+          return
         this.isFetching = true
+        this.isEnd = false
         await axios.get("/articles/" + this.$router.currentRoute.params.id.substring(1) + "?page=" + this.page)
           .then(response => {
-            let datas = response.data.data
-            for(let i = 0; i < datas.length; i++) {
-              let article = {
-                title : datas[i].title,
-                author : datas[i].author,
-                category : datas[i].category,
-                thumbnail: datas[i].thumbnail.length === 0 ? 'ancient.jpg' : datas[i].thumbnail,
-                prominent: datas[i].prominent,
-                private: datas[i].private,
-                water: datas[i].water,
-                date: datas[i].date
+            if(typeof response.data.data !== 'undefined')
+              this.fetchData2(response.data.data)
+            else{
+              if(typeof response.data.message !== 'undefined' && response.data.message === 'last'){
+                this.isEnd = true
               }
-              if (this.articles.indexOf(article) === -1) this.articles.push(article)
+              this.isFetching = false
             }
-            this.isFetching = false
-            
-            this.page++
           })
           .catch(err => {
             this.isFetching = false
             console.log('fetch error -> ' + err)
           })
+      },
+      async fetchData2(datas) {
+        for(let i = 0; i < datas.length; i++) {
+          await this.$axios.get('/auth/' + datas[i].author)
+          .then(res => {
+            datas[i].authorAvatar = res.data.data.avatar
+          })
+          this.articles.push(datas[i])
+        }
+        this.isFetching = false
+        this.page++
       }
     }
   }
