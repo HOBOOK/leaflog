@@ -4,10 +4,11 @@ let Schema = mongoose.Schema;
 let leafSchema = new Schema(
   {
     id: String,
-    root: Array,
-    keyIndexes: Array,
+    root: { type:Array, default: []},
+    keyIndexes: { type:Array, default: []},
     date: { type: Date, default: Date.now },
-    deleteDate: Date
+    deleteDate: Date,
+    email: String
   },
   { versionKey: "_somethingElse" }
 );

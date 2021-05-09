@@ -7,6 +7,7 @@ const SECRET_KEY = config.get('secretKey');
 
 /* Models */
 let users = require("../model/user")
+const Leaf = require('../model/leaf');
  
 exports.createToken = async function (req, res, next) {
   try {
@@ -37,6 +38,7 @@ exports.createToken = async function (req, res, next) {
 exports.createNewUser = async function (req, res, next) {
   try {
     const user = await new User(req.body)
+    const leaf = await new Leaf(req.body)
     await users
     .find({ 
       $or: [{
@@ -47,9 +49,9 @@ exports.createNewUser = async function (req, res, next) {
       }] 
     })
     .then((u)=>{
-      console.log(u)
       if(!u || u.length === 0){
         user.save();
+        leaf.save();
         res.status(201).json({
           result: 'ok',
           user: user

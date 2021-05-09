@@ -56,7 +56,9 @@ html{
     box-shadow: none !important;
 }
 
-.alert-button{
+.alert-header{
+  position: relative;
+  .alert-button{
     background-color: #fff;
     cursor: pointer;
 
@@ -76,7 +78,7 @@ html{
       & + .alert-content{
         user-select: none;
         margin-top:12px;
-        opacity: 1;
+        opacity: .95;
         pointer-events: all;
       }
 
@@ -89,14 +91,14 @@ html{
 
   .alert-content{
     background-color: #fff;
-    box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 5%), 0px 24px 38px 3px rgb(0 0 0 / 4%), 0px 9px 36px 8px rgb(0 0 0 / 3%) !important;
+    border:1px solid rgba(102,187,106,0.12);
+    box-shadow: 0px 11px 15px -7px rgb(102 187 106 / 5%), 0px 24px 38px 3px rgb(102 187 106 / 4%), 0px 9px 36px 8px rgb(102 187 106 / 3%) !important;
     border-radius: 5px;
     position: absolute;
-    margin-top:-5px;
     opacity: 0;
     pointer-events: none;
-    right:5px;
-    top:50px;
+    right:0;
+    top:32px;
     transition: all .2s ease-in-out;
     width:360px;
     .alert-content-menu-cover{
@@ -105,41 +107,11 @@ html{
     .alert-content-menu-cover:hover{
       color: #325CB8;
     }
-
-    ul{
-        padding:0px;
-    }
-    li{
-      cursor: pointer;
-      padding:0.5rem;
-      text-align: left;
-
-      &:last-child{
-        border-top: 0.0625rem solid #ebebeb;
-      }
-      a{
-        color:#888;
-
-        &:hover{
-          color:#325CB8;
-        }
-
-        &:active{
-          color:#0e45bb;
-        }
-      }
-
-      &:hover{
-        color:#325CB8;
-      }
-
-      &:active{
-        color:#0e45bb;
-      }
-
-    }
+    
+  }
 }
-.admin{
+
+.admin-header{
     color:#888;
     position: relative;
     .admin-button{
@@ -162,7 +134,7 @@ html{
         & + .admin-content{
           user-select: none;
           margin-top:12px;
-          opacity: 1;
+          opacity: .95;
           pointer-events: all;
         }
 
@@ -175,141 +147,21 @@ html{
 
     .admin-content{
       background-color: #fff;
-      box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 5%), 0px 24px 38px 3px rgb(0 0 0 / 4%), 0px 9px 36px 8px rgb(0 0 0 / 3%) !important;
+      border:1px solid rgba(102,187,106,0.12);
+      box-shadow: 0px 11px 15px -7px rgb(102 187 106 / 5%), 0px 24px 38px 3px rgb(102 187 106 / 4%), 0px 9px 36px 8px rgb(102 187 106 / 3%) !important;
       border-radius: 5px;
       position: absolute;
-      margin-top:-5px;
       opacity: 0;
       pointer-events: none;
       right:0;
       top:32px;
       transition: all .1s ease-in-out;
       width:160px;
-      .admin-content-menu-cover{
-        cursor:pointer;
-      }
-      .admin-content-menu-cover:hover{
-        color: #325CB8;
-      }
-
-      ul{
-          padding:0px;
-      }
-      li{
-        cursor: pointer;
-        padding:0.5rem;
-        text-align: left;
-
-        &:last-child{
-          border-top: 0.0625rem solid #ebebeb;
-        }
-        a{
-          color:#888;
-
-          &:hover{
-            color:#325CB8;
-          }
-
-          &:active{
-            color:#0e45bb;
-          }
-        }
-
+      button {
+        transition: all .2s ease-in-out;
         &:hover{
-          color:#325CB8;
+          color: #66BB6A !important;
         }
-
-        &:active{
-          color:#0e45bb;
-        }
-
-        .admin-logout{
-          border:0
-        }
-      }
-    }
-    .alert-button{
-      background-color: #fff;
-      cursor: pointer;
-
-      span{
-        vertical-align: middle;
-
-        &:nth-child(2){
-          padding-right:1rem;
-        }
-      }
-
-      .row-down{
-        color: #325CB8;
-        transform: rotate(-180deg);
-      }
-
-      &.on{
-        & + .alert-content{
-          user-select: none;
-          margin-top:12px;
-          opacity: 1;
-          pointer-events: all;
-        }
-
-        .row-down{
-          transform: rotate(0deg);
-        }
-
-      }
-    }
-
-    .alert-content{
-      background-color: #fff;
-      box-shadow: 0px 11px 15px -7px rgb(0 0 0 / 5%), 0px 24px 38px 3px rgb(0 0 0 / 4%), 0px 9px 36px 8px rgb(0 0 0 / 3%) !important;
-      border-radius: 5px;
-      position: absolute;
-      margin-top:-5px;
-      opacity: 0;
-      pointer-events: none;
-      right:-180px;
-      top:32px;
-      transition: all .1s ease-in-out;
-      width:360px;
-      .alert-content-menu-cover{
-        cursor:pointer;
-      }
-      .alert-content-menu-cover:hover{
-        color: #325CB8;
-      }
-
-      ul{
-          padding:0px;
-      }
-      li{
-        cursor: pointer;
-        padding:0.5rem;
-        text-align: left;
-
-        &:last-child{
-          border-top: 0.0625rem solid #ebebeb;
-        }
-        a{
-          color:#888;
-
-          &:hover{
-            color:#325CB8;
-          }
-
-          &:active{
-            color:#0e45bb;
-          }
-        }
-
-        &:hover{
-          color:#325CB8;
-        }
-
-        &:active{
-          color:#0e45bb;
-        }
-
       }
     }
 }
