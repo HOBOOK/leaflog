@@ -155,12 +155,11 @@ html{
       pointer-events: none;
       right:0;
       top:32px;
-      transition: all .1s ease-in-out;
       width:160px;
       button {
-        transition: all .2s ease-in-out;
         &:hover{
           color: #66BB6A !important;
+          transform: scale(1.02);
         }
       }
     }

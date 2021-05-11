@@ -29,3 +29,7 @@
         border-color: #66BB6A !important;
     }
 }
+
+.v-btn:before{
+    background-color: unset !important;
+}
