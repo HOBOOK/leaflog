@@ -39,10 +39,10 @@
           <div class="admin-content">
             <v-container class="py-0">
               <v-row class="my-0">
-                <v-btn text block @click="logout" class="d-flex justify-start pa-2">설정</v-btn>
+                <v-btn :ripple="false" text block @click="setting" class="d-flex justify-start pa-2">설정</v-btn>
               </v-row>
               <v-row class="my-0">
-                <v-btn text block @click="logout" class="d-flex justify-start pa-2">로그아웃</v-btn>
+                <v-btn :ripple="false" text block @click="logout" class="d-flex justify-start pa-2">로그아웃</v-btn>
               </v-row>
             </v-container>
           </div>
@@ -173,7 +173,6 @@
                       indeterminate
                       class="mx-2"
                     ></v-progress-circular>
-                    들어가는중..
                   </template>
                 </v-btn>
                 <v-btn
@@ -327,7 +326,12 @@ export default {
         }
         this.isSignLoading = false
       },
+      setting() {
+        this.isMenuActive = false
+        this.$Common.goRoute('/settings')
+      },
       logout() {
+        this.isMenuActive = false
         this.$store.dispatch('logout')
         location.reload()
       },

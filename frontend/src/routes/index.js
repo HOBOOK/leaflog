@@ -7,6 +7,7 @@ import Leaf from '../components/Leaf.vue';
 import LeafEditor from '../components/LeafEditor.vue';
 import Search from '../components/Search.vue';
 import store from '../store/index'
+import Setting from '../components/Setting.vue';
 
 Vue.use(VueRouter)
 
@@ -72,6 +73,15 @@ const router = new VueRouter({
             meta: {
                 auth: true,
                 title: '새로운 글'
+            },
+            beforeEnter: requireAuth()
+        },
+        {
+            path: '/settings',
+            component: Setting,
+            meta: {
+                auth: true,
+                title: '설정'
             },
             beforeEnter: requireAuth()
         },
