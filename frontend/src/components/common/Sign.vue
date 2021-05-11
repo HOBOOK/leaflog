@@ -333,6 +333,7 @@ export default {
       logout() {
         this.isMenuActive = false
         this.$store.dispatch('logout')
+        this.$Common.goRoute('/')
         location.reload()
       },
       async signUp(){
