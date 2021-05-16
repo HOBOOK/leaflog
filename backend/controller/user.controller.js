@@ -68,3 +68,32 @@ exports.createNewUser = async function (req, res, next) {
     next(err);
   }
 };
+
+exports.updateUser = async function (req, res, next) {
+  try {
+    const user = await new User(req.body)
+    await users
+    .find({ 
+      $or: [{
+        email: user.email
+      },
+      {
+        id: user.id
+      }] 
+    })
+    .then((u)=>{
+      if(u){
+        u[0].name = user.name
+        u[0].avatar = user.avatar
+        u[0].save();
+        res.status(201).json({
+          result: 'ok',
+          user: u[0]
+        });
+      }
+    })
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+};

@@ -12,14 +12,13 @@
             <v-tab :ripple="false" style="font-size:1.3rem; max-width:10rem">로그</v-tab>
       
             <v-tab-item class="mt-8" transition="fade-transition" reverse-transition="fade-transition">
-              <v-container fluid>
+              <v-container fluid v-if="user">
                 <v-row justify="center">
                   <div class="profile-content">
                     <div class="profile-img">
                         <v-avatar size="160"
                         >
-                            <img
-                              v-img
+                            <v-img
                                 ref="profileImage"
                                 :src="avatar"
                             />
@@ -29,7 +28,7 @@
                         <label class="profile-image-upload pa-1">
                         사진 변경
                         <v-file-input 
-                            v-model="avatar"
+                            v-model="file"
                             accept="image/png, image/jpeg, image/bmp"
                             dense
                             @change="inputImageChange"
@@ -142,7 +141,8 @@ export default {
   data: () => ({
     user: null,
     avatar: '',
-    editMode: false
+    editMode: false,
+    file: {}
   }),
 
   mounted(){
@@ -154,11 +154,19 @@ export default {
       this.user = this.$Storage.getUser()
       this.avatar = this.$File.getAvatar(this.user.avatar)
     },
-    inputImageChange(event){
+    async inputImageChange(event){
       this.user.avatar = this.$Storage.getUser().id + "/avatar" + event.name.substring(event.name.lastIndexOf('.'))
       this.avatar = window.URL.createObjectURL(event)
-      //await this.$File.upload(this.user.avatar, this.event)
+      await this.$File.upload(this.user.avatar, event)
+      this.$axios.put('/auth/profile', this.user)
+      .then(res=>{
+        this.$Storage.setUser(res.data.user, true)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
     },
+
   }
 };
 </script>
