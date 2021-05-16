@@ -7,7 +7,7 @@ import Leaf from '../components/Leaf.vue';
 import LeafEditor from '../components/LeafEditor.vue';
 import Search from '../components/Search.vue';
 import store from '../store/index'
-import Setting from '../components/Setting.vue';
+import Setting from '../components/settings/Setting.vue';
 
 Vue.use(VueRouter)
 

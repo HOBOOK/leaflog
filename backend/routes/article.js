@@ -6,6 +6,7 @@ var router = express.Router();
 
 /* Models */
 var articles = require("../model/article")
+var users = require("../model/user")
 
 // Create
 router.post("/", cors(), function(req, res, next) {
@@ -59,31 +60,43 @@ router.put("/", cors(), function(req, res, next) {
 });
   
   // Read All
-  router.get("/", cors(), function(req, res, next) {
+  router.get("/", cors(), async (req, res, next)=>{
     let page = Math.max(1, req.query.page);
     var limit = 10;
-    articles.countDocuments({}, (err,count) => {
+    articles.countDocuments({}, async (err,count) => {
       if(err) return res.json({success:false, message:err});
       var skip = (page-1) * limit;
       var maxPage = Math.ceil(count/limit);
       if(page > maxPage) return res.json({success:false, message: "last"});
-      articles
+      
+      let data = []
+      await articles
         .find()
         .skip(skip)
         .limit(limit)
         .sort({date: -1})
-        .then(articles => {
-          console.log("articles Read All 완료 " + articles.length);
-          res.status(200).json({
-            message: articles.length < limit ? "last" : "Read All success",
-            data: articles
-          });
+        .then(a => {
+          data = JSON.parse(JSON.stringify(a))
         })
         .catch(err => {
           res.status(500).json({
             message: err
           });
         });
+
+      for(let i = 0; i < data.length; i++) {
+        await users.findOne({
+          id: data[i].author
+        })
+        .then(u =>{
+          data[i].authorModel = u
+        })
+      }
+      res.status(200).json({
+        message: data.length < limit ? "last" : "Read All success",
+        data: data
+      });
+      console.log("articles Read All 완료 " + data.length);
     })
   });
 

@@ -33,3 +33,10 @@
 .v-btn:before{
     background-color: unset !important;
 }
+
+
+.centered-input {
+    input[type="text"]{
+      text-align: center !important;
+    }
+  }

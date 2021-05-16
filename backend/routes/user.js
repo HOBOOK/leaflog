@@ -13,6 +13,7 @@ let users = require("../model/user")
 
 router.post('/login', usersController.createToken);
 router.post('/new', usersController.createNewUser);
+router.put('/profile', usersController.updateUser);
 //회원가입 인증 메일
 router.post('/email/signup', (req, res, next) => {
   const email = req.body
