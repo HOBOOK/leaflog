@@ -2,24 +2,25 @@
   <v-app id="app" :style="{background: $vuetify.theme.themes[theme].background}">
     <v-navigation-drawer
       app
-      class="d-flex pt-12"
+      class="d-flex nav"
       floating
       clipped
+      v-model="drawer"
       color="background"
     >
       <v-list
         class="mr-4"
-        :style="'border-right:1px solid ' + $vuetify.theme.themes[theme].second"
         dense 
         flat
         nav>
         <v-list-item
-          class="mt-0 mb-0 pt-0 pb-0"
-          color="primary"
+          class="my-0 mb-0 py-0 pb-0"
           v-for="item in menus"
           :key="item.text"
           :to="item.link"
           :ripple="false"
+          dense
+          active-class="active-list-item"
         >
           
           <v-list-item-action class="mr-3">
@@ -35,9 +36,17 @@
           <v-subheader
             class="mt-6 grey--text text--darken-1">페이지 트리
           </v-subheader>
-          <v-treeview v-cloak dense transition :items="root" style="font-size:0.78rem">
+          <v-treeview 
+            v-cloak 
+            dense 
+            transition 
+            :items="root" 
+            style="font-size:0.78rem"
+            multiple-active
+            open-on-click
+          >
             <template slot="label" slot-scope="props">
-              <span style="cursor:pointer" @click="$Common.goLeafRoute(user.id, props.item.name)">{{props.item.name ? props.item.name : ''}}</span>
+              <span :class="treeKey === props.item.name ? 'active-tree-item' : ''" style="cursor:pointer" @click="$Common.goLeafRoute(user.id, props.item.name), treeKey=props.item.name">{{props.item.name ? props.item.name : ''}}</span>
             </template>
           </v-treeview>
         </div>
@@ -73,8 +82,9 @@
       :class="scrollPosition === 0 ? 'off-shadow' : ''"
       color="background"
     >
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="align-left" style="cursor: pointer;" @click="$Common.goRoute('/')">
-        <v-row>
+        <v-row class="ma-0 pa-0">
           <v-img class="ml-4" src="/leaflog_symbol.png" height=32 width=32 contain></v-img>
           <v-img class="d-none d-sm-flex" src="/leaflog.png" height=32 width=132 contain></v-img>
         </v-row>
@@ -204,6 +214,8 @@ import VueSticky from 'vue-sticky'
       source: String,
     },
     data: () => ({
+      drawer:false,
+      treeKey: '',
       user:{},
       menus: [],
       subscribes: [],
