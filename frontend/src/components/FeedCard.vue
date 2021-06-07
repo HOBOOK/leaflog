@@ -48,7 +48,7 @@
           <v-row class="text-right text-caption mx-4 px-0 pb-2 feed-card-info" :class="hover ? 'on' : ''" align="center">
             <v-spacer/>
             <v-icon small left color="primary">mdi-feather</v-icon>
-            <span class="font-weight-bold mr-2">{{ value.authorModel.name }}</span>
+            <span class="font-weight-bold mr-2" v-if="value.authorModel">{{ value.authorModel.name }}</span>
             <v-avatar
               size="32"
             >
