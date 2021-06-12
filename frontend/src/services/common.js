@@ -3,11 +3,16 @@ import "../plugins/axios"
 import jwt from "jsonwebtoken";
 import Config from "./config"
 import vuetify from "../plugins/vuetify"
+import store from "../store/index"
 
 export default class Common {
-    goRoute(route){
+    goRoute(route, param){
         if (router.app.$route.path !== route) {
             router.app.$router.push(route);
+            store.state.param = {
+                key:route,
+                param: param
+            }
             window.scrollTo(0,0);
         }
     }

@@ -66,7 +66,7 @@
         @click="showCreatePanel"
       >
         <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
-        생성
+        {{editMode ? '편집' : '생성'}}
       </v-btn>
       <v-btn
         rounded
@@ -165,6 +165,7 @@
                   <v-icon class="ma-2">mdi-close-circle-outline</v-icon> 취소
                 </v-btn>
                 <v-btn
+                  v-if="!editMode"
                   @click="createLeaf"
                   rounded
                   text
@@ -174,6 +175,18 @@
                   <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
                   생성
                 </v-btn>
+                <v-btn
+                  v-else
+                  @click="updateArticle"
+                  rounded
+                  text
+                  outlined
+                  class="mx-2"
+                >
+                  <v-img src="../assets/logo/leaflog_symbol.png" height=26 width=26 class="ma-2"></v-img>
+                  편집
+                </v-btn>
+                  
               </v-card-actions>
             </v-card>
           </v-container>
@@ -189,6 +202,7 @@ export default {
       VueEditor
     },
     data: () => ({
+      editMode: false,
       article: {
         title: '',
         content: '',
@@ -213,9 +227,18 @@ export default {
     mounted() {
       this.article.author = this.$Storage.getUser().id
       let root = ''
-      if(this.$store.state.currentLeaf.author === this.article.author) {
-        root = this.$store.state.currentLeaf.title
+      
+      
+      this.editMode = this.$store.state.currentLeaf.editMode
+      if(this.editMode) {
+        this.article = this.$store.state.currentLeaf.article
+      }else{
+        if(this.$store.state.currentLeaf.author === this.article.author) {
+          root = this.$store.state.currentLeaf.title
+        }
       }
+      console.log(this.$store.state.currentLeaf)
+      this.$store.state.currentLeaf = null
       this.select = root.length === 0 ? '' : root
       this.items.push(this.select)
     },
@@ -311,6 +334,20 @@ export default {
       // 새로운 문서 생성
       async createArticle() {
         await axios.post('/articles', this.article)
+          .then(() => {
+            this.reloadNavigationRoot()
+          })
+          .catch(err => {
+            console.log('error create article -> ' + err)
+            return 
+          })
+        await this.$File.upload(this.article.thumbnail, this.imageFile)
+        this.$Common.goRoute('tree/@' + this.article.author + '/' + this.article.title)
+      },
+
+      // 문서 업데이트
+      async updateArticle() {
+        await axios.put('/articles', this.article)
           .then(() => {
             this.reloadNavigationRoot()
           })

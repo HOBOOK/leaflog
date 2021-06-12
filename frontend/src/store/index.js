@@ -23,10 +23,12 @@ export default new Vuex.Store({
     stompClient: null,
     parentComponent: null,
     alert: false,
+    param: null,
     alertMessage: '',
     currentLeaf: {
       author:'',
-      title:''
+      title:'',
+      article: ''
     }
   },
   getters: {
