@@ -9,12 +9,12 @@
       color="background"
     >
       <v-list
-        class="mr-4"
+        class="mt-4"
         dense 
         flat
         nav>
         <v-list-item
-          class="my-0 mb-0 py-0 pb-0"
+          class="my-0 mb-0 py-0 pb-0 nav-list-item"
           v-for="item in menus"
           :key="item.text"
           :to="item.link"
@@ -79,7 +79,7 @@
       clipped-left
       flat
       class="header"
-      :class="scrollPosition === 0 ? 'off-shadow' : ''"
+      :class="scrollPosition === 0 ? '' : 'on'"
       color="background"
     >
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>

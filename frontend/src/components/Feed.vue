@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row class="feed-container">
+    <v-row class="feed-container" no-gutters>
       <feed-card
         v-for="(article, i) in articles"
         :key="article.title"
