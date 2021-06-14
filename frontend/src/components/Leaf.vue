@@ -102,8 +102,7 @@
         class="my-4"
         justify="center"
       >
-        <v-icon>mdi-delete-variant
-        </v-icon> 
+        <v-icon>mdi-delete-empty-outline</v-icon> 
       </v-row>
       <v-dialog
         v-if="isAuthor" justify="center"
@@ -118,24 +117,23 @@
           <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn
+              color="green darken-1"
+              text
+              outlined
+              @click="deleteArticle()"
+          >
+             삭제
+          </v-btn>
+          <v-btn
               text
               @click="dialog = false"
           >
-              
-          </v-btn>
-          <v-btn
-              color="green darken-1"
-              text
-              @click="deleteArticle()"
-          >
-              <v-icon>
-                mdi-delete-variant
-              </v-icon> 
+            취소
           </v-btn>
           </v-card-actions>
       </v-card>
       </v-dialog>
-      <v-row v-if="isAuthor" justify="center" class="my-4" style="cursor:pointer"><v-icon>mdi-pencil-outline</v-icon> </v-row>
+      <v-row v-if="isAuthor" justify="center" class="my-4" style="cursor:pointer"><v-icon @click="editLeaf">mdi-pencil-outline</v-icon> </v-row>
       <v-row v-if="isAuthor" justify="center" class="my-4" style="cursor:pointer"><v-icon>mdi-share-variant-outline</v-icon> </v-row>
       </div>
     </v-col>
@@ -182,7 +180,8 @@ export default {
         this.authorId = routerParams.id.substring(1)
         this.$store.state.currentLeaf = {
           title: this.title,
-          author: this.authorId
+          author: this.authorId,
+          editMode: false
         }
         this.getArticle()
       },
@@ -271,6 +270,13 @@ export default {
       reloadNavigationRoot() {
         let app = this.$root._self.$children[0]
         app.findLeafsById(this.article.author)
+      },
+
+      // 글 편집
+      editLeaf(){
+        this.$store.state.currentLeaf.editMode = true
+        this.$store.state.currentLeaf.article = this.article
+        this.$Common.goRoute('/edit')
       }
     }
 }
