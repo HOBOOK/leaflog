@@ -1,5 +1,7 @@
 import Vue from 'vue'
+import langDictionary from '../static/lang-dictionary.json'
 
+// 공통(페이지 관련)
 const common = {
   goRoute(route, param){
       if (router.app.$route.path !== route) {
@@ -97,6 +99,7 @@ const common = {
   }
 }
 
+// 시간 관련 함수
 const time = {
     getTimeFromNow(date) {
         const now = new Date();
@@ -188,34 +191,36 @@ const time = {
     }
 }
 
+// 유틸 함수
 const utils = {
-    // 소수점2자리까지의 바이트 단위로 변환시키는 함수
-    convertByteToString(bytes, decimals = 2) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const dm = decimals < 0 ? 0 : decimals;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
-    },
+  // 소수점2자리까지의 바이트 단위로 변환시키는 함수
+  convertByteToString(bytes, decimals = 2) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+  },
 
-    btoa(content) {
-      return window.btoa(content)
-    },
+  btoa(content) {
+    return window.btoa(content)
+  },
 
-    // 클립보드 저장 함수
-    copy(val) {
-      if(val) {
-        const t = document.createElement("textarea");
-        document.body.appendChild(t);
-        t.value = val;
-        t.select();
-        document.execCommand('copy');
-        document.body.removeChild(t);
-      }
-    },
+  // 클립보드 저장 함수
+  copy(val) {
+    if(val) {
+      const t = document.createElement("textarea");
+      document.body.appendChild(t);
+      t.value = val;
+      t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
+    }
+  },
 }
 
+// 전역 변수
 const properties = {
   getImageCdnUrl(key, w, h, q) {
     let url = 'https://d2q9yzkd471o7j.cloudfront.net/' + key + '?w=' + w + '&h=' + h + '&q=' + q 
@@ -223,6 +228,7 @@ const properties = {
   }
 }
 
+// 필터 함수
 const regular = {
   basic(data){
     let reg=/[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
@@ -251,28 +257,42 @@ const regular = {
   }
 }
   
-
+// 언어 함수
 const lang = {
+  
   getString(key){
     let la = navigator.language || navigator.userLanguage
     if(la.indexOf('en')!==-1) {
-      return  dictionary['en'][key]
+      return  langDictionary['en'][key]
     } else {
-      return  dictionary['ko'][key]
+      return  langDictionary['ko'][key]
     }
   }
 }
 
-const dictionary = {
-  ko:{
-    dashboard: '대시보드',
-    alert_save:'성공적으로 저장되었습니다.',
-  },
-  en:{
-    dashboard: 'dashboard',
-    alert_save:'It has been saved successfully.',
+// 파일 함수
+const file = {
+  upload (key, data) {
+    if(typeof key === 'undefined' || key.length === 0){
+        return
+    }
+    const formData = new FormData();
+    formData.set('name', key);
+    formData.append('file', data);
+    window.axios.post('/s3/upload', formData, {
+        headers:{
+            "Content-Type":"multipart/form-data"
+        }
+    })
+    .then((res)=>{
+        console.log(res)
+    })
+    .catch((e)=>{
+        console.error(e)
+    })
   }
 }
+
 
 
 
@@ -281,6 +301,7 @@ Vue.prototype.$time = time;
 Vue.prototype.$utils = utils;
 Vue.prototype.$regular = regular;
 Vue.prototype.$lang = lang;
+Vue.prototype.$file = file;
 Vue.prototype.$properties = properties;
 
 export default ({app}, inject) => {
@@ -289,5 +310,6 @@ export default ({app}, inject) => {
   inject('utils', utils);
   inject('regular', regular);
   inject('lang', lang);
+  inject('file', file);
   inject('properties', properties);
 }
